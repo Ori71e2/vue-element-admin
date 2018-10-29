@@ -1,6 +1,8 @@
 <template>
   <div class="amap-container">
-    <el-amap />
+    <div class="amap-wrapper">
+      <el-amap :vid="'amap-vue'" class="amap-box"/>
+    </div>
   </div>
 </template>
 
@@ -26,9 +28,21 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .amap-container {
-  width: 500px;
-  height: 500px;
+  position: absolute;
+  width: 99%;
+  height: 98%;
+  margin: 0.5%;
+}
+
+.amap-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.amap_box {
+  width: 100%;
+  height: 100%;
 }
 </style>
