@@ -37,8 +37,7 @@ const customMapSearchbox = createCustomComponent({
     }
   },
   init(_options, map) {
-    console.log('init')
-    console.log(options)
+    console.log('search init')
     const options = {
       ..._options,
       input: this.id
@@ -58,10 +57,10 @@ const customMapSearchbox = createCustomComponent({
     console.log('Context Ready')
   },
   created: () => {
-    console.log('Created Serach')
+    console.log('Created Search')
   },
   mounted: () => {
-    console.log('Mounted Serach')
+    console.log('Mounted Search')
   }
 })
 

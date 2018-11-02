@@ -11,6 +11,8 @@
           :render-options="markerOptions.renderOptions"
           :events="markerOptions.events" />
         <custom-map-searchbox @select="selectSearch" />
+        <custom-map-svg />
+        <custom-map-svg-js />
       </el-amap>
     </div>
   </div>
@@ -19,6 +21,8 @@
 <script>
 import customMapFishingSpotMarkers from './components/FishingSpot'
 import customMapSearchbox from './components/Search'
+import customMapSvg from './components/Svg'
+import customMapSvgJs from './components/SvgJs'
 import VueAMap from 'vue-amap'
 import Vue from 'vue'
 Vue.use(VueAMap)
@@ -39,7 +43,7 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 ], title: `小点坐标-${index}` }))
 
 export default {
-  components: { customMapFishingSpotMarkers, customMapSearchbox },
+  components: { customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs },
   data() {
     return {
       position: [118.716184, 33.720615],
@@ -95,7 +99,7 @@ export default {
           <div>${address}</div>
         </div>`, offset: [20, 20] }, position: [...center]
       }
-      console.log(this.selectMarker)
+      // console.log(this.selectMarker)
       this.center = center
     }
   }
