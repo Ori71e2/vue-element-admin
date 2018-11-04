@@ -2,7 +2,6 @@
   <div class="amap-container">
     <div class="amap-wrapper">
       <el-amap :vid="'amap-vue'" class="amap-box">
-        <el-amap-marker :position="position" vid="component-marker" />
         <custom-map-fishing-spot-markers
           :data="markerData"
           :get-position="markerOptions.getPosition"
@@ -11,19 +10,28 @@
           :render-options="markerOptions.renderOptions"
           :events="markerOptions.events" />
         <custom-map-searchbox @select="selectSearch" />
-        <custom-map-svg />
-        <custom-map-svg-js />
+        <el-amap-marker :position="position" :events="marker.events" vid="component-marker" />
+        <el-amap-circle :center="circle.center" :radius="circle.radius" :fill-opacity="circle.fillOpacity" :events="circle.events" />
+        <div>
+          <custom-map-svg />
+          <custom-map-svg-js />
+        </div>
+        <get-amap-instance @get-amap-instance="setAmapInstance"/>
       </el-amap>
+      <marker-test :amap-instance="amapInstance"/>
     </div>
   </div>
 </template>
 
 <script>
-import customMapFishingSpotMarkers from './components/FishingSpot'
-import customMapSearchbox from './components/Search'
-import customMapSvg from './components/Svg'
-import customMapSvgJs from './components/SvgJs'
+import customMapFishingSpotMarkers from './components/vue-amap-custom/FishingSpot'
+import customMapSearchbox from './components/vue-amap-custom/Search'
+import customMapSvg from './components/vue-amap-custom/Svg'
+import customMapSvgJs from './components/vue-amap-custom/SvgJs'
+import getAmapInstance from './components/vue-amap-custom/getAmapInstance'
+import markerTest from './components/vue-amap-custom/markerTest'
 import VueAMap from 'vue-amap'
+
 import Vue from 'vue'
 Vue.use(VueAMap)
 VueAMap.initAMapApiLoader({
@@ -36,6 +44,7 @@ VueAMap.initAMapApiLoader({
   plugin: ['AMap.Geolocation'],
   uiVersion: '1.0.11'
 })
+
 const center = [121.5273285, 31.21515044]
 const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
   center[0] + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 0.6,
@@ -43,9 +52,11 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 ], title: `小点坐标-${index}` }))
 
 export default {
-  components: { customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs },
+  components: { customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs, getAmapInstance, markerTest },
+  // components: { customMapFishingSpotMarkers, customMapSearchbox },
   data() {
     return {
+      amapInstance: null,
       position: [118.716184, 33.720615],
       zoom: 14,
       center,
@@ -79,13 +90,44 @@ export default {
             console.log('event pointMouseout', e, point)
           }
         }
+      },
+      marker: {
+        topWhenClick: true,
+        events: {
+          click: () => {
+            console.log('click marker')
+          },
+          dragend: (e) => {
+            console.log('---event---: dragend')
+            this.markers[0].position = [e.lnglat.lng, e.lnglat.lat]
+          }
+        }
+      },
+      circle: {
+        center: [118.716184, 33.720615],
+        radius: 200,
+        fillOpacity: 0.5,
+        events: {
+          click: () => {
+            alert('click')
+          }
+        }
       }
     }
   },
   mounted: () => {
     console.log('mainMap')
+    /*
+    var marker = new window.AMap.Marker({
+      position: [118.716184, 33.730615]
+    })
+    marker.setMap(this.amap)
+    */
   },
   methods: {
+    setAmapValue() {
+      console.log('loaded')
+    },
     selectSearch(poi) {
       console.log(poi)
       const { location, name, adcode, district, address } = poi
@@ -101,6 +143,11 @@ export default {
       }
       // console.log(this.selectMarker)
       this.center = center
+    },
+    setAmapInstance(amap) {
+      console.log('get amap instance')
+      console.log(amap)
+      this.amapInstance = amap
     }
   }
 }

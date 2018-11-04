@@ -25,18 +25,6 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
-/*
-Vue.use(VueAMap)
-VueAMap.initAMapApiLoader({
-  center: [118.716184, 33.720615],
-  resizeEnable: true,
-  zoom: 13,
-  // 高德key
-  key: '4e4c8706ad7f1d468011d7b1d2340bf2',
-  // 插件集合 （插件按需引入）
-  plugin: ['AMap.Geolocation']
-})
-*/
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {

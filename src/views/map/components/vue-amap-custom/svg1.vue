@@ -26,7 +26,7 @@ const customMapSvg = createCustomComponent({
         svg.setAttribute('width', size.width)
         svg.setAttribute('height', size.height)
 
-        var customLayer = new window.AMap.CustomLayer(svg, { zIndex: 300 })
+        var customLayer = new window.AMap.CustomLayer(svg, { zIndex: 200 })
 
         console.log('svg customLayer')
         console.log(this.customLayer)
@@ -38,6 +38,7 @@ const customMapSvg = createCustomComponent({
         this.path.onclick = function() {
           console.log('svg path clicked')
         }
+
         var styleText = []
         styleText.push('stroke:red')
         styleText.push('fill:green')

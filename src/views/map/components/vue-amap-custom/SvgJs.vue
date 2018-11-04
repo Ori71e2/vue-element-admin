@@ -9,7 +9,6 @@ const customMapSvgJs = createCustomComponent({
   data() {
     return {
       svg: null,
-      path: null,
       svgDraw: null
     }
   },
@@ -25,21 +24,20 @@ const customMapSvgJs = createCustomComponent({
         this.svgCanvas = draw
         // 使用draw.node获取svg元素
         // 图层之间的层级决定事件是否会被捕获
-        var customLayer = new window.AMap.CustomLayer(draw.node, { zIndex: 400 })
+        var customLayer = new window.AMap.CustomLayer(draw.node, { zIndex: 300 })
         console.log('svgjs customLayer')
         console.log(customLayer)
         customLayer.render = this.onRender
         this.$amap.add(customLayer)
 
-        this.path = draw.rect(100, 100).attr({ fill: '#f06' })
-        this.path.on('click', function() {
+        draw.rect(100, 100).attr({ fill: '#f06' }).on('click', function() {
           console.log('svg path clicked')
         })
         draw.rect(50, 200).attr({ fill: '#f56' }).click(function() {
-          console.log('svg path clicked')
+          console.log('svgjs path clicked')
         })
-        draw.line(0, 0, 200, 200).stroke({ width: 1 }).click(function() {
-          console.log('svg path clicked')
+        draw.line(0, 0, 200, 200).stroke({ width: 10 }).click(function() {
+          console.log('svgjs line path clicked')
         })
         resolve(this.customLayer)
       })
@@ -59,16 +57,7 @@ const customMapSvgJs = createCustomComponent({
 
     },
     buildPath() {
-      var path = []
-      var center = this.$amap.lngLatToContainer([118.716184, 33.720615])
 
-      for (var k = 0; k < 6; k += 1) {
-        var ag = Math.PI * 60 / 180 * k
-        var x = center.x + Math.cos(ag) * 50
-        var y = center.y + Math.sin(ag) * 50
-        path.push((k === 0 ? 'M' : 'L') + x + ' ' + y)
-      }
-      return path.join(' ') + ' Z'
     }
   }
 })
