@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import customMapFishingSpotMarkers from './components/vue-amap-custom/FishingSpot'
-import customMapSearchbox from './components/vue-amap-custom/Search'
-import customMapSvg from './components/vue-amap-custom/Svg'
-import customMapSvgJs from './components/vue-amap-custom/SvgJs'
-import getAmapInstance from './components/vue-amap-custom/getAmapInstance'
-import markerTest from './components/vue-amap-custom/markerTest'
+import customMapFishingSpotMarkers from './components/amap-custom/FishingSpot'
+import customMapSearchbox from './components/amap-custom/Search'
+import customMapSvg from './components/amap-custom/Svg'
+import customMapSvgJs from './components/amap-custom/SvgJs'
+import getAmapInstance from './components/amap-custom/getAmapInstance'
+import markerTest from './components/amap-custom/markerTest'
 import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
