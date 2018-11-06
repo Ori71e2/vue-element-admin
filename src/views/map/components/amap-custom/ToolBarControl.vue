@@ -15,7 +15,7 @@ const customAmapToolBarControl = createCustomComponent({
       Boolean,
       default: false
     },
-    'showToolBarRule': {
+    'showToolBarRuler': {
       Boolean,
       default: false
     }
@@ -57,7 +57,7 @@ const customAmapToolBarControl = createCustomComponent({
         this.overView.hideDirection()
       }
     },
-    showToolBarRule(newValue, oldValue) {
+    showToolBarRuler(newValue, oldValue) {
       if (newValue) {
         this.toolBar.showRuler()
       } else {
