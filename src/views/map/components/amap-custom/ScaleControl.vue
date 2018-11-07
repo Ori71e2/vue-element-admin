@@ -19,7 +19,7 @@ const customAmapScaleControl = createCustomComponent({
   },
   init(_options, map) {
     return new Promise(resolve => {
-      window.AMap.plugin([AMap.Scale], () => {
+      window.AMap.plugin(['AMap.Scale'], () => {
         this.scale = new window.AMap.Scale({
           visible: false
         })

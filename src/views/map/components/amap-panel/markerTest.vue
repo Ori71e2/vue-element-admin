@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import CONSTANTS from '../../utils/constant'
+import CONSTANTS from '../utils/constant'
 export default {
   props: {
     'amapInstance': {

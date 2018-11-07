@@ -46,11 +46,11 @@ const customAmapOverViewControl = createCustomComponent({
         this.overView.hide()
       }
     },
-    spreadScale(newValue, oldValue) {
+    openOverView(newValue, oldValue) {
       if (newValue) {
-        this.overView.show()
+        this.overView.open()
       } else {
-        this.overView.hide()
+        this.overView.close()
       }
     }
   }

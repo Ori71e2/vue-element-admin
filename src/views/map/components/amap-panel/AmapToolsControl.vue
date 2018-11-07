@@ -6,13 +6,13 @@
       <customAmapOverViewControl :show-over-view="showOverView" :open-over-view="openOverView"/>
     </div>
     <el-popover placement="top" trigger="hover">
-      <el-checkbox-group v-model="checkedToolsList" @change="handleCheckedToolsChange">
-        <el-checkbox ref="scale" v-model="scaleVal" label="比例尺" @change="toggleScale"/>
-        <el-checkbox ref="toolBar" v-model="toolBarVal" label="工具条" @change="toggleToolBar"/>
-        <el-checkbox ref="toolBarDirection" v-model="toolBarDirectionVal" :disabled="toolBarDirectionDisable" label="工具条方向盘" @change="toggleToolBarDirection"/>
-        <el-checkbox ref="toolBarRuler" v-model="toolBarRulerVal" :disabled="toolBarRulerDisable" label="工具条标尺" @change="toggleToolBarRuler"/>
-        <el-checkbox ref="overView" v-model="overViewShowVal" :disable="overViewShowDisable" label="显示鹰眼" @change="toggleOverViewShow"/>
-        <el-checkbox ref="overViewOpen" v-model="overViewOpenVal" :disabled="overViewOpenDisable" label="展开鹰眼" @change="toggleOverViewOpen"/>
+      <el-checkbox-group v-model="checkedToolsList">
+        <el-checkbox label="比例尺" @change="toggleScale"/>
+        <el-checkbox label="工具条" @change="toggleToolBar"/>
+        <el-checkbox :disabled="toolBarDirectionDisable" label="工具条方向盘" @change="toggleToolBarDirection"/>
+        <el-checkbox :disabled="toolBarRulerDisable" label="工具条标尺" @change="toggleToolBarRuler"/>
+        <el-checkbox :disable="overViewShowDisable" label="显示鹰眼" @change="toggleOverViewShow"/>
+        <el-checkbox :disabled="overViewOpenDisable" label="展开鹰眼" @change="toggleOverViewOpen"/>
       </el-checkbox-group>
       <el-button slot="reference" type="primary">控件<i class="el-icon-arrow-up el-icon--right"/></el-button>
     </el-popover>
@@ -21,177 +21,105 @@
 
 <script>
 /* eslint-disable */
-import customAmapScaleControl from "../amap-custom/ScaleControl";
-import customAmapToolBarControl from "../amap-custom/ToolBarControl";
-import customAmapOverViewControl from "../amap-custom/OverViewControl";
-
+import customAmapScaleControl from '../amap-custom/ScaleControl'
+import customAmapToolBarControl from '../amap-custom/ToolBarControl'
+import customAmapOverViewControl from '../amap-custom/OverViewControl'
+import spreadAmapInstance from '../mixins/SpreadAmapInstance'
+// import CONSTANTS from '../utils/constant'
 export default {
   components: {
     customAmapScaleControl,
     customAmapToolBarControl,
     customAmapOverViewControl
   },
+  mixins: [spreadAmapInstance],
   data() {
     return {
       map: "",
       AMap: "",
       checkedToolsList: [], // 所有字段都是必须的，否则没法勾选
-      scaleVal: false,
-      toolBarVal: false,
-      toolBarDirectionVal: false,
-      toolBarRulerVal: false,
-      overViewShowVal: false,
-      overViewOpenVal: false,
+
+      showScale: false,
+      showToolBar: false,
+      showToolBarDirection: false,
+      showToolBarRuler: false,
+      showOverView: false,
+      openOverView: false,
+
       toolBarDirectionDisable: true,
       toolBarRulerDisable: true,
       overViewShowDisable: false,
       overViewOpenDisable: true
-    };
+    }
   },
-  mounted() {},
-  activated() {
-    //this.dyLayer = new DyLayer(this.map, AMap);
+  mounted() {
+
   },
   methods: {
-    ...mapActions({
-      getLine: "equipment/getLine",
-      getTreeInfo: "equipment/getTreeInfo"
-    }),
-    init(map, amap) {
-      // 设置toolBar
-      this.map = map;
-      this.AMap = amap;
-      console.log("tools-control");
-      this.scale = new this.AMap.Scale({
-        visible: false
-      });
-      this.toolBar = new AMap.ToolBar({
-        visible: false
-      });
-      this.overView = new AMap.OverView({
-        visible: false
-      });
-      this.map.addControl(this.scale);
-      this.map.addControl(this.toolBar);
-      this.map.addControl(this.overView);
-    },
-    handleCheckedToolsChange(value) {
-      //this.toolsBar.changeTools(value);
-    },
     toggleScale() {
-      //this.checkedToolsList.push("工具条");
-      //this.toolBarDirectionDisable = !this.toolBarDirectionDisable;
-      this.scaleVal = !this.scaleVal;
-      if (this.scaleVal) {
-        this.scale.show();
-      } else {
-        this.scale.hide();
-      }
-    },
-    toggleToolBar() {
-      console.log("toolBar" + this.toolBarVal);
-      console.log(this.checkedToolsList);
-      console.log(this.checkedToolsList);
-      this.toolBarVal = !this.toolBarVal;
-      if (this.toolBarVal) {
-        this.toolBarDirectionVal = true;
-        this.toolBarRulerVal = true;
-        this.showToolBar();
-        this.showToolBarDirection();
-        this.showToolBarRuler();
-      } else {
-        this.toolBarDirectionVal = false;
-        this.toolBarRulerVal = false;
-        this.hideToolBar();
-        this.hideToolBarDirection();
-        this.hideToolBarRuler();
-      }
-    },
-    toggleToolBarDirection() {
-      this.toolBarDirectionVal = !this.toolBarDirectionVal;
-      if (this.toolBarDirectionVal) {
-        this.toolBar.showDirection();
-      } else {
-        this.toolBar.hideDirection();
-      }
-    },
-    toggleToolBarRuler() {
-      this.toolBarRulerVal = !this.toolBarRulerVal;
-      if (this.toolBarRulerVal) {
-        this.toolBar.showRuler();
-      } else {
-        this.toolBar.hideRuler();
-      }
+      this.showScale = !this.showScale
     },
     toggleOverViewShow() {
-      this.overViewShowVal = !this.overViewShowVal;
-      if (this.overViewShowVal) {
-        this.overView.show();
-        this.overViewOpenDisable = false;
-        if (!this.checkedToolsList.includes("展开鹰眼")) {
-          this.checkedToolsList.push("展开鹰眼");
-          this.overViewOpenVal = true;
-          this.overView.open();
-        }
+      this.showOverView = !this.showOverView
+      if (this.showOverView) {
+        this.overViewOpenDisable = false
       } else {
-        this.overView.hide();
-        if (this.checkedToolsList.includes("展开鹰眼")) {
-          this.checkedToolsList.splice(
-            this.checkedToolsList.findIndex(item => item == "展开鹰眼"),
-            1
-          );
-          this.overViewOpenVal = false;
-          this.overView.close();
-        }
-        this.overViewOpenDisable = true;
+        this.overViewOpenDisable = true
       }
     },
     toggleOverViewOpen() {
-      this.overViewOpenVal = !this.overViewOpenVal;
-      if (this.overViewOpenVal) {
-        this.overView.open();
+      this.openOverView = !this.openOverView
+    },
+    toggleToolBar() {
+      console.log("toolBar" + this.showToolBar)
+      console.log(this.checkedToolsList)
+      this.showToolBar = !this.showToolBar
+      if (this.showToolBar) {
+        this.showToolBarDirection = true
+        this.showToolBarRuler = true
+        this.setToolBarCheckState()
+        this.setToolBarDirectioCheckState()
+        this.setToolBarRulerCheckState()
       } else {
-        this.overView.close();
+        this.showToolBarDirection = false
+        this.showToolBarRuler = false
+        this.hideToolBar()
+        this.hideToolBarDirection()
+        this.hideToolBarRuler()
       }
     },
-    showToolBar() {
-      this.toolBarDirectionDisable = false;
-      this.toolBarRulerDisable = false;
-      this.toolBar.show();
+    toggleToolBarRuler() {
+      this.showToolBarRuler = !this.showToolBarRuler
+    },
+    toggleToolBarDirection() {
+      this.showToolBarDirection = !this.showToolBarDirection
+    },
+    setToolBarCheckState() {
+      this.toolBarDirectionDisable = false
+      this.toolBarRulerDisable = false
     },
     hideToolBar() {
-      this.toolBarDirectionDisable = true;
-      this.toolBarRulerDisable = true;
-      this.toolBar.hide();
+      this.toolBarDirectionDisable = true
+      this.toolBarRulerDisable = true
     },
-    showToolBarDirection() {
+    setToolBarDirectioCheckState() {
       if (!this.checkedToolsList.includes("工具条方向盘")) {
-        this.checkedToolsList.push("工具条方向盘");
-        this.toolBar.showDirection();
+        this.checkedToolsList.push("工具条方向盘")
       }
     },
     hideToolBarDirection() {
       if (this.checkedToolsList.includes("工具条方向盘")) {
-        this.checkedToolsList.splice(
-          this.checkedToolsList.findIndex(item => item == "工具条方向盘"),
-          1
-        );
-        this.toolBar.hideDirection();
+        this.checkedToolsList.splice(this.checkedToolsList.findIndex(item => item == "工具条方向盘"), 1)
       }
     },
-    showToolBarRuler() {
+    setToolBarRulerCheckState() {
       if (!this.checkedToolsList.includes("工具条标尺")) {
-        this.checkedToolsList.push("工具条标尺");
-        this.toolBar.showRuler();
+        this.checkedToolsList.push("工具条标尺")
       }
     },
     hideToolBarRuler() {
       if (this.checkedToolsList.includes("工具条标尺")) {
-        this.checkedToolsList.splice(
-          this.checkedToolsList.findIndex(item => item == "工具条标尺"),
-          1
-        );
-        this.toolBar.hideRuler();
+        this.checkedToolsList.splice(this.checkedToolsList.findIndex(item => item == "工具条标尺"), 1)
       }
     }
   }
