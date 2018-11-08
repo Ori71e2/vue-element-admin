@@ -25,7 +25,7 @@ const customAmapToolBarControl = createCustomComponent({
       toolBar: null
     }
   },
-  init(_options, map) {
+  init(options, map) {
     return new Promise(resolve => {
       window.AMap.plugin(['AMap.ToolBar'], () => {
         this.toolBar = new window.AMap.ToolBar({

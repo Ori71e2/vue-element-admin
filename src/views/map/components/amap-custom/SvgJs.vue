@@ -12,7 +12,7 @@ const customMapSvgJs = createCustomComponent({
       svgDraw: null
     }
   },
-  init(_options, map) {
+  init(options, map) {
     console.log('svg init')
 
     return new Promise(resolve => {

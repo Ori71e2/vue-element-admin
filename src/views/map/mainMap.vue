@@ -20,6 +20,7 @@
       </el-amap>
       <marker-test :amap-instance="amapInstance"/>
       <amap-tools-control :amap-instance="amapInstance" class="amap-tools-control"/>
+      <amap-geolocation class="amap-geolocation"/>
     </div>
   </div>
 </template>
@@ -29,9 +30,11 @@ import customMapFishingSpotMarkers from './components/amap-custom/FishingSpot'
 import customMapSearchbox from './components/amap-custom/Search'
 import customMapSvg from './components/amap-custom/Svg'
 import customMapSvgJs from './components/amap-custom/SvgJs'
-import getAmapInstance from './components/amap-custom/getAmapInstance'
+import getAmapInstance from './components/amap-custom/GetAmapInstance'
 import markerTest from './components/amap-panel/markerTest'
+
 import amapToolsControl from './components/amap-panel/AmapToolsControl'
+import amapGeolocation from './components/amap-panel/AmapGeolocation'
 import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
@@ -54,7 +57,10 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 ], title: `小点坐标-${index}` }))
 
 export default {
-  components: { customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs, getAmapInstance, markerTest, amapToolsControl },
+  components: { 
+      customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs, 
+      getAmapInstance, markerTest, amapToolsControl, amapGeolocation
+    },
   // components: { customMapFishingSpotMarkers, customMapSearchbox },
   data() {
     return {
@@ -202,5 +208,11 @@ export default {
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+.amap-geolocation {
+    position: absolute;
+    bottom: 10px;
+    right: 80px;
 }
 </style>
