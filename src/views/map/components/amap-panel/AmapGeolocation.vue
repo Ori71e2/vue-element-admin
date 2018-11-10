@@ -11,6 +11,8 @@ export default {
   },
   mixins: [spreadAmapInstance],
   data() {
+    return {
+    }
   },
   mounted() {},
   methods: {

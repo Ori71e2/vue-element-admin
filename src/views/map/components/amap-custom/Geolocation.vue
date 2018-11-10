@@ -11,13 +11,14 @@ const customAmapGeolocation = createCustomComponent({
       default: true
     },
     'markerContent': {
-      type: String
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
-      geolocation: null,
-      markerContent: null
+      geolocation: null
+      // markerContent: null
     }
   },
   init(options, map) {
@@ -34,8 +35,8 @@ const customAmapGeolocation = createCustomComponent({
           timeout: 10000,
           maximumAge: 0,
           convert: true,
-          // showButton: true,
-          // buttonPosition: 'LB',
+          showButton: true,
+          buttonPosition: 'LB',
           // buttonOffset: new AMap.Pixel(10, 20)
           showMarker: true,
           // markerOptions: {},
@@ -55,7 +56,7 @@ const customAmapGeolocation = createCustomComponent({
   },
   mounted() {
   },
-  activated() {
+  contextReady() {
   },
   computed: {
   },

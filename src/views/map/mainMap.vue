@@ -19,8 +19,12 @@
         <get-amap-instance @get-amap-instance="setAmapInstance"/>
       </el-amap>
       <marker-test :amap-instance="amapInstance"/>
-      <amap-tools-control :amap-instance="amapInstance" class="amap-tools-control"/>
-      <amap-geolocation class="amap-geolocation"/>
+      <amap-geolocation :amap-instance="amapInstance" />
+      <div class="amap-panel">
+        <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
+          <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" class="amap-tools-control"/></el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -125,12 +129,6 @@ export default {
   },
   mounted: () => {
     console.log('mainMap')
-    /*
-    var marker = new window.AMap.Marker({
-      position: [118.716184, 33.730615]
-    })
-    marker.setMap(this.amap)
-    */
   },
   methods: {
     setAmapValue() {
@@ -209,10 +207,10 @@ export default {
     bottom: 10px;
     right: 10px;
 }
-
-.amap-geolocation {
+.amap-panel{
     position: absolute;
-    bottom: 10px;
-    right: 80px;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
 }
 </style>
