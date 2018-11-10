@@ -18,7 +18,7 @@
     </el-popover>
   </div>
 </template>
-  
+
 <script>
 /* eslint-disable */
 import customAmapScaleControl from '../amap-custom/ScaleControl'

@@ -36,7 +36,7 @@ const customMapSearchbox = createCustomComponent({
       id: `custom-componet-input-${Math.random()}`
     }
   },
-  init(options, map) {
+  init(_options, map) {
     console.log('search init')
     const options = {
       ..._options,

@@ -57,10 +57,10 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 ], title: `小点坐标-${index}` }))
 
 export default {
-  components: { 
-      customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs, 
-      getAmapInstance, markerTest, amapToolsControl, amapGeolocation
-    },
+  components: {
+    customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs,
+    getAmapInstance, markerTest, amapToolsControl, amapGeolocation
+  },
   // components: { customMapFishingSpotMarkers, customMapSearchbox },
   data() {
     return {
