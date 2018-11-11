@@ -31,6 +31,7 @@
 import { createCustomComponent } from 'vue-amap'
 
 const customMapSearchbox = createCustomComponent({
+  name: 'custom-amap-search-box',
   data() {
     return {
       id: `custom-componet-input-${Math.random()}`

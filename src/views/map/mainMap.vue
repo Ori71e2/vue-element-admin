@@ -9,7 +9,7 @@
           :visible="markerOptions.visible"
           :render-options="markerOptions.renderOptions"
           :events="markerOptions.events" />
-        <custom-map-searchbox @select="selectSearch" />
+        <custom-amap-searchbox @select="selectSearch" />
         <el-amap-marker :position="position" :events="marker.events" vid="component-marker" />
         <el-amap-circle :center="circle.center" :radius="circle.radius" :fill-opacity="circle.fillOpacity" :events="circle.events" />
         <div>
@@ -31,7 +31,7 @@
 
 <script>
 import customMapFishingSpotMarkers from './components/amap-custom/FishingSpot'
-import customMapSearchbox from './components/amap-custom/Search'
+import customAmapSearchbox from './components/amap-custom/Search'
 import customMapSvg from './components/amap-custom/Svg'
 import customMapSvgJs from './components/amap-custom/SvgJs'
 import getAmapInstance from './components/amap-custom/GetAmapInstance'
@@ -62,7 +62,7 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 
 export default {
   components: {
-    customMapFishingSpotMarkers, customMapSearchbox, customMapSvg, customMapSvgJs,
+    customMapFishingSpotMarkers, customAmapSearchbox, customMapSvg, customMapSvgJs,
     getAmapInstance, markerTest, amapToolsControl, amapGeolocation
   },
   // components: { customMapFishingSpotMarkers, customMapSearchbox },

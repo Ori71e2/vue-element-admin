@@ -5,6 +5,7 @@
 <script>
 import { createCustomComponent } from 'vue-amap'
 const customAmapGeolocation = createCustomComponent({
+  name: 'custom-amap-geolocation',
   props: {
     'showMarker': {
       type: Boolean,

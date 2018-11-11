@@ -6,6 +6,7 @@
 import { createCustomComponent } from 'vue-amap'
 
 const customAmapOverViewControl = createCustomComponent({
+  name: 'custom-amap-overview-control',
   props: {
     'showOverView': {
       Boolean,

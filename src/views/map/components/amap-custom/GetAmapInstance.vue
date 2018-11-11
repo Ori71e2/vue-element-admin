@@ -3,7 +3,8 @@
 </template>
 <script>
 import { createCustomComponent } from 'vue-amap'
-const getMapInstance = createCustomComponent({
+const getAmapInstance = createCustomComponent({
+  name: 'get-amap-instance',
   data() {
     return {
       'amap': null
@@ -22,5 +23,5 @@ const getMapInstance = createCustomComponent({
   contextReady() {
   }
 })
-export default getMapInstance
+export default getAmapInstance
 </script>
