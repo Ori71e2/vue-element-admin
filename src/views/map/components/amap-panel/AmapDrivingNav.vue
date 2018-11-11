@@ -3,44 +3,44 @@
     <div>
       <el-popover placement="top" trigger="hover">
         <div>
-          <el-row type="flex" class="row-bg" justify="space-around" :gutter="20">
+          <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
             <el-col :span="2">
               <div class="tag">
-                  <el-tag type="success">起点X</el-tag>
+                <el-tag type="success">起点X</el-tag>
               </div>
             </el-col>
             <el-col :span="8">
               <div>
-                  <el-input placeholder="请输入内容" v-model="originX"></el-input>
+                <el-input v-model="originX" placeholder="请输入内容"/>
               </div>
             </el-col>
             <el-col :span="2">
               <div class="tag">
-                  <el-tag type="warning">终点X</el-tag>
+                <el-tag type="warning">终点X</el-tag>
               </div>
             </el-col>
             <el-col :span="8">
               <div>
-                <el-input placeholder="请输入内容" v-model="destinationX"></el-input>
+                <el-input v-model="destinationX" placeholder="请输入内容"/>
               </div>
             </el-col>
             <el-col :span="4">
               <div>
-                <el-button  type="success" icon="el-icon-location" v-on:click="toggleGetPosition(1)">选取起点</el-button>
+                <el-button type="success" icon="el-icon-location" @click="toggleGetPosition(1)">选取起点</el-button>
               </div>
             </el-col>
             <el-col :span="4">
               <div>
-                <el-button type="primary" v-on:click="toggleDrivingSearch">开始规划</el-button>
+                <el-button type="primary" @click="toggleDrivingSearch">开始规划</el-button>
               </div>
             </el-col>
             <el-col :span="4">
               <div>
-                <el-button type="primary"  v-on:click="toggleDispalyDrivingNavPanel">显示文字</el-button>
+                <el-button type="primary" @click="toggleDispalyDrivingNavPanel">显示文字</el-button>
               </div>
             </el-col>
           </el-row>
-          <el-row type="flex" class="row-bg" justify="space-around" :gutter="20">
+          <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
             <el-col :span="2">
               <div class="tag">
                 <el-tag type="success">起点Y</el-tag>
@@ -48,7 +48,7 @@
             </el-col>
             <el-col :span="8">
               <div>
-                <el-input placeholder="请输入内容" v-model="originY"></el-input>
+                <el-input v-model="originY" placeholder="请输入内容"/>
               </div>
             </el-col>
             <el-col :span="2">
@@ -58,33 +58,39 @@
             </el-col>
             <el-col :span="8">
               <div>
-                <el-input placeholder="请输入内容" v-model="destinationY"></el-input>
+                <el-input v-model="destinationY" placeholder="请输入内容"/>
               </div>
             </el-col>
             <el-col :span="4">
               <div>
-                <el-button type="warning" icon="el-icon-location" v-on:click="toggleGetPosition(2)">选取终点</el-button>
+                <el-button type="warning" icon="el-icon-location" @click="toggleGetPosition(2)">选取终点</el-button>
               </div>
             </el-col>
             <el-col :span="4">
               <div>
-                <el-button type="danger" v-on:click="toggleClearDrivingSearch">取消规划</el-button>
+                <el-button type="danger" @click="toggleClearDrivingSearch">取消规划</el-button>
               </div>
             </el-col>
             <el-col :span="4">
               <div>
-                <el-button type="danger" v-on:click="toggleHideDrivingNavPanel">隐藏文字</el-button>
+                <el-button type="danger" @click="toggleHideDrivingNavPanel">隐藏文字</el-button>
               </div>
             </el-col>
           </el-row>
         </div>
         <el-button slot="reference" type="primary">
-          号航<i class="el-icon-arrow-up el-icon--right"></i>
+          号航<i class="el-icon-arrow-up el-icon--right"/>
         </el-button>
       </el-popover>
-      <custom-amap-driving-nav 
-        :origin-x="originX" :origin-y="originY" :destination-x="destinationX" :destination-y="destinationY" 
-        :panel-id="panelId" :panel-show="panelShow" :driving-sarch="drivingSearch" :driving-clear="drivingClear"
+      <custom-amap-driving-nav
+        :origin-x="originX"
+        :origin-y="originY"
+        :destination-x="destinationX"
+        :destination-y="destinationY"
+        :panel-id="panelId"
+        :panel-show="panelShow"
+        :driving-sarch="drivingSearch"
+        :driving-clear="drivingClear"
       />
     </div>
   </div>
@@ -117,14 +123,14 @@ export default {
   },
   computed: {
     ...mapState({
-        mapNav: state => state.mapStateWatch.mapNav
+      mapNav: state => state.mapStateWatch.mapNav
     }),
     getMapNavFlag() {
-        return this.mapNav.flag;
+      return this.mapNav.flag
     },
     getNavState() {
     }
-  },  
+  },
   methods: {
     toggleDrivingSearch() {
       this.removeClickListener()
@@ -138,12 +144,12 @@ export default {
       this.panelDrivingNavElement.hidden = true
     },
     toggleDispalyDrivingNavPanel() {
-      this.panelDrivingNavElement.hidden = false        
+      this.panelDrivingNavElement.hidden = false
     },
     toggleGetPosition(data) {
-      this.flag = data;
-      this.removeClickListener(); //防止重复绑定
-      this.clickListener = window.AMap.event.addListener(this.$amap, "click", function(e) {
+      this.flag = data
+      this.removeClickListener() // 防止重复绑定
+      this.clickListener = window.AMap.event.addListener(this.$amap, 'click', function(e) {
         this.setPosition(e)
       }, this)
     },
@@ -153,8 +159,8 @@ export default {
         this.originY = e.lnglat.getLat()
       } else {
         this.destinationX = e.lnglat.getLng()
-        this.destinationY = e.lnglat.getLat()          
-      }            
+        this.destinationY = e.lnglat.getLat()
+      }
     },
     removeClickListener() {
       if (this.clickListener) {
