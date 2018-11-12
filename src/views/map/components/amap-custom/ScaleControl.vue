@@ -31,18 +31,18 @@ const customAmapScaleControl = createCustomComponent({
   },
   contextReady() {
   },
+  handlers: {
+    showScale(newValue, oldValue) {
+      if (newValue) {
+        this.show()
+      } else {
+        this.hide()
+      }
+    }
+  },
   created: () => {
   },
   mounted: () => {
-  },
-  watch: {
-    showScale(newValue, oldValue) {
-      if (newValue) {
-        this.scale.show()
-      } else {
-        this.scale.hide()
-      }
-    }
   }
 })
 

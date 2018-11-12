@@ -38,32 +38,32 @@ const customAmapToolBarControl = createCustomComponent({
   },
   contextReady() {
   },
-  created: () => {
-  },
-  mounted: () => {
-  },
-  watch: {
+  handlers: {
     showToolBar(newValue, oldValue) {
       if (newValue) {
-        this.toolBar.show()
+        this.show()
       } else {
-        this.toolBar.hide()
+        this.hide()
       }
     },
     showToolBarDirection(newValue, oldValue) {
       if (newValue) {
-        this.toolBar.showDirection()
+        this.showDirection()
       } else {
-        this.toolBar.hideDirection()
+        this.hideDirection()
       }
     },
     showToolBarRuler(newValue, oldValue) {
       if (newValue) {
-        this.toolBar.showRuler()
+        this.showRuler()
       } else {
-        this.toolBar.hideRuler()
+        this.hideRuler()
       }
     }
+  },
+  created: () => {
+  },
+  mounted: () => {
   }
 })
 

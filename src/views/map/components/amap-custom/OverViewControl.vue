@@ -35,25 +35,25 @@ const customAmapOverViewControl = createCustomComponent({
   },
   contextReady() {
   },
-  created: () => {
-  },
-  mounted: () => {
-  },
-  watch: {
+  handlers: {
     showOverView(newValue, oldValue) {
       if (newValue) {
-        this.overView.show()
+        this.show()
       } else {
-        this.overView.hide()
+        this.hide()
       }
     },
     openOverView(newValue, oldValue) {
       if (newValue) {
-        this.overView.open()
+        this.open()
       } else {
-        this.overView.close()
+        this.close()
       }
     }
+  },
+  created: () => {
+  },
+  mounted: () => {
   }
 })
 
