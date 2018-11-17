@@ -120,11 +120,11 @@ export default {
       activeSelectPoi: ''
     }
   },
+  computed: {
+  },
   mounted() {
   },
   activated() {
-  },
-  computed: {
   },
   methods: {
     toggleDrivingSearch() {
