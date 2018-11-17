@@ -3,7 +3,7 @@
 </template>
 <script>
 import { createCustomComponent } from 'vue-amap'
-const selectPoi = createCustomComponent({
+const customAmapSelectPoi = createCustomComponent({
   name: 'select-poi',
   props: {
     'active': {
@@ -13,11 +13,8 @@ const selectPoi = createCustomComponent({
   },
   data() {
     return {
-      position: {
-        'X': '',
-        'Y': ''
-      },
-      clickListener: ''
+      clickListener: null,
+      isBind: null
     }
   },
   init(options, map) {
@@ -25,17 +22,37 @@ const selectPoi = createCustomComponent({
     this.clickListener = window.AMap.event.addListener(this.$amap, 'click', function(e) {
       this.setPosition(e)
     }, this)
-    this.$emit('get-select-position', this.position)
-    return marker
+    this.isBind = true
+    return this.clickListener
   },
-  mounted: () => {},
-  contextReady() {},
+  contextReady() {
+  },
+  handlers: {
+  },
+  watch: {
+    active(newValue, oldValue) {
+      if (newValue) {
+        if (!this.isBind) {
+          this.clickListener = window.AMap.event.addListener(this.$amap, 'click', function(e) { this.setPosition(e) }, this)
+          this.isBind = true
+        }
+      } else {
+        if (this.isBind) {
+          window.AMap.event.removeListener(this.clickListener)
+          this.isBind = false
+          console.log(this.isBind)
+        }
+      }
+    }
+  },
   methods: {
     setPosition(e) {
-      this.oposition.X = e.lnglat.getLng()
-      this.position.Y = e.lnglat.getLat()
+      var position = {}
+      position.X = e.lnglat.getLng()
+      position.Y = e.lnglat.getLat()
+      this.$emit('get-select-position', position)
     }
   }
 })
-export default selectPoi
+export default customAmapSelectPoi
 </script>

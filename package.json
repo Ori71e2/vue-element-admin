@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "axios": "0.18.0",
-    "clipboard": "1.7.1",
     "codemirror": "5.39.2",
     "connect": "3.6.6",
     "driver.js": "0.5.2",
@@ -57,6 +56,7 @@
     "svg.js": "^2.6.6",
     "vue": "2.5.17",
     "vue-amap": "^0.5.8",
+    "vue-clipboard2": "^0.2.1",
     "vue-count-to": "1.0.13",
     "vue-i18n": "7.3.2",
     "vue-router": "3.0.1",

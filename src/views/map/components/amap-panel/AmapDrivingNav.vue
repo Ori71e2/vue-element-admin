@@ -92,16 +92,18 @@
         :driving-sarch="drivingSearch"
         :driving-clear="drivingClear"
       />
+      <custom-amap-select-poi :active="activeSelectPoi"/>
     </div>
   </div>
 </template>
 
 <script>
 import customAmapDrivingNav from '../amap-custom/DrivingNav'
+import customAmapSelectPoi from '.,/amap-custom/SelectPoi'
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 export default {
   components: {
-    customAmapDrivingNav
+    customAmapDrivingNav, customAmapSelectPoi
   },
   mixins: [spreadAmapInstance],
   data() {
@@ -114,7 +116,8 @@ export default {
       panelShow: '',
       drivingSearch: '',
       drivingClear: '',
-      clickListener: ''
+      clickListener: '',
+      activeSelectPoi: ''
     }
   },
   mounted() {
@@ -122,14 +125,6 @@ export default {
   activated() {
   },
   computed: {
-    ...mapState({
-      mapNav: state => state.mapStateWatch.mapNav
-    }),
-    getMapNavFlag() {
-      return this.mapNav.flag
-    },
-    getNavState() {
-    }
   },
   methods: {
     toggleDrivingSearch() {

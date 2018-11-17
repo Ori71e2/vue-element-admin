@@ -2,6 +2,7 @@
   <div class="amap-container">
     <div class="amap-wrapper">
       <el-amap :vid="'amap-vue'" class="amap-box">
+        <get-amap-instance @get-amap-instance="setAmapInstance"/>
         <custom-map-fishing-spot-markers
           :data="markerData"
           :get-position="markerOptions.getPosition"
@@ -16,15 +17,15 @@
           <custom-map-svg />
           <custom-map-svg-js />
         </div>
-        <get-amap-instance @get-amap-instance="setAmapInstance"/>
       </el-amap>
-      <marker-test :amap-instance="amapInstance"/>
       <amap-geolocation :amap-instance="amapInstance" />
       <div class="amap-panel">
         <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
-          <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" class="amap-tools-control"/></el-col>
+          <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
+          <el-col :span="4"><amap-select-poi :amap-instance="amapInstance" /></el-col>
         </el-row>
       </div>
+      <marker-test :amap-instance="amapInstance"/>
     </div>
   </div>
 </template>
@@ -35,10 +36,11 @@ import customAmapSearchbox from './components/amap-custom/Search'
 import customMapSvg from './components/amap-custom/Svg'
 import customMapSvgJs from './components/amap-custom/SvgJs'
 import getAmapInstance from './components/amap-custom/GetAmapInstance'
-import markerTest from './components/amap-panel/markerTest'
 
+import markerTest from './components/amap-panel/markerTest'
 import amapToolsControl from './components/amap-panel/AmapToolsControl'
 import amapGeolocation from './components/amap-panel/AmapGeolocation'
+import amapSelectPoi from './components/amap-panel/AmapSelectPoi'
 import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
@@ -63,7 +65,7 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 export default {
   components: {
     customMapFishingSpotMarkers, customAmapSearchbox, customMapSvg, customMapSvgJs,
-    getAmapInstance, markerTest, amapToolsControl, amapGeolocation
+    getAmapInstance, markerTest, amapToolsControl, amapGeolocation, amapSelectPoi
   },
   // components: { customMapFishingSpotMarkers, customMapSearchbox },
   data() {
