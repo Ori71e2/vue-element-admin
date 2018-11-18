@@ -23,9 +23,11 @@
         <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
           <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
           <el-col :span="4"><amap-select-poi :amap-instance="amapInstance" /></el-col>
+          <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" /></el-col>
         </el-row>
       </div>
       <marker-test :amap-instance="amapInstance"/>
+      <div ref="drivingNavPanel" class="driving-nav-panel" />
     </div>
   </div>
 </template>
@@ -41,6 +43,7 @@ import markerTest from './components/amap-panel/markerTest'
 import amapToolsControl from './components/amap-panel/AmapToolsControl'
 import amapGeolocation from './components/amap-panel/AmapGeolocation'
 import amapSelectPoi from './components/amap-panel/AmapSelectPoi'
+import amapDrivingNav from './components/amap-panel/AmapDrivingNav'
 import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
@@ -65,12 +68,12 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 export default {
   components: {
     customMapFishingSpotMarkers, customAmapSearchbox, customMapSvg, customMapSvgJs,
-    getAmapInstance, markerTest, amapToolsControl, amapGeolocation, amapSelectPoi
+    getAmapInstance, markerTest, amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav
   },
-  // components: { customMapFishingSpotMarkers, customMapSearchbox },
   data() {
     return {
       amapInstance: null,
+      panelId: this.$refs.drivingNavPanel,
       position: [118.716184, 33.720615],
       zoom: 14,
       center,
@@ -214,5 +217,14 @@ export default {
     bottom: 20px;
     left: 50%;
     transform: translate(-50%);
+}
+.driving-nav-panel {
+  position: fixed;
+  background-color: white;
+  max-height: 70%;
+  overflow-y: auto;
+  top: 5%;
+  right: 1%;
+  width: 10%;
 }
 </style>

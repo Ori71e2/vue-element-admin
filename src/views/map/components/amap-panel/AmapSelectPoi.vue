@@ -60,7 +60,6 @@ export default {
       this.selectPoi = poi
       this.positionX = poi.X
       this.positionY = poi.Y
-      this.copyBoard = [poi.X, poi.Y]
     },
     toggleCopy() {
       this.copyBoard = [this.positionX, this.positionY]
