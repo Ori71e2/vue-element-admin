@@ -65,15 +65,6 @@ const customAmapGeolocation = createCustomComponent({
   },
   methods: {
     onGeolocationComplete(data) {
-      /*
-      console.log('经度：' + data.position.getLng())
-      console.log('纬度：' + data.position.getLat())
-      if(data.accuracy){
-          console.log('精度：' + data.accuracy + ' 米')
-      }//如为IP精确定位结果则没有精度信息
-      console.log('是否经过偏移：' + (data.isConverted ? '是' : '否'))
-      console.log('Geolocation Success')
-      */
       var result = {}
       result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
       result.info = data.info

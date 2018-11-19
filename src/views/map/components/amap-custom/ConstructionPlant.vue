@@ -20,7 +20,6 @@ const customMapFishingSpotMarkers = createCustomComponent({
     'badBoundsAspectRatio'
   ],
   contextReady() {
-    console.log('context ready')
   },
   init(options, map) {
     console.log('init')

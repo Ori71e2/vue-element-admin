@@ -13,20 +13,18 @@ const customMapSvgJs = createCustomComponent({
     }
   },
   init(options, map) {
-    console.log('svg init')
-
     return new Promise(resolve => {
       window.AMap.plugin('AMap.CustomLayer', () => {
         var size = this.$amap.getSize()
-        console.log('SvgJs 1')
+        // console.log('SvgJs 1')
         var draw = SVG('drawing').size(size.width, size.height)
-        console.log(draw)
+        // console.log(draw)
         this.svgCanvas = draw
         // 使用draw.node获取svg元素
         // 图层之间的层级决定事件是否会被捕获
         var customLayer = new window.AMap.CustomLayer(draw.node, { zIndex: 300 })
-        console.log('svgjs customLayer')
-        console.log(customLayer)
+        // console.log('svgjs customLayer')
+        // console.log(customLayer)
         customLayer.render = this.onRender
         this.$amap.add(customLayer)
 
@@ -36,19 +34,15 @@ const customMapSvgJs = createCustomComponent({
         draw.rect(300, 20).attr({ fill: '#f56' }).click(function() {
           console.log('svg rect2 clicked')
         })
-
         resolve(this.customLayer)
       })
     })
   },
   contextReady() {
-    console.log('Context Ready')
   },
   created: () => {
-    console.log('Created Svg')
   },
   mounted: () => {
-    console.log('Mounted Svg')
   },
   methods: {
     onRender() {

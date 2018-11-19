@@ -3,6 +3,7 @@
     <div class="amap-wrapper">
       <el-amap :vid="'amap-vue'" class="amap-box">
         <get-amap-instance @get-amap-instance="setAmapInstance"/>
+        <custom-amap-select-poi @get-select-position="setSelectPoi" />
         <custom-map-fishing-spot-markers
           :data="markerData"
           :get-position="markerOptions.getPosition"
@@ -22,12 +23,12 @@
       <div class="amap-panel">
         <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
           <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
-          <el-col :span="4"><amap-select-poi :amap-instance="amapInstance" /></el-col>
-          <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" /></el-col>
+          <el-col :span="6"><amap-select-poi :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
+          <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" :select-poi="selectPoi" /></el-col>
         </el-row>
       </div>
       <marker-test :amap-instance="amapInstance"/>
-      <div ref="drivingNavPanel" class="driving-nav-panel" />
+      <div ref="drivingNavPanel" class="driving-nav-panel"/>
     </div>
   </div>
 </template>
@@ -38,6 +39,7 @@ import customAmapSearchbox from './components/amap-custom/Search'
 import customMapSvg from './components/amap-custom/Svg'
 import customMapSvgJs from './components/amap-custom/SvgJs'
 import getAmapInstance from './components/amap-custom/GetAmapInstance'
+import customAmapSelectPoi from './components/amap-custom/SelectPoi'
 
 import markerTest from './components/amap-panel/markerTest'
 import amapToolsControl from './components/amap-panel/AmapToolsControl'
@@ -67,13 +69,14 @@ const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
 
 export default {
   components: {
-    customMapFishingSpotMarkers, customAmapSearchbox, customMapSvg, customMapSvgJs,
+    customMapFishingSpotMarkers, customAmapSearchbox, customMapSvg, customMapSvgJs, customAmapSelectPoi,
     getAmapInstance, markerTest, amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav
   },
   data() {
     return {
       amapInstance: null,
-      panelId: this.$refs.drivingNavPanel,
+      panelId: '',
+      selectPoi: null,
       position: [118.716184, 33.720615],
       zoom: 14,
       center,
@@ -98,13 +101,13 @@ export default {
         },
         events: {
           pointClick(e, point) {
-            console.log('event pointClick', e, point)
+            // console.log('event pointClick', e, point)
           },
           pointMouseover(e, point) {
-            console.log('event pointMouseover', e, point)
+            // console.log('event pointMouseover', e, point)
           },
           pointMouseout(e, point) {
-            console.log('event pointMouseout', e, point)
+            // console.log('event pointMouseout', e, point)
           }
         }
       },
@@ -132,12 +135,12 @@ export default {
       }
     }
   },
-  mounted: () => {
-    console.log('mainMap')
+  mounted() {
+    this.panelId = this.$refs.drivingNavPanel
   },
   methods: {
     setAmapValue() {
-      console.log('loaded')
+      // console.log('loaded')
     },
     selectSearch(poi) {
       console.log(poi)
@@ -156,9 +159,12 @@ export default {
       this.center = center
     },
     setAmapInstance(amap) {
-      console.log('get amap instance')
-      console.log(amap)
+      // console.log('get amap instance')
+      // console.log(amap)
       this.amapInstance = amap
+    },
+    setSelectPoi(poi) {
+      this.selectPoi = poi
     }
   }
 }
@@ -223,8 +229,8 @@ export default {
   background-color: white;
   max-height: 70%;
   overflow-y: auto;
-  top: 5%;
+  top: 25%;
   right: 1%;
-  width: 10%;
+  width: 14.5%;
 }
 </style>

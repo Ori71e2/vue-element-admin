@@ -19,6 +19,9 @@ const customAmapDrivingNav = createCustomComponent({
       type: Number
     },
     'panelId': {
+      // 此处只能将这两种类型同时写上，否则报错
+      type: String | HTMLDivElement,
+      default: null
     },
     'panelShow': {
       type: Boolean,
@@ -35,25 +38,27 @@ const customAmapDrivingNav = createCustomComponent({
   },
   data() {
     return {
-      panelDrivingNavElement: 0,
+      panelDrivingNavElement: '',
       origin: {
-        'X': '',
-        'Y': ''
+        'X': 0,
+        'Y': 0
       },
       destination: {
-        'X': '',
-        'Y': ''
+        'X': 0,
+        'Y': 0
       },
       drivingNav: null
     }
   },
   init(options, map) {
     return new Promise(resolve => {
+      console.log(this.panelId)
       window.AMap.plugin(['AMap.Driving'], () => {
         this.drivingNav = new window.AMap.Driving({
           map: this.$amap,
           panel: this.panelId
         })
+        this.panelDrivingNavElement = this.panelId
         resolve(this.drivingNav)
       })
     })
@@ -63,11 +68,17 @@ const customAmapDrivingNav = createCustomComponent({
   mounted() {
   },
   handlers: {
+
+  },
+  methods: {
+  },
+  watch: {
     originX(value) {
-      this.orgin.X = value
+      console.log(this.panelDrivingNavElement)
+      this.origin.X = value
     },
     originY(value) {
-      this.orgin.Y = value
+      this.origin.Y = value
     },
     destinationX(value) {
       this.destination.X = value
@@ -83,33 +94,13 @@ const customAmapDrivingNav = createCustomComponent({
       }
     },
     drivingSearch(value) {
-      var errorMsg = ''
       // 根据起终点经纬度规划驾车导航路线
-      // this.drivingNav.search(new this.AMap.LngLat(118.716087,33.720534), new this.AMap.LngLat(118.720623, 33.70349))
-      if (this.origin.X < 0 || this.origin.X > 180) {
-        errorMsg = ' 起点经度 '
-      }
-      if (this.origin.Y < 0 || this.origin.Y > 90) {
-        errorMsg = errorMsg + ' 起点维度 '
-      }
-      if (this.destination.X < 0 || this.destination.X > 180) {
-        errorMsg = errorMsg + ' 终点经度 '
-      }
-      if (this.destination.Y < 0 || this.destination.Y > 90) {
-        errorMsg = errorMsg + ' 终点维度 '
-      }
-      if (errorMsg !== '') {
-        errorMsg += '取值不在范围内！'
-        console.log(errorMsg)
-        return
-      }
-      this.drivingNav.search(new this.AMap.LngLat(this.origin.X, this.origin.Y), new this.AMap.LngLat(this.destination.X, this.destination.Y))
+      // LngLat()函数自动将经度修正到 [-180,180] 区间内
+      this.drivingNav.search(new window.AMap.LngLat(this.origin.X, this.origin.Y), new window.AMap.LngLat(this.destination.X, this.destination.Y, false))
     },
     drivingClear(value) {
       this.drivingNav.clear()
     }
-  },
-  methods: {
   }
 })
 export default customAmapDrivingNav

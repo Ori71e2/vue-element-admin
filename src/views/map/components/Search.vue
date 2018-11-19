@@ -54,7 +54,6 @@ const customMapSearchbox = createCustomComponent({
     })
   },
   contextReady() {
-    console.log('Context Ready')
   },
   created: () => {
     console.log('Created Search')

@@ -34,8 +34,8 @@ export default {
       this.$children.forEach(component => {
         component.$emit(CONSTANTS.AMAP_READY_EVENT, newValue)
       })
-      console.log('newValue')
-      console.log(newValue)
+      // console.log('newValue')
+      // console.log(newValue)
       this.watchValue(newValue)
     }
   },
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     watchValue(newValue) {
-      console.log(newValue)
+      // console.log(newValue)
     }
   }
 }

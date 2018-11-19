@@ -16,13 +16,11 @@
         选点定位<i class="el-icon-arrow-up el-icon--right"/>
       </el-button>
     </el-popover>
-    <custom-amap-select-poi :active="activeSelectPoi" @get-select-position="setSelectPoi"/>
     <custom-amap-center :zoom="amapZoom" :center="amapCenter"/>
   </div>
 </template>
 
 <script>
-import customAmapSelectPoi from '../amap-custom/SelectPoi'
 import customAmapCenter from '../amap-custom/Center'
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 import Vue from 'vue'
@@ -31,19 +29,32 @@ Vue.use(VueClipboard)
 
 export default {
   components: {
-    customAmapSelectPoi, customAmapCenter
+    customAmapCenter
   },
   mixins: [spreadAmapInstance],
+  props: {
+    'selectPoi': {
+      type: Object,
+      default: null
+    }
+  },
   data() {
     return {
       activeSelectPoi: false,
-      selectPoi: '',
-      positionX: '',
-      positionY: '',
+      positionX: null,
+      positionY: null,
       copyBoard: '',
       // 这样设置，保证引入时不会触发setZoom, setCenter
-      amapZoom: 1,
+      amapZoom: -1,
       amapCenter: ''
+    }
+  },
+  watch: {
+    selectPoi(newValue) {
+      if (this.activeSelectPoi) {
+        this.positionX = newValue.X
+        this.positionY = newValue.Y
+      }
     }
   },
   mounted() {
@@ -51,15 +62,8 @@ export default {
   methods: {
     toggleSelectPoi(newValue) {
       if (newValue) {
-        this.activeSelectPoi = true
-      } else {
-        this.activeSelectPoi = false
+        this.activeSelectPoi = !this.activeSelectPoi
       }
-    },
-    setSelectPoi(poi) {
-      this.selectPoi = poi
-      this.positionX = poi.X
-      this.positionY = poi.Y
     },
     toggleCopy() {
       this.copyBoard = [this.positionX, this.positionY]
@@ -70,8 +74,10 @@ export default {
       })
     },
     toggleMove() {
-      this.amapZoom = 14
-      this.amapCenter = { X: this.positionX, Y: this.positionY }
+      if (this.positionX && this.positionY) {
+        this.amapZoom = 14
+        this.amapCenter = { X: this.positionX, Y: this.positionY }
+      }
     }
   }
 }

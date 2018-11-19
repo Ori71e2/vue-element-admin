@@ -14,7 +14,7 @@ const customMapSvg = createCustomComponent({
     }
   },
   init(options, map) {
-    console.log('svg init')
+    // console.log('svg init')
 
     return new Promise(resolve => {
       window.AMap.plugin('AMap.CustomLayer', () => {
@@ -28,8 +28,8 @@ const customMapSvg = createCustomComponent({
 
         var customLayer = new window.AMap.CustomLayer(svg, { zIndex: 200 })
 
-        console.log('svg customLayer')
-        console.log(this.customLayer)
+        // console.log('svg customLayer')
+        // console.log(this.customLayer)
         // 必须提供重绘函数，否则会出现不同步现象
         customLayer.render = this.onRender
         this.$amap.add(customLayer)
@@ -52,13 +52,10 @@ const customMapSvg = createCustomComponent({
     })
   },
   contextReady() {
-    console.log('Context Ready')
   },
   created: () => {
-    console.log('Created Svg')
   },
   mounted: () => {
-    console.log('Mounted Svg')
   },
   methods: {
     onRender() {

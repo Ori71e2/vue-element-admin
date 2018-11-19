@@ -38,7 +38,6 @@ const customMapSearchbox = createCustomComponent({
     }
   },
   init(_options, map) {
-    console.log('search init')
     const options = {
       ..._options,
       input: this.id
