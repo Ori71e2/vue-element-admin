@@ -65,16 +65,16 @@ const customAmapGeolocation = createCustomComponent({
   },
   methods: {
     onGeolocationComplete(data) {
-      var result = {}
-      result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
-      result.info = data.info
-      this.$emit('get-current-location', result)
+      // var result = {}
+      // result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
+      // result.info = data.info
+      this.$emit('get-current-location', data)
     },
     onGeolocationError(data) {
-      var result = {}
-      result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
-      result.info = data.info
-      this.$emit('get-current-location', result)
+      // var result = {}
+      // result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
+      // result.info = data.info
+      this.$emit('get-current-location', data)
     }
   }
 })

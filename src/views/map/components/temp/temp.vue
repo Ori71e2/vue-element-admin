@@ -4,9 +4,22 @@
       <el-amap :vid="'amap-vue'" class="amap-box">
         <get-amap-instance @get-amap-instance="setAmapInstance"/>
         <custom-amap-select-poi @get-select-position="setSelectPoi" />
+        <custom-map-fishing-spot-markers
+          :data="markerData"
+          :get-position="markerOptions.getPosition"
+          :get-hover-title="markerOptions.getHoverTitle"
+          :visible="markerOptions.visible"
+          :render-options="markerOptions.renderOptions"
+          :events="markerOptions.events" />
         <custom-amap-searchbox @select="selectSearch" />
-        <custom-amap-limit-display />
+        <el-amap-marker :position="position" :events="marker.events" vid="component-marker" />
+        <el-amap-circle :center="circle.center" :radius="circle.radius" :fill-opacity="circle.fillOpacity" :events="circle.events" />
+        <div>
+          <custom-map-svg />
+          <custom-map-svg-js />
+        </div>
       </el-amap>
+      <amap-geolocation :amap-instance="amapInstance" />
       <div class="amap-panel">
         <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
           <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
@@ -14,18 +27,21 @@
           <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" :select-poi="selectPoi" /></el-col>
         </el-row>
       </div>
-      <amap-geolocation :amap-instance="amapInstance" />
+      <marker-test :amap-instance="amapInstance"/>
       <div ref="drivingNavPanel" class="driving-nav-panel"/>
     </div>
   </div>
 </template>
 
 <script>
-import getAmapInstance from './components/amap-custom/GetAmapInstance'
+import customMapFishingSpotMarkers from './components/amap-custom/FishingSpot'
 import customAmapSearchbox from './components/amap-custom/Search'
+import customMapSvg from './components/amap-custom/Svg'
+import customMapSvgJs from './components/amap-custom/SvgJs'
+import getAmapInstance from './components/amap-custom/GetAmapInstance'
 import customAmapSelectPoi from './components/amap-custom/SelectPoi'
-import customAmapLimitDisplay from './components/amap-custom/LimitDisplay'
 
+import markerTest from './components/amap-panel/markerTest'
 import amapToolsControl from './components/amap-panel/AmapToolsControl'
 import amapGeolocation from './components/amap-panel/AmapGeolocation'
 import amapSelectPoi from './components/amap-panel/AmapSelectPoi'
@@ -40,13 +56,21 @@ VueAMap.initAMapApiLoader({
   zoom: 13,
   // 高德key
   key: '4e4c8706ad7f1d468011d7b1d2340bf2',
+  // 插件集合 （插件按需引入）
+  plugin: ['AMap.Geolocation'],
   uiVersion: '1.0.11'
 })
 
+const center = [121.5273285, 31.21515044]
+const markerData = Array.from({ length: 10000 }, (x, index) => ({ position: [
+  center[0] + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 0.6,
+  center[1] + (Math.random() > 0.5 ? 1 : -1) * Math.random() * 0.6
+], title: `小点坐标-${index}` }))
+
 export default {
   components: {
-    customAmapSearchbox, customAmapSelectPoi, getAmapInstance, customAmapLimitDisplay,
-    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav
+    customMapFishingSpotMarkers, customAmapSearchbox, customMapSvg, customMapSvgJs, customAmapSelectPoi,
+    getAmapInstance, markerTest, amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav
   },
   data() {
     return {
@@ -54,7 +78,61 @@ export default {
       panelId: '',
       selectPoi: null,
       position: [118.716184, 33.720615],
-      zoom: 14
+      zoom: 14,
+      center,
+      markerData,
+      markerOptions: {
+        visible: true,
+        getPosition(dateItem) {
+          return dateItem.position
+        },
+        getHoverTitle(dateItem) {
+          return dateItem.title
+        },
+        renderOptions: {
+          pointStyle: {
+            contentImg: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b1.png',
+            width: 19,
+            height: 31,
+            offset: ['-50%', '-100%'],
+            fillStyle: null,
+            strokeStyle: null
+          }
+        },
+        events: {
+          pointClick(e, point) {
+            // console.log('event pointClick', e, point)
+          },
+          pointMouseover(e, point) {
+            // console.log('event pointMouseover', e, point)
+          },
+          pointMouseout(e, point) {
+            // console.log('event pointMouseout', e, point)
+          }
+        }
+      },
+      marker: {
+        topWhenClick: true,
+        events: {
+          click: () => {
+            console.log('click marker')
+          },
+          dragend: (e) => {
+            console.log('---event---: dragend')
+            this.markers[0].position = [e.lnglat.lng, e.lnglat.lat]
+          }
+        }
+      },
+      circle: {
+        center: [118.716184, 33.720615],
+        radius: 200,
+        fillOpacity: 0.5,
+        events: {
+          click: () => {
+            alert('click')
+          }
+        }
+      }
     }
   },
   mounted() {
