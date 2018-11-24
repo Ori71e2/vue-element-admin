@@ -5,10 +5,10 @@
         <get-amap-instance @get-amap-instance="setAmapInstance"/>
         <custom-amap-select-poi @get-select-position="setSelectPoi" />
         <custom-amap-searchbox @select="selectSearch" />
-        <custom-amap-limit-display />
       </el-amap>
       <div class="amap-panel">
         <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
+          <el-col :span="4"><amap-limit-lock :amap-instance="amapInstance" /></el-col>
           <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
           <el-col :span="6"><amap-select-poi :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
           <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" :select-poi="selectPoi" /></el-col>
@@ -24,12 +24,12 @@
 import getAmapInstance from './components/amap-custom/GetAmapInstance'
 import customAmapSearchbox from './components/amap-custom/Search'
 import customAmapSelectPoi from './components/amap-custom/SelectPoi'
-import customAmapLimitDisplay from './components/amap-custom/LimitDisplay'
 
 import amapToolsControl from './components/amap-panel/AmapToolsControl'
 import amapGeolocation from './components/amap-panel/AmapGeolocation'
 import amapSelectPoi from './components/amap-panel/AmapSelectPoi'
 import amapDrivingNav from './components/amap-panel/AmapDrivingNav'
+import amapLimitLock from './components/amap-panel/AmapLimitLock'
 import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
@@ -45,8 +45,8 @@ VueAMap.initAMapApiLoader({
 
 export default {
   components: {
-    customAmapSearchbox, customAmapSelectPoi, getAmapInstance, customAmapLimitDisplay,
-    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav
+    customAmapSearchbox, customAmapSelectPoi, getAmapInstance,
+    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock
   },
   data() {
     return {
