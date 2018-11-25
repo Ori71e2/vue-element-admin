@@ -22,15 +22,17 @@ const customAmapLockBounds = createCustomComponent({
   data() {
     return {
       bounds: null,
-      defaultNorthEast: [121.068093, 34.524897],
-      defaultSouthWest: [117.113014, 32.618797]
+      defaultNorthEast: [119.92045, 34.140927],
+      defaultSouthWest: [117.576242, 33.209528],
+      setColor: null
     }
   },
   init(options, map) {
-    this.bounds = new window.AMap.Bounds(
-      window.AMap.LngLat(this.defaultNorthEast[0], this.defaultNorthEast[1]),
-      window.AMap.LngLat(this.defaultSouthWest[0], this.defaultSouthWest[1])
-    )
+    const Southwest = new window.AMap.LngLat(this.defaultSouthWest[0], this.defaultSouthWest[1])
+    const NorthEast = new window.AMap.LngLat(this.defaultNorthEast[0], this.defaultNorthEast[1])
+    console.log(NorthEast)
+    console.log(Southwest)
+    this.bounds = new window.AMap.Bounds(Southwest, NorthEast)
     this.$amap.setLimitBounds(this.bounds)
     return this.bounds
   },
@@ -43,7 +45,8 @@ const customAmapLockBounds = createCustomComponent({
       if (newValue) {
         this.$amap.setLimitBounds(this.bounds)
       } else {
-        this.$amap.clearLimitBound()
+        this.$amap.clearLimitBounds()
+        console.log(this.bounds)
       }
     }
   },

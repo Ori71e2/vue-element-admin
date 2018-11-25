@@ -7,7 +7,7 @@
             <sketch-color-picker v-model="colors" :preset-colors="presetColors" />
           </el-col>
           <el-col >
-            <el-switch :inactive-value="true" :active-value="false" v-model="lockBounds" active-color="#dcdcdc" inactive-color="#13ce66" inactive-text="开启限制" class="el-switch" />
+            <el-switch :inactive-value="true" :active-value="false" v-model="lockBounds" active-color="#dcdcdc" inactive-color="#13ce66" inactive-text="开启视图限制" class="el-switch" />
           </el-col>
         </el-row>
       </div>
@@ -26,9 +26,6 @@ import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 import customAmapLimitDisplay from '../amap-custom/LimitDisplay'
 import customAmapLockBounds from '../amap-custom/LockBounds'
 import { Sketch } from 'vue-color'
-import Vue from 'vue'
-import VueClipboard from 'vue-clipboard2'
-Vue.use(VueClipboard)
 
 export default {
   components: {

@@ -6,18 +6,17 @@ import { createCustomComponent } from 'vue-amap'
 const customAmapLimitDispaly = createCustomComponent({
   name: 'custom-amap-limit-display',
   props: {
-    color: {
-      type: String,
-      default: '#000000'
-    },
     opacity: {
       type: Number,
       default: 0.65
+    },
+    color: {
+      type: String,
+      default: '#000000'
     }
   },
   data() {
     return {
-      id: `custom-componet-input-${Math.random()}`,
       districtExplorer: null,
       polygon: null
     }
@@ -28,25 +27,44 @@ const customAmapLimitDispaly = createCustomComponent({
         this.districtExplorer = new DistrictExplorer({
           map: map
         })
-        console.log(this)
         this.initPage()
-        resolve(this.districtExplorer)
+        // 不能resolve出districtExplorer，不是高德地图实例
+        // resolve(this.districtExplorer)
+        resolve(this.polygon)
       })
     })
   },
   contextReady() {
   },
-  mounted: () => {
+  handlers: {
+    color() {},
+    opacity() {},
+    options() {}
   },
   watch: {
-    color(newValue) {
-      this.polygon.setOptions({ fillColor: newValue })
+    color(newValue, oldValue) {
+      console.log(this.polygon)
+      const polygonOptions = this.polygon.getOptions()
+      polygonOptions.fillColor = newValue
+      try {
+        this.polygon.setOptions(polygonOptions)
+      } catch (err) {
+        return
+      }
     },
-    opacity(newValue) {
+    opacity(newValue, oldValue) {
       if (newValue >= 0 && newValue <= 1) {
-        this.polygon.setOptions({ fillOpacity: newValue })
+        const polygonOptions = this.polygon.getOptions()
+        polygonOptions.fillOpacity = newValue
+        try {
+          this.polygon.setOptions(polygonOptions)
+        } catch (err) {
+          return
+        }
       }
     }
+  },
+  mounted: () => {
   },
   methods: {
     initPage() {
@@ -105,14 +123,14 @@ const customAmapLimitDispaly = createCustomComponent({
     },
     getAllRings(feature) {
       var coords = feature.geometry.coordinates
-      console.log('coords')
-      console.log(coords)
+      // console.log('coords')
+      // console.log(coords)
       var rings = []
       for (let i = 0, len = coords.length; i < len; i++) {
         rings.push(coords[i][0])
       }
-      console.log('rings')
-      console.log(rings)
+      // console.log('rings')
+      // console.log(rings)
       return rings
     },
     getLongestRing(feature) {
@@ -120,8 +138,8 @@ const customAmapLimitDispaly = createCustomComponent({
       rings.sort(function(a, b) {
         return b.length - a.length
       })
-      console.log('rings[0]')
-      console.log(rings[0])
+      // console.log('rings[0]')
+      // console.log(rings[0])
       return rings[0]
     }
   }
