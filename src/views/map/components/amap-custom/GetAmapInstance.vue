@@ -7,16 +7,17 @@ const getAmapInstance = createCustomComponent({
   name: 'get-amap-instance',
   data() {
     return {
-      'amap': null
+      'amap': null,
+      marker: null
     }
   },
   init(options, map) {
-    var marker = new window.AMap.Marker({
+    this.marker = new window.AMap.Marker({
       position: [121.59996, 31.177646]
     })
     this.amap = this.$amap
     this.$emit('get-amap-instance', this.amap)
-    return marker
+    return this.marker
   },
   mounted: () => {
   },

@@ -1,7 +1,10 @@
 <template>
+  <div/>
+<!--
   <div>
     <el-amap-marker :position="position" :events="marker.events" vid="component-marker" />
   </div>
+-->
 </template>
 <script>
 import CONSTANTS from '../utils/constant'

@@ -18,7 +18,8 @@ const customAmapLimitDispaly = createCustomComponent({
   data() {
     return {
       districtExplorer: null,
-      polygon: null
+      polygon: null,
+      marker: null
     }
   },
   init(options, map) {
@@ -28,39 +29,32 @@ const customAmapLimitDispaly = createCustomComponent({
           map: map
         })
         this.initPage()
+        this.marker = new window.AMap.Marker({
+          position: [121.59996, 31.177646]
+        })
+        this.amap = this.$amap
         // 不能resolve出districtExplorer，不是高德地图实例
+        // 此处也不能resolve(this.polygon),会有一个bug,目前推断为polygon属性setOptions与vue-amap有冲突
         // resolve(this.districtExplorer)
-        resolve(this.polygon)
+        // resolve(this.polygon)
+        resolve(this.marker)
       })
     })
   },
   contextReady() {
-  },
-  handlers: {
-    color() {},
-    opacity() {},
-    options() {}
   },
   watch: {
     color(newValue, oldValue) {
       console.log(this.polygon)
       const polygonOptions = this.polygon.getOptions()
       polygonOptions.fillColor = newValue
-      try {
-        this.polygon.setOptions(polygonOptions)
-      } catch (err) {
-        return
-      }
+      this.polygon.setOptions(polygonOptions)
     },
     opacity(newValue, oldValue) {
       if (newValue >= 0 && newValue <= 1) {
         const polygonOptions = this.polygon.getOptions()
         polygonOptions.fillOpacity = newValue
-        try {
-          this.polygon.setOptions(polygonOptions)
-        } catch (err) {
-          return
-        }
+        this.polygon.setOptions(polygonOptions)
       }
     }
   },

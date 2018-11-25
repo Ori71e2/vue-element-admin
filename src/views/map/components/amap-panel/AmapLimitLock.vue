@@ -21,7 +21,6 @@
 </template>
 
 <script>
-// import customAmapCenter from '../amap-custom/Center'
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 import customAmapLimitDisplay from '../amap-custom/LimitDisplay'
 import customAmapLockBounds from '../amap-custom/LockBounds'
@@ -52,9 +51,9 @@ export default {
   },
   watch: {
     colors() {
-      console.log(this.colors)
-      console.log(this.colors.hex)
-      console.log(this.colors.a)
+      // console.log(this.colors)
+      // console.log(this.colors.hex)
+      // console.log(this.colors.a)
       return this.colors.hex
     }
   },
