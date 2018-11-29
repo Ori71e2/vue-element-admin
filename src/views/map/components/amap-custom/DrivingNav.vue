@@ -6,32 +6,32 @@
 import { createCustomComponent } from 'vue-amap'
 const customAmapDrivingNav = createCustomComponent({
   props: {
-    'originX': {
+    originX: {
       type: Number
     },
-    'originY': {
+    originY: {
       type: Number
     },
-    'destinationX': {
+    destinationX: {
       type: Number
     },
-    'destinationY': {
+    destinationY: {
       type: Number
     },
-    'panelId': {
+    panelId: {
       // 此处只能将这两种类型同时写上，否则报错
       type: String | HTMLDivElement,
       default: null
     },
-    'panelShow': {
+    panelShow: {
       type: Boolean,
       default: true
     },
-    'drivingSearch': {
+    drivingSearch: {
       type: Boolean,
       default: false
     },
-    'drivingClear': {
+    drivingClear: {
       type: Boolean,
       default: false
     }

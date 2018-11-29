@@ -7,11 +7,11 @@ import { createCustomComponent } from 'vue-amap'
 const customAmapGeolocation = createCustomComponent({
   name: 'custom-amap-geolocation',
   props: {
-    'showMarker': {
+    showMarker: {
       type: Boolean,
       default: true
     },
-    'markerContent': {
+    markerContent: {
       type: String,
       default: ''
     }

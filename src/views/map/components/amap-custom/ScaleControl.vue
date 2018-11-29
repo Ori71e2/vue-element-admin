@@ -8,7 +8,7 @@ import { createCustomComponent } from 'vue-amap'
 const customAmapScaleControl = createCustomComponent({
   name: 'custom-amap-scale-control',
   props: {
-    'showScale': {
+    showScale: {
       Boolean,
       default: false
     }

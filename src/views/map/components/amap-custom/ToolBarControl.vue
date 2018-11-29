@@ -7,15 +7,15 @@ import { createCustomComponent } from 'vue-amap'
 
 const customAmapToolBarControl = createCustomComponent({
   props: {
-    'showToolBar': {
+    showToolBar: {
       Boolean,
       default: false
     },
-    'showToolBarDirection': {
+    showToolBarDirection: {
       Boolean,
       default: false
     },
-    'showToolBarRuler': {
+    showToolBarRuler: {
       Boolean,
       default: false
     }

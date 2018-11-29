@@ -7,7 +7,7 @@ const getAmapInstance = createCustomComponent({
   name: 'get-amap-instance',
   data() {
     return {
-      'amap': null,
+      amap: null,
       marker: null
     }
   },
