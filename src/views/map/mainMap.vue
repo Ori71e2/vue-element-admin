@@ -12,6 +12,7 @@
           <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
           <el-col :span="6"><amap-select-poi :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
           <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" :select-poi="selectPoi" /></el-col>
+          <el-col :span="4"><amap-geometry :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
         </el-row>
       </div>
       <amap-geolocation :amap-instance="amapInstance" />
@@ -30,6 +31,7 @@ import amapGeolocation from './components/amap-panel/AmapGeolocation'
 import amapSelectPoi from './components/amap-panel/AmapSelectPoi'
 import amapDrivingNav from './components/amap-panel/AmapDrivingNav'
 import amapLimitLock from './components/amap-panel/AmapLimitLock'
+import amapGeometry from './components/amap-panel/AmapGeometry'
 import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
@@ -46,7 +48,7 @@ VueAMap.initAMapApiLoader({
 export default {
   components: {
     customAmapSearchbox, customAmapSelectPoi, getAmapInstance,
-    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock
+    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock, amapGeometry
   },
   data() {
     return {

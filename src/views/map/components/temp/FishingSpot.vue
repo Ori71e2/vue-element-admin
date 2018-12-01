@@ -49,3 +49,17 @@ const customMapFishingSpotMarkers = createCustomComponent({
 })
 export default customMapFishingSpotMarkers
 </script>
+    this.marker1 = new window.AMap.Marker({
+      map: this.showMarker ? this.$amap : null,
+      draggable:true,
+      topWhenClick: true,
+      visible: this.showMarker,
+      position: new window.AMap.LngLat(origin.X, origin.Y)
+    })
+    this.marker2 = new window.AMap.Marker({
+      map: this.showMarker ? this.$amap : null,
+      draggable:true,
+      topWhenClick: true,
+      visible: this.showMarker,
+      position:new window.AMap.LngLat(destination.X, destination.Y)
+    })
