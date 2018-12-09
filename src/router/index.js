@@ -364,5 +364,25 @@ export const asyncRouterMap = [
     ]
   },
 
+  {
+    path: '/draggable',
+    component: Layout,
+    redirect: '/draggable/main-page',
+    name: 'Draggable',
+    alwaysShow: true,
+    meta: {
+      title: 'Draggable',
+      icon: 'draggable'
+    },
+    children: [
+      {
+        path: 'main-page',
+        component: () => import('@/views/draggable/mainPage'),
+        name: 'MainPage',
+        meta: { title: 'mainPage' }
+      }
+    ]
+  },
+
   { path: '*', redirect: '/404', hidden: true }
 ]
