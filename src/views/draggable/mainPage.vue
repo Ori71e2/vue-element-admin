@@ -18,20 +18,11 @@
         <div>
           <draggable v-model="list" :options="dragOptions" :move="onMove" class="list-group" element="ul" @start="isDragging=true" @end="isDragging=false">
             <transition-group :name="'flip-list'" type="transition">
-              <el-table :data="list">
-                <el-table-column
-                  prop="name"
-                  label="name"
-                  width="180"/>
-                <el-table-column
-                  prop="order"
-                  label="order"
-                  width="180"/>
-                <el-table-column
-                  prop="fixed"
-                  label="fixed"
-                  width="180"/>
-              </el-table>
+              <li v-for="element in list" :key="element.order" class="list-group-item">
+                <i :class="element.fixed? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'" aria-hidden="true" @click="element.fixed=! element.fixed"/>
+                {{ element.name }}
+                <span class="badge">{{ element.order }}</span>
+              </li>
             </transition-group>
           </draggable>
         </div>

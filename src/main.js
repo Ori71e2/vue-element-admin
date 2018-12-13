@@ -7,8 +7,11 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-import '@/styles/index.scss' // global css
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
+import '@/styles/index.scss' // global css
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -25,6 +28,8 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
 })
+
+Vue.use(Vuetify)
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
