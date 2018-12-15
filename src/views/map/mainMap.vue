@@ -97,9 +97,14 @@ export default {
 <style scoped>
 .amap-container {
   position: absolute;
+  /*
   width: 99%;
   height: 98%;
   margin: 0.5%;
+  */
+  width: 100%;
+  height: 100%;
+  padding: 5px;
 }
 
 .amap-wrapper {
