@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="draggable-container">
-      <el-card class="box-card card-header">
+      <el-card class="card-header">
         <div slot="header" class="clearfix">
           <div>
             <span>Sortable control</span>
@@ -15,19 +15,40 @@
         </div>
       </el-card>
       <el-row :gutter="20" type="flex" class="row-bg" style="margin-left: 0px; margin-right: 0px;">
-        <el-col :span="6">
+        <el-col :span="12">
           <div>
-            <draggable v-model="list" :options="dragOptions" :move="onMove" class="list-group" element="ul" @start="isDragging=true" @end="isDragging=false">
-              <transition-group :name="'flip-list'" type="transition">
-                <li v-for="element in list" :key="element.order" class="list-group-item">
-                  <i>
-                    <svg-icon v-show="element.fixed" icon-class="anchor" @click.native="element.fixed=! element.fixed" />
-                    <svg-icon v-show="!element.fixed" icon-class="pushpin" @click.native="element.fixed=! element.fixed" />
-                  </i>
-                  {{ element.name }}
-                  <span class="badge">{{ element.order }}</span>
-                </li>
-              </transition-group>
+            <draggable v-model="list1" :options="dragOptions" :move="onMove" :style="gridWrapper1" element="div" @start="isDragging=true" @end="isDragging=false">
+              <transition v-for="element in list1" :key="element.order" name="fade" >
+                <div class="list-group-item text-position">
+                  <el-card class="box-card">
+                    <i>
+                      <svg-icon v-show="element.fixed" icon-class="anchor" @click.native="element.fixed=! element.fixed" />
+                      <svg-icon v-show="!element.fixed" icon-class="pushpin" @click.native="element.fixed=! element.fixed" />
+                    </i>
+                    {{ element.name }}
+                    <span class="badge">{{ element.order }}</span>
+                  </el-card>
+                </div>
+              </transition>
+            </draggable>
+          </div>
+        </el-col>
+
+        <el-col :span="12">
+          <div>
+            <draggable v-model="list2" :options="dragOptions" :move="onMove" :style="gridWrapper2" element="div" @start="isDragging=true" @end="isDragging=false">
+              <transition v-for="element in list2" :key="element.order" name="fade" >
+                <div class="list-group-item text-position">
+                  <el-card class="box-card">
+                    <i>
+                      <svg-icon v-show="element.fixed" icon-class="anchor" @click.native="element.fixed=! element.fixed" />
+                      <svg-icon v-show="!element.fixed" icon-class="pushpin" @click.native="element.fixed=! element.fixed" />
+                    </i>
+                    {{ element.name }}
+                    <span class="badge">{{ element.order }}</span>
+                  </el-card>
+                </div>
+              </transition>
             </draggable>
           </div>
         </el-col>
@@ -55,7 +76,7 @@ export default {
   },
   data() {
     return {
-      list: message.map((name, index) => {
+      list1: message.map((name, index) => {
         return { name, order: index + 1, fixed: false }
       }),
       list2: [],
@@ -73,11 +94,22 @@ export default {
         ghostClass: 'ghost'
       }
     },
-    listString() {
-      return JSON.stringify(this.list, null, 2)
+    gridWrapper1() {
+      const count = this.count(this.list1)
+      console.log(count)
+      return {
+        display: 'grid',
+        gridTemplateColumns: '33% 33% 33%',
+        gridTemplateRows: '100px '.repeat(count / 3 + 1)
+      }
     },
-    list2String() {
-      return JSON.stringify(this.list2, null, 2)
+    gridWrapper2() {
+      const count = this.count(this.list2)
+      return {
+        display: 'grid',
+        gridTemplateColumns: '33% 33% 33%',
+        gridTemplateRows: '100px '.repeat(count / 3 + 1)
+      }
     }
   },
   watch: {
@@ -93,7 +125,7 @@ export default {
   },
   methods: {
     orderList() {
-      this.list = this.list.sort((one, two) => {
+      this.list1 = this.list1.sort((one, two) => {
         return one.order - two.order
       })
     },
@@ -104,8 +136,19 @@ export default {
         (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
       )
     },
-    iconalert() {
-      alert('xx')
+    count(o) {
+      const t = typeof o
+      if (t === 'string') {
+        return o.length
+      } else if (t === 'object') {
+        let n = 0
+        let i = null // eslint-disable-line no-unused-vars
+        for (i of o) {
+          n++
+        }
+        return n
+      }
+      return false
     }
   }
 }
@@ -123,7 +166,9 @@ export default {
 }
 .row-bg {
   margin: 10px 20px;
-  background-color: #dFFFFd;
+  background-color: #FFFFFd;
+  border-radius: 4px;
+  box-shadow: 0px 0px 2px #dddddd;
 }
 .bg-purple {
   background: #d3dce6;
@@ -155,5 +200,25 @@ export default {
   display: -webkit-flex;
   justify-content:center;
   display: -webkit-flex;
+}
+.grid-wrapper {
+  display: grid;
+  /*
+  grid-template-columns: 200px 200px 200px;
+  grid-template-rows: 100px 100px 100px;
+  */
+  grid-template-columns: 33% 33% 33%;
+  grid-template-rows: 100px 100px 100px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active 在低于版本 2.1.8 中 */ {
+  opacity: 0;
+}
+.box-card {
+  width: 90%;
+  height: 90%;
+  margin: 5%;
 }
 </style>
