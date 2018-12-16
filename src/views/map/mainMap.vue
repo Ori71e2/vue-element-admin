@@ -16,6 +16,7 @@
         </el-row>
       </div>
       <amap-geolocation :amap-instance="amapInstance" />
+      <amap-marker :amap-instance="amapInstance" />
       <div ref="drivingNavPanel" class="driving-nav-panel"/>
     </div>
   </div>
@@ -32,6 +33,7 @@ import amapSelectPoi from './components/amap-panel/AmapSelectPoi'
 import amapDrivingNav from './components/amap-panel/AmapDrivingNav'
 import amapLimitLock from './components/amap-panel/AmapLimitLock'
 import amapGeometry from './components/amap-panel/AmapGeometry'
+import amapMarker from './components/amap-panel/AmapMarker'
 import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
@@ -48,7 +50,7 @@ VueAMap.initAMapApiLoader({
 export default {
   components: {
     customAmapSearchbox, customAmapSelectPoi, getAmapInstance,
-    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock, amapGeometry
+    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock, amapGeometry, amapMarker
   },
   data() {
     return {
