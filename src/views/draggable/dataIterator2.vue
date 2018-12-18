@@ -15,30 +15,11 @@
         </div>
       </el-card>
       <el-row :gutter="20" type="flex" class="row-bg" style="margin-left: 0px; margin-right: 0px;">
-        <draggable :options="fatherDragOptions" :move="onMove" element="el-col" @start="fatherStart" @end="fatherEnd">
-          <el-col :span="12">
+        <draggable v-model="fatherList" :options="fatherDragOptions" :move="onMove" element="el-col" @start="fatherStart" @end="fatherEnd">
+          <el-col v-for="childElement in fatherList" :key="childElement.order" :span="12">
             <div>
-              <draggable v-model="list1" :options="childDragOptions" :move="onMove" :style="gridWrapper1" element="div" @start="childStart" @end="childEnd">
-                <transition v-for="element in list1" :key="element.order" name="fade" >
-                  <div class="list-group-item text-position">
-                    <el-card class="box-card">
-                      <i>
-                        <svg-icon v-show="element.fixed" icon-class="anchor" @click.native="element.fixed=! element.fixed" />
-                        <svg-icon v-show="!element.fixed" icon-class="pushpin" @click.native="element.fixed=! element.fixed" />
-                      </i>
-                      {{ element.name }}
-                      <span class="badge">{{ element.order }}</span>
-                    </el-card>
-                  </div>
-                </transition>
-              </draggable>
-            </div>
-          </el-col>
-
-          <el-col :span="12">
-            <div>
-              <draggable v-model="list2" :options="childDragOptions" :move="onMove" :style="gridWrapper2" element="div" @start="childStart" @end="childEnd">
-                <transition v-for="element in list2" :key="element.order" name="fade" >
+              <draggable v-model="childElement.list" :options="childDragOptions" :move="onMove" :style="gridWrapper2(childElement.list)" element="div" @start="childStart" @end="childEnd">
+                <transition v-for="element in childElement.list" :key="element.order" name="fade" >
                   <div class="list-group-item text-position">
                     <el-card class="box-card">
                       <i>
@@ -81,10 +62,18 @@ export default {
   },
   data() {
     return {
-      list1: message.map((name, index) => {
-        return { name, order: index + 1, fixed: false }
-      }),
-      list2: [],
+      fatherList: [
+        {
+          list: message.map((name, index) => {
+            return { name, order: index + 1, fixed: false }
+          }),
+          order: 1
+        },
+        {
+          list: [],
+          order: 2
+        }
+      ],
       groupList1: [],
       groupList2: [],
       editable: true,
@@ -110,32 +99,6 @@ export default {
         group: 'description',
         disabled: !this.fatherEditable,
         ghostClass: 'ghost'
-      }
-    },
-    gridWrapper1() {
-      const count = this.count(this.list1)
-      console.log(count)
-      return {
-        display: 'grid',
-        gridTemplateColumns: '33% 33% 33%',
-        gridTemplateRows: '100px '.repeat(count / 3 + 1)
-      }
-    },
-    gridWrapper2() {
-      const count = this.count(this.list2)
-      return {
-        display: 'grid',
-        gridTemplateColumns: '33% 33% 33%',
-        gridTemplateRows: '100px '.repeat(count / 3 + 1)
-      }
-    },
-    groupDridWrapper1() {
-      const count = this.count(this.list1)
-      console.log(count)
-      return {
-        display: 'grid',
-        gridTemplateColumns: '33% 33% 33%',
-        gridTemplateRows: '100px '.repeat(count / 3 + 1)
       }
     }
   },
@@ -174,6 +137,14 @@ export default {
     },
     childEnd() {
       this.fatherEditable = !this.fatherEditable
+    },
+    gridWrapper2(list) {
+      const count = this.count(list)
+      return {
+        display: 'grid',
+        gridTemplateColumns: '33% 33% 33%',
+        gridTemplateRows: '100px '.repeat(Math.ceil(count / 3) ? Math.ceil(count / 3) : 1) // 该处元素不能为空，否则无法拖拽进入新元素
+      }
     },
     count(o) {
       const t = typeof o

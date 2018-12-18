@@ -386,6 +386,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/draggable/dataIterator'),
         name: 'DataIterator',
         meta: { title: 'dataIterator' }
+      },
+      {
+        path: 'data-iterator2',
+        component: () => import('@/views/draggable/dataIterator2'),
+        name: 'DataIterator2',
+        meta: { title: 'dataIterator2' }
       }
     ]
   },
