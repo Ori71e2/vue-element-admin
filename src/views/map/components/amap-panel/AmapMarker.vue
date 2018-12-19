@@ -1,11 +1,14 @@
 <template>
   <div>
-    <el-amap-marker v-for="(marker, index) in markers" :key="marker.order" :ref="`polygon_${index}`" :position="marker.position" :events="marker.events" :visible="marker.visible" :draggable="marker.draggable" :ext-data="marker.order" :vid="index"/>
+    <el-amap-marker v-for="(marker, index) in markers" :key="marker.order" :ref="`polygon_${index}`" :position="marker.position" :events="marker.events" :visible="marker.visible" :draggable="marker.draggable" :ext-data="marker.order" :vid="index" :content-render="marker.contentRender" />
   </div>
 </template>
 <script>
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
-
+const exampleComponents = {
+  props: ['text'],
+  template: `<div><svg-icon icon-class="pushpin"/></div>`
+}
 export default {
   mixins: [spreadAmapInstance],
   data() {
@@ -25,7 +28,7 @@ export default {
           },
           visible: true,
           draggable: false,
-          template: '<span>1</span>',
+          contentRender: (h, instance) => h(exampleComponents, { props: { text: 'father is here' }}, ['xxxxxxx']),
           order: 1
         },
         {
@@ -41,7 +44,7 @@ export default {
           },
           visible: true,
           draggable: false,
-          template: '<span>1</span>',
+          contentRender: (h, instance) => h(exampleComponents, { style: { backgroundColor: '#fff' }, props: { text: 'father is here' }}, ['xxxxxxx']),
           order: 2
         }
       ]
