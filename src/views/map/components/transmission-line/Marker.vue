@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      <svg-icon icon-class="pushpin"/>
+    <div class="blend">
+      <svg-icon-mul icon-class="pushpin"/>
     </div>
     <div>
       {{ text }}
@@ -10,7 +10,11 @@
 </template>
 
 <script>
+import svgIconMul from '../transmission-line-components/SvgIconMul'
 export default {
+  components: {
+    svgIconMul
+  },
   props: {
     text: {
       type: String,
@@ -23,3 +27,6 @@ export default {
   }
 }
 </script>
+<style scoped>
+
+</style>

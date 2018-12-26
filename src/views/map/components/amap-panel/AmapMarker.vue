@@ -32,7 +32,7 @@ export default {
           },
           visible: true,
           draggable: false,
-          contentRender: (h, instance) => h(marker, { props: { text: this.text }}, ['xxxxxxx']),
+          contentRender: (h, instance) => h(marker, { props: { text: this.text }}),
           order: 1
         },
         {
@@ -48,7 +48,8 @@ export default {
           },
           visible: true,
           draggable: false,
-          contentRender: (h, instance) => h(marker, { style: { backgroundColor: '#fff' }, props: { text: this.text }}, ['xxxxxxx']),
+          // contentRender: (h, instance) => h(marker, { style: { backgroundColor: '#fff' }, props: { text: this.text }}, ['xxxxxxx']),
+          contentRender: (h, instance) => h(marker, { props: { text: this.text }}),
           order: 2
         }
       ],
