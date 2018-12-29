@@ -1,19 +1,20 @@
 <template>
   <svg :class="svgClass" aria-hidden="true">
     <!-- <use :xlink:href="iconName" filter="url(#spotlight)"/> -->
-    <defs>
-      <!-- <filter id="spotlight">
+    <use :xlink:href="iconName"/>
+    <!-- <defs>
+      <filter id="spotlight">
         <feFlood result="floodFill" x="0" y="0" width="100%" height="50%" transform="translate(0 15)" flood-color="green" flood-opacity="1"/>
         <feBlend in="SourceGraphic" in2="floodFill" mode="multiply"/>
-      </filter> -->
+      </filter>
       <mask id="redmask" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox">
         <rect x="0" y="0" width="1" height="0.5" style="fill: #fff;"/>
         <rect x="0" y="0.5" width="1" height="0.5" style="fill: #00f;"/>
       </mask>
-    </defs>
-    <g style="mask: url(#redmask)">
+    </defs> -->
+    <!-- <g style="mask: url(#redmask)">
       <circle cx="15" cy="15" r="15" style="fill: red;" />
-    </g>
+    </g> -->
   </svg>
 </template>
 

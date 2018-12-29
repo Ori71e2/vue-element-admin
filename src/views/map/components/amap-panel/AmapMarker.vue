@@ -5,14 +5,14 @@
 </template>
 <script>
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
-import marker from '../transmission-line/Marker'
+import markerExp from '../transmission-line/MarkerExp'
 // const exampleComponents = {
 //   props: ['text'],
 //   template: `<div><svg-icon icon-class="pushpin"/>{{ text }}</div>`
 // }
 export default {
   components: {
-    marker
+    markerExp
   },
   mixins: [spreadAmapInstance],
   data() {
@@ -32,7 +32,7 @@ export default {
           },
           visible: true,
           draggable: false,
-          contentRender: (h, instance) => h(marker, { props: { text: this.text }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: this.text }}),
           order: 1
         },
         {
@@ -49,7 +49,7 @@ export default {
           visible: true,
           draggable: false,
           // contentRender: (h, instance) => h(marker, { style: { backgroundColor: '#fff' }, props: { text: this.text }}, ['xxxxxxx']),
-          contentRender: (h, instance) => h(marker, { props: { text: this.text }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: this.text }}),
           order: 2
         }
       ],
