@@ -3,8 +3,8 @@
 </template>
 <script>
 import { createCustomComponent } from 'vue-amap'
-const getAmapInstance = createCustomComponent({
-  name: 'get-amap-instance',
+const getAmapZoom = createCustomComponent({
+  name: 'get-amap-zoom',
   data() {
     return {
       amap: null,
@@ -16,7 +16,7 @@ const getAmapInstance = createCustomComponent({
       position: [0, 0]
     })
     this.amap = this.$amap
-    this.$emit('get-amap-instance', this.amap)
+    this.$emit('get-amap-zoom', this.amap)
     return this.marker
   },
   mounted: () => {
@@ -24,5 +24,5 @@ const getAmapInstance = createCustomComponent({
   contextReady() {
   }
 })
-export default getAmapInstance
+export default getAmapZoom
 </script>

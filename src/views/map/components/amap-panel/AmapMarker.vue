@@ -15,6 +15,12 @@ export default {
     markerExp
   },
   mixins: [spreadAmapInstance],
+  props: {
+    zoom: {
+      type: Number,
+      default: 0
+    }
+  },
   data() {
     return {
       markers: [
@@ -32,7 +38,7 @@ export default {
           },
           visible: true,
           draggable: false,
-          contentRender: (h, instance) => h(markerExp, { props: { text: this.text }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: this.text, zoom: this.zoom }}),
           order: 1
         },
         {
@@ -49,7 +55,7 @@ export default {
           visible: true,
           draggable: false,
           // contentRender: (h, instance) => h(marker, { style: { backgroundColor: '#fff' }, props: { text: this.text }}, ['xxxxxxx']),
-          contentRender: (h, instance) => h(markerExp, { props: { text: this.text }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: 'xxxxxxxxxxxxxxxxxxx' }}),
           order: 2
         }
       ],

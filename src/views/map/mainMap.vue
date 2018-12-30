@@ -3,6 +3,7 @@
     <div class="amap-wrapper">
       <el-amap :vid="'amap-vue'" class="amap-box">
         <get-amap-instance @get-amap-instance="setAmapInstance"/>
+        <get-amap-zoom @get-amap-zoom="setAmapZoom"/>
         <custom-amap-select-poi @get-select-position="setSelectPoi" />
         <custom-amap-searchbox @select="selectSearch" />
       </el-amap>
@@ -16,7 +17,7 @@
         </el-row>
       </div>
       <amap-geolocation :amap-instance="amapInstance" />
-      <amap-marker :amap-instance="amapInstance" />
+      <amap-marker :amap-instance="amapInstance" :zoom="amapZoom"/>
       <div ref="drivingNavPanel" class="driving-nav-panel"/>
     </div>
   </div>
@@ -24,6 +25,7 @@
 
 <script>
 import getAmapInstance from './components/amap-custom/GetAmapInstance'
+import getAmapZoom from './components/amap-custom/GetAmapZoom'
 import customAmapSearchbox from './components/amap-custom/Search'
 import customAmapSelectPoi from './components/amap-custom/SelectPoi'
 
@@ -49,12 +51,13 @@ VueAMap.initAMapApiLoader({
 
 export default {
   components: {
-    customAmapSearchbox, customAmapSelectPoi, getAmapInstance,
+    customAmapSearchbox, customAmapSelectPoi, getAmapInstance, getAmapZoom,
     amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock, amapGeometry, amapMarker
   },
   data() {
     return {
       amapInstance: null,
+      amapZoom: 0,
       panelId: '',
       selectPoi: null,
       position: [118.716184, 33.720615],
@@ -88,6 +91,9 @@ export default {
       // console.log('get amap instance')
       // console.log(amap)
       this.amapInstance = amap
+    },
+    setAmapZoom(zoom) {
+      this.amapZoom = zoom
     },
     setSelectPoi(poi) {
       this.selectPoi = poi
