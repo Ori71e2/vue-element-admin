@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="adap-svg">
-      <svg-icon-exp icon-class="pushpin"/>
+      <svg-icon-exp icon-class="towerCrane"/>
     </div>
     <!-- <div class="adap-text adap-font text-label">
       <p class="no-break">{{ text }}</p>
