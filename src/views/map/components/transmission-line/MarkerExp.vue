@@ -9,16 +9,17 @@
         <el-button slot="reference">{{ text }}</el-button>
       </el-popover>
     </div> -->
-    <!-- <div>
+    <div class="center">
       <el-popover placement="top-start" title="标题" trigger="hover" content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-        <el-button slot="reference" class="el-button-exp" size="mini"><span class="adap-font">{{ text }}</span></el-button>
+        <el-button slot="reference" :style="elButtonVal()" class="el-button-exp" size="mini">{{ text }}</el-button>
       </el-popover>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
-import svgIconExp from '../transmission-line-components/SvgIconExp'
+import svgIconExp from './components/SvgIconExp'
+import CONSTANTS from '../utils/constant'
 export default {
   components: {
     svgIconExp
@@ -31,44 +32,47 @@ export default {
     zoom: {
       type: Number,
       default: 0
+    },
+    voltageClass: {
+      type: Number,
+      default: 35
     }
   },
   data() {
     return {
+    }
+  },
+  methods: {
+    elButtonVal() {
+      let color = '#FF0'
+      console.log(CONSTANTS.LINE_110_COLOR)
+      if (this.voltageClass === 110) {
+        color = CONSTANTS.LINE_110_COLOR
+        console.log(this.voltageClass)
+      } else if (this.voltageClass === 220) {
+        color = CONSTANTS.LINE_220_COLOR
+      }
+      return {
+        'color': color,
+        'border-color': color
+      }
     }
   }
 }
 </script>
 <style scoped>
 .adap-svg {
-  width: 1px;
-  height: 1px;
+  width: 30px;
+  height: 30px;
 }
-.adap-text {
-  /* width: auto; */
-  display: inline-block !important;
-  display: inline;
-  /* height: 30px; */
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
 }
-.adap-font {
-  font-size: 0.1px;
-}
-.no-break {
-  display: inline-block;
-  white-space: nowrap;
-  width: 100%;
-  line-height: 9px;
-  min-height: 1px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.text-label {
-  border-width: 1;
-  border-style: solid;
-  border-color: #F00;
-}
+
 .el-button-exp {
-  padding: 6px 10px;
+  padding: 6px 6px;
   font-size: 5px;
   border-radius: 4px;
 }
@@ -77,7 +81,7 @@ export default {
   line-height: 0.5;
   white-space: nowrap;
   cursor: pointer;
-  background: #fff;
+  background:rgba(0,0,0,0);
   border: 1px solid #dcdfe6;
   color: #606266;
   -webkit-appearance: none;
@@ -92,5 +96,7 @@ export default {
   padding: 7px 15px;
   font-size: 5px;
   border-radius: 4px;
+  border-width: 1;
+  border-style: solid;
 }
 </style>

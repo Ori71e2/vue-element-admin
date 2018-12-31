@@ -38,7 +38,7 @@ export default {
           },
           visible: true,
           draggable: false,
-          contentRender: (h, instance) => h(markerExp, { props: { text: this.text, zoom: this.zoom }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: this.text, zoom: this.zoom, 'voltage-class': 110 }}),
           order: 1
         },
         {
