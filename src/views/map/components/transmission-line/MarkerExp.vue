@@ -10,7 +10,14 @@
       </el-popover>
     </div> -->
     <div class="center">
-      <el-popover placement="top-start" title="标题" trigger="hover" content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+      <el-popover placement="bottom" title="标题" trigger="click">
+        <div>
+          <p>这是一段内容这是一段内容确定删除吗？</p>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
+            <el-button type="primary" size="mini" @click="visible2 = false">确定</el-button>
+          </div>
+        </div>
         <el-button slot="reference" :style="elButtonVal()" class="el-button-exp" size="mini">{{ text }}</el-button>
       </el-popover>
     </div>
@@ -29,6 +36,10 @@ export default {
       type: String,
       default: ''
     },
+    type: {
+      type: Number,
+      default: 0
+    },
     zoom: {
       type: Number,
       default: 0
@@ -40,6 +51,7 @@ export default {
   },
   data() {
     return {
+      visible2: false
     }
   },
   methods: {
