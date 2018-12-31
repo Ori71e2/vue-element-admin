@@ -8,6 +8,7 @@ const getAmapZoom = createCustomComponent({
   data() {
     return {
       amap: null,
+      amapZoom: 0,
       marker: null
     }
   },
@@ -16,7 +17,8 @@ const getAmapZoom = createCustomComponent({
       position: [0, 0]
     })
     this.amap = this.$amap
-    this.$emit('get-amap-zoom', this.amap)
+    this.amapZoom = this.amap.getZoom()
+    this.$emit('get-amap-zoom', this.amapZoom)
     return this.marker
   },
   mounted: () => {

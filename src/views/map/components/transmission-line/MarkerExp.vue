@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="adap-svg">
-      <svg-icon-exp icon-class="towerCrane"/>
+      <svg-icon-exp icon-class="mapTowerCrane"/>
     </div>
     <!-- <div class="adap-text adap-font text-label">
       <p class="no-break">{{ text }}</p>
@@ -9,11 +9,11 @@
         <el-button slot="reference">{{ text }}</el-button>
       </el-popover>
     </div> -->
-    <div>
+    <!-- <div>
       <el-popover placement="top-start" title="标题" trigger="hover" content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
         <el-button slot="reference" class="el-button-exp" size="mini"><span class="adap-font">{{ text }}</span></el-button>
       </el-popover>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -41,8 +41,8 @@ export default {
 </script>
 <style scoped>
 .adap-svg {
-  width: 30px;
-  height: 30px;
+  width: 1px;
+  height: 1px;
 }
 .adap-text {
   /* width: auto; */

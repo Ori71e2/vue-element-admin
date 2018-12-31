@@ -352,8 +352,7 @@ export const asyncRouterMap = [
     alwaysShow: true,
     meta: {
       title: 'Map',
-      icon: 'map',
-      keepAlive: true
+      icon: 'map'
     },
     children: [
       {
@@ -361,8 +360,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/map/mainMap'),
         name: 'MainMap',
         meta: {
-          title: 'mainMap',
-          keepAlive: true
+          title: 'mainMap'
         }
       }
     ]

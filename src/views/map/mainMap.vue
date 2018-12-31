@@ -40,16 +40,21 @@ import VueAMap from 'vue-amap'
 
 import Vue from 'vue'
 Vue.use(VueAMap)
-VueAMap.initAMapApiLoader({
-  center: [118.716184, 33.720615],
-  resizeEnable: true,
-  zoom: 13,
-  // 高德key
-  key: '4e4c8706ad7f1d468011d7b1d2340bf2',
-  uiVersion: '1.0.11'
-})
+if (!window.amap) {
+  VueAMap.initAMapApiLoader({
+    center: [118.716184, 33.720615],
+    resizeEnable: true,
+    zoom: 13,
+    // 高德key
+    key: '4e4c8706ad7f1d468011d7b1d2340bf2',
+    uiVersion: '1.0.11'
+  })
+  console.log('xx')
+}
 
 export default {
+  // 一定要与名字，否则无法缓存
+  name: 'MainMap',
   components: {
     customAmapSearchbox, customAmapSelectPoi, getAmapInstance, getAmapZoom,
     amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock, amapGeometry, amapMarker
@@ -66,16 +71,15 @@ export default {
   },
   mounted() {
     this.panelId = this.$refs.drivingNavPanel
+    console.log('first')
   },
   methods: {
     setAmapValue() {
       // console.log('loaded')
     },
     selectSearch(poi) {
-      console.log(poi)
       const { location, name, adcode, district, address } = poi
       const center = [location.lng, location.lat]
-      console.log(center)
       this.selectMarker = {
         label: { content: `<div>
           <div>${name}</div>
@@ -88,8 +92,6 @@ export default {
       this.center = center
     },
     setAmapInstance(amap) {
-      // console.log('get amap instance')
-      // console.log(amap)
       this.amapInstance = amap
     },
     setAmapZoom(zoom) {
