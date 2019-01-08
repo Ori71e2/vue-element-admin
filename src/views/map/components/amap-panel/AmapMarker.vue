@@ -55,7 +55,7 @@ export default {
           visible: true,
           draggable: false,
           // contentRender: (h, instance) => h(marker, { style: { backgroundColor: '#fff' }, props: { text: this.text }}, ['xxxxxxx']),
-          contentRender: (h, instance) => h(markerExp, { props: { text: 'xxxxxxxxxxxxxxxxxxx' }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: 'xxxxxxxxxxxxxxxxxxx', zoom: this.zoom }}),
           order: 2
         }
       ],

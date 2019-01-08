@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="adap-svg">
-      <svg-icon-exp icon-class="mapTowerCrane"/>
+    <div>
+      <svg-icon-exp :style-name="changeByZoom()" icon-class="mapTowerCrane"/>
     </div>
     <!-- <div class="adap-text adap-font text-label">
       <p class="no-break">{{ text }}</p>
@@ -9,7 +9,7 @@
         <el-button slot="reference">{{ text }}</el-button>
       </el-popover>
     </div> -->
-    <div class="center">
+    <div :style="buttonDisplay()" class="center">
       <el-popover placement="bottom" title="标题" trigger="click">
         <div>
           <p>这是一段内容这是一段内容确定删除吗？</p>
@@ -18,7 +18,7 @@
             <el-button type="primary" size="mini" @click="visible2 = false">确定</el-button>
           </div>
         </div>
-        <el-button slot="reference" :style="elButtonVal()" class="el-button-exp" size="mini">{{ text }}</el-button>
+        <el-button slot="reference" :style="elButtonStyle()" class="el-button-exp" size="mini">{{ text }}</el-button>
       </el-popover>
     </div>
   </div>
@@ -54,8 +54,13 @@ export default {
       visible2: false
     }
   },
+  watch: {
+    zoom(val) {
+      // this.changeByZoom(val)
+    }
+  },
   methods: {
-    elButtonVal() {
+    elButtonStyle() {
       let color = '#FF0'
       console.log(CONSTANTS.LINE_110_COLOR)
       if (this.voltageClass === 110) {
@@ -68,21 +73,64 @@ export default {
         'color': color,
         'border-color': color
       }
+    },
+    buttonDisplay() {
+      if (this.zoom <= 12) {
+        return {
+          'display': 'none'
+        }
+      } else {
+        return {
+        }
+      }
+    },
+    changeByZoom() {
+      if (this.zoom <= 8) {
+        return {
+          'width': '0px',
+          'height': '0px'
+        }
+      } else if (this.zoom <= 9) {
+        return {
+          'width': '5px',
+          'height': '5px'
+        }
+      } else if (this.zoom <= 10) {
+        return {
+          'width': '7px',
+          'height': '7px'
+        }
+      } else if (this.zoom <= 12) {
+        return {
+          'width': '12px',
+          'height': '12px'
+        }
+      } else if (this.zoom <= 13) {
+        return {
+          'width': '20px',
+          'height': '20px'
+        }
+      } else if (this.zoom <= 15) {
+        return {
+          'width': '30px',
+          'height': '30px'
+        }
+      } else if (this.zoom <= 17) {
+        return {
+          'width': '40px',
+          'height': '40px'
+        }
+      }
     }
   }
 }
 </script>
 <style scoped>
-.adap-svg {
-  width: 30px;
-  height: 30px;
-}
 .center {
   position: absolute;
   left: 50%;
   transform: translate(-50%);
 }
-
 .el-button-exp {
   padding: 6px 6px;
   font-size: 5px;
@@ -106,7 +154,7 @@ export default {
   transition: .1s;
   font-weight: 500;
   padding: 7px 15px;
-  font-size: 5px;
+  font-size: 1px;
   border-radius: 4px;
   border-width: 1;
   border-style: solid;

@@ -88,7 +88,6 @@ export default {
           <div>${address}</div>
         </div>`, offset: [20, 20] }, position: [...center]
       }
-      // console.log(this.selectMarker)
       this.center = center
     },
     setAmapInstance(amap) {

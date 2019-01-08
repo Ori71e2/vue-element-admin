@@ -13,13 +13,12 @@ const getAmapZoom = createCustomComponent({
     }
   },
   init(options, map) {
-    this.marker = new window.AMap.Marker({
-      position: [0, 0]
-    })
     this.amap = this.$amap
-    this.amapZoom = this.amap.getZoom()
-    this.$emit('get-amap-zoom', this.amapZoom)
-    return this.marker
+    this.zoomEndListener = window.AMap.event.addListener(this.$amap, 'zoomend', function() {
+      this.amapZoom = this.amap.getZoom()
+      this.$emit('get-amap-zoom', this.amapZoom)
+    }, this)
+    return this.zoomEndListener
   },
   mounted: () => {
   },

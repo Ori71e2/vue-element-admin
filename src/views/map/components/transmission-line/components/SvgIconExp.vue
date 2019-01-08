@@ -1,5 +1,5 @@
 <template>
-  <svg :class="svgClass" aria-hidden="true">
+  <svg :class="svgClass" :style="svgStyle" aria-hidden="true">
     <!-- <use :xlink:href="iconName" filter="url(#spotlight)"/> -->
     <use :xlink:href="iconName"/>
     <!-- <defs>
@@ -29,6 +29,12 @@ export default {
     className: {
       type: String,
       default: ''
+    },
+    styleName: {
+      type: Object,
+      default: function() {
+        return {}
+      }
     }
   },
   computed: {
@@ -41,6 +47,9 @@ export default {
       } else {
         return 'svg-icon'
       }
+    },
+    svgStyle() {
+      return this.styleName
     }
   }
 }
@@ -48,10 +57,9 @@ export default {
 
 <style scoped>
 .svg-icon {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   vertical-align: -4.5px;
-  fill: currentColor;
   overflow: hidden;
 }
 </style>
