@@ -1,5 +1,5 @@
 const CodeToName = {
-  
+
 }
 class SICToSvgName {
   constructor(code) {
