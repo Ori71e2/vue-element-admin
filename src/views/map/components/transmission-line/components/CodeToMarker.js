@@ -1,9 +1,11 @@
-
-class CodeToMarker {
+const CodeToName = {
+  
+}
+class SICToSvgName {
   constructor(code) {
     this.code = code
   }
-  static searchByCode(code) {
+  search(code) {
 
   }
 }

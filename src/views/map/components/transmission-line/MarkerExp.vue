@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <svg-icon-exp :style-name="changeByZoom()" icon-class="mapTowerCrane"/>
+      <svg-icon-exp :style-name="svgStyle" icon-class="mapTowerCrane"/>
     </div>
     <!-- <div class="adap-text adap-font text-label">
       <p class="no-break">{{ text }}</p>
@@ -9,7 +9,7 @@
         <el-button slot="reference">{{ text }}</el-button>
       </el-popover>
     </div> -->
-    <div :style="buttonDisplay()" class="center">
+    <div :style="buttonShow" class="center">
       <el-popover placement="bottom" title="标题" trigger="click">
         <div>
           <p>这是一段内容这是一段内容确定删除吗？</p>
@@ -18,7 +18,7 @@
             <el-button type="primary" size="mini" @click="visible2 = false">确定</el-button>
           </div>
         </div>
-        <el-button slot="reference" :style="elButtonStyle()" class="el-button-exp" size="mini">{{ text }}</el-button>
+        <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini">{{ text }}</el-button>
       </el-popover>
     </div>
   </div>
@@ -36,13 +36,13 @@ export default {
       type: String,
       default: ''
     },
-    type: {
-      type: Number,
-      default: 0
+    svgIconCode: {
+      type: String,
+      default: ''
     },
     zoom: {
       type: Number,
-      default: 0
+      default: 14
     },
     voltageClass: {
       type: Number,
@@ -51,76 +51,89 @@ export default {
   },
   data() {
     return {
+      svgStyle: {
+        'width': '5px',
+        'height': '5px'
+      },
+      buttonShow: {
+        'display': 'none'
+      },
       visible2: false
     }
   },
   watch: {
+    svgIconCode(val) {
+      this.SICToSvgName(val)
+    },
     zoom(val) {
-      // this.changeByZoom(val)
+      this.changeSvgStyle(val)
+      this.showButton(val)
+    },
+    voltageClass(val) {
+      this.changeButtonStyle(val)
     }
   },
   methods: {
-    elButtonStyle() {
+    changeButtonStyle(val) {
       let color = '#FF0'
-      console.log(CONSTANTS.LINE_110_COLOR)
-      if (this.voltageClass === 110) {
+      if (val === 110) {
         color = CONSTANTS.LINE_110_COLOR
-        console.log(this.voltageClass)
-      } else if (this.voltageClass === 220) {
+      } else if (val === 220) {
         color = CONSTANTS.LINE_220_COLOR
       }
-      return {
+      this.buttonStyle = {
         'color': color,
         'border-color': color
       }
     },
-    buttonDisplay() {
-      if (this.zoom <= 12) {
-        return {
+    showButton(val) {
+      let style = {}
+      if (val <= 12) {
+        style = {
           'display': 'none'
         }
-      } else {
-        return {
-        }
       }
+      this.buttonShow = style
     },
-    changeByZoom() {
-      if (this.zoom <= 8) {
-        return {
+    changeSvgStyle(val) {
+      let style = {}
+      if (val <= 8) {
+        style = {
           'width': '0px',
           'height': '0px'
         }
-      } else if (this.zoom <= 9) {
-        return {
+      } else if (val <= 9) {
+        style = {
           'width': '5px',
           'height': '5px'
         }
-      } else if (this.zoom <= 10) {
-        return {
+      } else if (val <= 10) {
+        style = {
           'width': '7px',
           'height': '7px'
         }
-      } else if (this.zoom <= 12) {
-        return {
+      } else if (val <= 12) {
+        style = {
           'width': '12px',
           'height': '12px'
         }
-      } else if (this.zoom <= 13) {
-        return {
+      } else if (val <= 13) {
+        style = {
           'width': '20px',
           'height': '20px'
         }
-      } else if (this.zoom <= 15) {
-        return {
+      } else if (val <= 15) {
+        style = {
           'width': '30px',
           'height': '30px'
         }
-      } else if (this.zoom <= 17) {
-        return {
+      } else if (val <= 17) {
+        style = {
           'width': '40px',
           'height': '40px'
         }
       }
+      this.svgStyle = style
     }
   }
 }
