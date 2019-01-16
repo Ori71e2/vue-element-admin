@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <svg-icon-exp :style-name="svgStyle" icon-class="mapTowerCrane"/>
+      <svg-icon-exp :style-name="svgStyle" :icon-class="iconClass"/>
     </div>
     <!-- <div class="adap-text adap-font text-label">
       <p class="no-break">{{ text }}</p>
@@ -26,7 +26,8 @@
 
 <script>
 import svgIconExp from './components/SvgIconExp'
-import CONSTANTS from '../utils/constant'
+import SICToSvgName from './components/SICToSvgName'
+import CONSTANTS from './components/constant'
 export default {
   components: {
     svgIconExp
@@ -58,7 +59,13 @@ export default {
       buttonShow: {
         'display': 'none'
       },
-      visible2: false
+      visible2: false,
+      buttonStyle: {}
+    }
+  },
+  computed: {
+    iconClass() {
+      return SICToSvgName.searchEnName(this.svgIconCode)
     }
   },
   watch: {

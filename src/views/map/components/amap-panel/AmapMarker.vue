@@ -38,7 +38,7 @@ export default {
           },
           visible: true,
           draggable: false,
-          contentRender: (h, instance) => h(markerExp, { props: { text: this.text, zoom: this.zoom, 'voltage-class': 110 }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: this.text, zoom: this.zoom, svgIconCode: 'SIC120103', 'voltage-class': 110 }}),
           order: 1
         },
         {
@@ -55,7 +55,7 @@ export default {
           visible: true,
           draggable: false,
           // contentRender: (h, instance) => h(marker, { style: { backgroundColor: '#fff' }, props: { text: this.text }}, ['xxxxxxx']),
-          contentRender: (h, instance) => h(markerExp, { props: { text: 'xxxxxxxxxxxxxxxxxxx', zoom: this.zoom }}),
+          contentRender: (h, instance) => h(markerExp, { props: { text: 'xxxxxxxxxxxxxxxxxxx', zoom: this.zoom, svgIconCode: 'SIC120102' }}),
           order: 2
         }
       ],
