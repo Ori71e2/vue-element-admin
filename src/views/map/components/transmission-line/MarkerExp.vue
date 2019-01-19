@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="click">
     <div>
       <svg-icon-exp :style-name="svgStyle" :icon-class="iconClass"/>
     </div>
@@ -15,7 +15,7 @@
             <el-button type="primary" size="mini" @click="visible2 = false">确定</el-button>
           </div>
         </div>
-        <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini">{{ text }}</el-button>
+        <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini">{{ iconContent }}</el-button>
       </el-popover>
     </div>
   </div>
@@ -63,6 +63,9 @@ export default {
   computed: {
     iconClass() {
       return SICToSvgName.searchEnName(this.svgIconCode)
+    },
+    iconContent() {
+      return SICToSvgName.searchCnName(this.svgIconCode)
     }
   },
   watch: {
@@ -143,6 +146,10 @@ export default {
 }
 </script>
 <style scoped>
+.click {
+  width: 60px;
+  height: 60px;
+}
 .center {
   position: absolute;
   left: 50%;

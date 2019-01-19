@@ -9,7 +9,7 @@
       :visible="marker.visible"
       :draggable="marker.draggable"
       :clickable="marker.clickable"
-      :ext-data="marker.order"
+      :ext-data="marker.extData"
       :vid="marker.index"
       :content-render="marker.contentRender"
     />
@@ -70,28 +70,33 @@ export default {
           events: {
             click: (e) => {
               console.log('click marker1')
-              console.log(e.lnglat)
+              // 反序列化
+              console.log(JSON.parse(e.target.getExtData()).detail)
             },
-            mouseover: (e) => {
-              console.log('mouseover')
-              console.log(e.target)
-            },
+            // mouseover: (e) => {
+            //   console.log('mouseover')
+            // //   console.log(e.target)
+            // },
             dragend: (e) => {
               console.log('---event---: dragend')
-              this.markers[0].position = [e.lnglat.lng, e.lnglat.lat]
+              console.log([e.lnglat.lng, e.lnglat.lat])
             }
           },
+          // 要进行序列化
+          extData: JSON.stringify(extData),
           clickable: true,
           visible: true,
           draggable: true,
           contentRender: (h, instance) => {
             return h(
+              // 一定要给markerExp设置大小，否则无法方便点击和拖拽
               markerExp,
-              // 'div',
               {
                 props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110 }
               },
-              ['xxxxxxx']
+              [
+                'xxxxxxx'
+              ]
             )
           },
           order: i + 1,
