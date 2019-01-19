@@ -4,10 +4,7 @@
       <svg-icon-exp :style-name="svgStyle" :icon-class="iconClass"/>
     </div>
     <!-- <div class="adap-text adap-font text-label">
-      <p class="no-break">{{ text }}</p>
-      <el-popover placement="top-start" title="标题" width="200" trigger="hover" content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
-        <el-button slot="reference">{{ text }}</el-button>
-      </el-popover>
+      <p>{{ text }}</p>
     </div> -->
     <div :style="buttonShow" class="center">
       <el-popover placement="bottom" title="标题" trigger="click">

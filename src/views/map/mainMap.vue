@@ -49,7 +49,6 @@ if (!window.amap) {
     key: '4e4c8706ad7f1d468011d7b1d2340bf2',
     uiVersion: '1.0.11'
   })
-  console.log('xx')
 }
 
 export default {
@@ -71,11 +70,9 @@ export default {
   },
   mounted() {
     this.panelId = this.$refs.drivingNavPanel
-    console.log('first')
   },
   methods: {
     setAmapValue() {
-      // console.log('loaded')
     },
     selectSearch(poi) {
       const { location, name, adcode, district, address } = poi

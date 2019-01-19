@@ -1,6 +1,18 @@
 <template>
   <div>
-    <el-amap-marker v-for="(marker, index) in markers" :key="marker.order" :ref="`polygon_${index}`" :position="marker.position" :events="marker.events" :visible="marker.visible" :draggable="marker.draggable" :ext-data="marker.order" :vid="index" :content-render="marker.contentRender" />
+    <el-amap-marker
+      v-for="(marker, index) in markers"
+      :key="marker.order"
+      :ref="`polygon_${index}`"
+      :position="marker.position"
+      :events="marker.events"
+      :visible="marker.visible"
+      :draggable="marker.draggable"
+      :clickable="marker.clickable"
+      :ext-data="marker.order"
+      :vid="marker.index"
+      :content-render="marker.contentRender"
+    />
   </div>
 </template>
 <script>
@@ -10,6 +22,34 @@ import markerExp from '../transmission-line/MarkerExp'
 //   props: ['text'],
 //   template: `<div><svg-icon icon-class="pushpin"/>{{ text }}</div>`
 // }
+var markersArray = [
+  { position: [118.720243, 33.776052], SICCode: 'SIC110401', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.719843, 33.775652], SICCode: 'SIC110402', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.719443, 33.775252], SICCode: 'SIC110403', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.719043, 33.774852], SICCode: 'SIC110404', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.718643, 33.774452], SICCode: 'SIC110405', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.718243, 33.774052], SICCode: 'SIC110406', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.717843, 33.773652], SICCode: 'SIC120100', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.717443, 33.773252], SICCode: 'SIC120101', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.717043, 33.772852], SICCode: 'SIC120102', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.716643, 33.772452], SICCode: 'SIC120103', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.716243, 33.772052], SICCode: 'SIC120104', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.715843, 33.771652], SICCode: 'SIC210100', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.715443, 33.771252], SICCode: 'SIC210101', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.715043, 33.770852], SICCode: 'SIC210202', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.714643, 33.770452], SICCode: 'SIC210303', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.714243, 33.770052], SICCode: 'SIC210404', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.713843, 33.769652], SICCode: 'SIC220100', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.713443, 33.769252], SICCode: 'SIC220101', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.713043, 33.768852], SICCode: 'SIC220102', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.712643, 33.768452], SICCode: 'SIC220103', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.712243, 33.768052], SICCode: 'SIC220200', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.711843, 33.767652], SICCode: 'SIC220201', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.711443, 33.767252], SICCode: 'SIC220202', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.711043, 33.766852], SICCode: 'SIC220203', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.710643, 33.766452], SICCode: 'SIC220300', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
+  { position: [118.710243, 33.766052], SICCode: 'SIC220301', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }}
+]
 export default {
   components: {
     markerExp
@@ -18,48 +58,46 @@ export default {
   props: {
     zoom: {
       type: Number,
-      default: 0
+      default: 14
     }
   },
   data() {
     return {
-      markers: [
-        {
-          position: [118.720643, 33.776452],
+      markers: markersArray.map((v, i) => {
+        const { position, SICCode, extData } = v
+        return {
+          position,
           events: {
             click: (e) => {
               console.log('click marker1')
-              console.log(e.target.getExtData())
+              console.log(e.lnglat)
+            },
+            mouseover: (e) => {
+              console.log('mouseover')
+              console.log(e.target)
             },
             dragend: (e) => {
               console.log('---event---: dragend')
               this.markers[0].position = [e.lnglat.lng, e.lnglat.lat]
             }
           },
+          clickable: true,
           visible: true,
-          draggable: false,
-          contentRender: (h, instance) => h(markerExp, { props: { text: this.text, zoom: this.zoom, svgIconCode: 'SIC120103', 'voltage-class': 110 }}),
-          order: 1
-        },
-        {
-          position: [118.750856, 33.710791],
-          events: {
-            click: () => {
-              console.log('click marker')
-            },
-            dragend: (e) => {
-              console.log('---event---: dragend')
-              this.markers[0].position = [e.lnglat.lng, e.lnglat.lat]
-            }
+          draggable: true,
+          contentRender: (h, instance) => {
+            return h(
+              markerExp,
+              // 'div',
+              {
+                props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110 }
+              },
+              ['xxxxxxx']
+            )
           },
-          visible: true,
-          draggable: false,
-          // contentRender: (h, instance) => h(marker, { style: { backgroundColor: '#fff' }, props: { text: this.text }}, ['xxxxxxx']),
-          contentRender: (h, instance) => h(markerExp, { props: { text: 'xxxxxxxxxxxxxxxxxxx', zoom: this.zoom, svgIconCode: 'SIC120102' }}),
-          order: 2
+          order: i + 1,
+          index: 'marker' + i
         }
-      ],
-      text: 'father is here'
+      })
     }
   },
   computed: {

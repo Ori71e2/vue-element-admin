@@ -25,7 +25,6 @@ const customAmapSearchbox = createCustomComponent({
         window.AMap.event.addListener(autocomplete, 'select', (e) => {
           this.$emit('select', e.poi)
         })
-        console.log(this.$amap)
         resolve(autocomplete)
       })
     })

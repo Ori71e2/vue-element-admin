@@ -52,7 +52,7 @@ const customAmapDrivingNav = createCustomComponent({
   },
   init(options, map) {
     return new Promise(resolve => {
-      console.log(this.panelId)
+      // console.log(this.panelId)
       window.AMap.plugin(['AMap.Driving'], () => {
         this.drivingNav = new window.AMap.Driving({
           map: this.$amap,

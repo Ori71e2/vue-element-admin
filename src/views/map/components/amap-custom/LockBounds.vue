@@ -30,8 +30,8 @@ const customAmapLockBounds = createCustomComponent({
   init(options, map) {
     const Southwest = new window.AMap.LngLat(this.defaultSouthWest[0], this.defaultSouthWest[1])
     const NorthEast = new window.AMap.LngLat(this.defaultNorthEast[0], this.defaultNorthEast[1])
-    console.log(NorthEast)
-    console.log(Southwest)
+    // console.log(NorthEast)
+    // console.log(Southwest)
     this.bounds = new window.AMap.Bounds(Southwest, NorthEast)
     this.$amap.setLimitBounds(this.bounds)
     return this.bounds
@@ -46,7 +46,7 @@ const customAmapLockBounds = createCustomComponent({
         this.$amap.setLimitBounds(this.bounds)
       } else {
         this.$amap.clearLimitBounds()
-        console.log(this.bounds)
+        // console.log(this.bounds)
       }
     }
   },

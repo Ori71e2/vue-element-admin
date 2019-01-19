@@ -71,8 +71,8 @@ export default {
       this.openOverView = !this.openOverView
     },
     toggleToolBar() {
-      console.log("toolBar" + this.showToolBar)
-      console.log(this.checkedToolsList)
+      // console.log("toolBar" + this.showToolBar)
+      // console.log(this.checkedToolsList)
       this.showToolBar = !this.showToolBar
       if (this.showToolBar) {
         this.showToolBarDirection = true

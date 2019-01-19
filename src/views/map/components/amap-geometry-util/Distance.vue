@@ -50,7 +50,7 @@ const geometryAmapDistance = createCustomComponent({
     textPos[0] = (this.origin[0] + this.destination[0]) / 2
     textPos[1] = (this.origin[1] + this.destination[1]) / 2
     const position = new window.AMap.LngLat(textPos[0], textPos[1])
-    console.log(position)
+    // console.log(position)
     this.text = new window.AMap.Text({
       text: this.distance + '米',
       position: position,
