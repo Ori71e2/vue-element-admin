@@ -46,7 +46,7 @@ const customAmapGeolocation = createCustomComponent({
           zoomToAccuracy: true
         })
         this.$amap.addControl(this.geolocation)
-        // this.geolocation.getCurrentPosition();
+        this.geolocation.getCurrentPosition()
         // 返回定位信息
         window.AMap.event.addListener(this.geolocation, 'complete', this.onGeolocationComplete)
         // 返回定位出错信息
@@ -68,13 +68,13 @@ const customAmapGeolocation = createCustomComponent({
       // var result = {}
       // result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
       // result.info = data.info
-      this.$emit('get-current-location', data)
+      this.$emit('set-current-location', data)
     },
     onGeolocationError(data) {
       // var result = {}
       // result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
       // result.info = data.info
-      this.$emit('get-current-location', data)
+      this.$emit('set-current-location', data)
     }
   }
 })

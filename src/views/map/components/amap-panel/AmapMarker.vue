@@ -58,12 +58,17 @@ export default {
   props: {
     zoom: {
       type: Number,
-      default: 14
+      default: 9
     }
   },
   data() {
     return {
-      markers: markersArray.map((v, i) => {
+      markersRaw: markersArray
+    }
+  },
+  computed: {
+    markers() {
+      return this.markersRaw.map((v, i) => {
         const { position, SICCode, extData } = v
         return {
           position,
@@ -73,10 +78,12 @@ export default {
               // 反序列化
               console.log(JSON.parse(e.target.getExtData()).detail)
             },
-            // mouseover: (e) => {
-            //   console.log('mouseover')
-            // //   console.log(e.target)
-            // },
+            dblclick: (e) => {
+              e.target.setDraggable(!e.target.getDraggable())
+            },
+            rightclick: (e) => {
+              this.changemarkersRaw()
+            },
             dragend: (e) => {
               console.log('---event---: dragend')
               console.log([e.lnglat.lng, e.lnglat.lat])
@@ -86,17 +93,14 @@ export default {
           extData: JSON.stringify(extData),
           clickable: true,
           visible: true,
-          draggable: true,
+          draggable: false,
           contentRender: (h, instance) => {
             return h(
               // 一定要给markerExp设置大小，否则无法方便点击和拖拽
               markerExp,
               {
                 props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110 }
-              },
-              [
-                'xxxxxxx'
-              ]
+              }
             )
           },
           order: i + 1,
@@ -105,13 +109,16 @@ export default {
       })
     }
   },
-  computed: {
-  },
   watch: {
   },
   mounted() {
   },
   methods: {
+    changemarkersRaw() {
+      console.log(this.zoom)
+      this.markersRaw.pop()
+      console.log(this.zoom)
+    }
   }
 }
 </script>

@@ -18,8 +18,8 @@ export default {
   methods: {
     setCurrentLocation(data) {
       if (data.info === 'SUCCESS') {
-        // console.log('经度：' + data.position.getLng())
-        // console.log('纬度：' + data.position.getLat())
+        console.log('经度：' + data.position.getLng())
+        console.log('纬度：' + data.position.getLat())
       }
     }
   }

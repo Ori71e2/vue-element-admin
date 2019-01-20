@@ -6,7 +6,7 @@
     <!-- <div class="adap-text adap-font text-label">
       <p>{{ text }}</p>
     </div> -->
-    <div :style="buttonShow" class="center">
+    <div :style="showButton" class="center">
       <el-popover placement="bottom" title="标题" trigger="click">
         <div>
           <p>这是一段内容这是一段内容确定删除吗？</p>
@@ -40,7 +40,7 @@ export default {
     },
     zoom: {
       type: Number,
-      default: 14
+      default: 9
     },
     voltageClass: {
       type: Number,
@@ -49,15 +49,7 @@ export default {
   },
   data() {
     return {
-      svgStyle: {
-        'width': '5px',
-        'height': '5px'
-      },
-      buttonShow: {
-        'display': 'none'
-      },
-      visible2: false,
-      buttonStyle: {}
+      visible2: false
     }
   },
   computed: {
@@ -66,41 +58,46 @@ export default {
     },
     iconContent() {
       return SICToSvgName.searchCnName(this.svgIconCode)
+    },
+    svgStyle() {
+      const val = this.zoom
+      return this.changeSvgStyle(val)
+    },
+    showButton() {
+      const val = this.zoom
+      return this.displayButton(val)
+    },
+    buttonStyle() {
+      const val = this.voltageClass
+      return this.changeButtonColor(val)
     }
   },
   watch: {
     svgIconCode(val) {
       this.SICToSvgName(val)
-    },
-    zoom(val) {
-      this.changeSvgStyle(val)
-      this.showButton(val)
-    },
-    voltageClass(val) {
-      this.changeButtonStyle(val)
     }
   },
   methods: {
-    changeButtonStyle(val) {
+    changeButtonColor(val) {
       let color = '#FF0'
       if (val === 110) {
         color = CONSTANTS.LINE_110_COLOR
       } else if (val === 220) {
         color = CONSTANTS.LINE_220_COLOR
       }
-      this.buttonStyle = {
+      return {
         'color': color,
         'border-color': color
       }
     },
-    showButton(val) {
+    displayButton(val) {
       let style = {}
       if (val <= 12) {
         style = {
           'display': 'none'
         }
       }
-      this.buttonShow = style
+      return style
     },
     changeSvgStyle(val) {
       let style = {}
@@ -140,7 +137,7 @@ export default {
           'height': '40px'
         }
       }
-      this.svgStyle = style
+      return style
     }
   }
 }

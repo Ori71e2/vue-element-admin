@@ -22,8 +22,8 @@ const customAmapLockBounds = createCustomComponent({
   data() {
     return {
       bounds: null,
-      defaultNorthEast: [119.92045, 34.140927],
-      defaultSouthWest: [117.576242, 33.209528],
+      defaultNorthEast: [119.92045, 34.139673],
+      defaultSouthWest: [117.644907, 33.231237],
       setColor: null
     }
   },

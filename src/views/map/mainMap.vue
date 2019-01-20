@@ -1,7 +1,7 @@
 <template>
   <div class="amap-container">
     <div class="amap-wrapper">
-      <el-amap :vid="'amap-vue'" class="amap-box">
+      <el-amap :center="center" :zoom="amapZoom" :vid="'amap-vue'" class="amap-box">
         <get-amap-instance @get-amap-instance="setAmapInstance"/>
         <get-amap-zoom @get-amap-zoom="setAmapZoom"/>
         <custom-amap-select-poi @get-select-position="setSelectPoi" />
@@ -37,22 +37,20 @@ import amapLimitLock from './components/amap-panel/AmapLimitLock'
 import amapGeometry from './components/amap-panel/AmapGeometry'
 import amapMarker from './components/amap-panel/AmapMarker'
 import VueAMap from 'vue-amap'
-
 import Vue from 'vue'
 Vue.use(VueAMap)
 if (!window.amap) {
+  // 包括center在内的所有属性都不是在这里设置
   VueAMap.initAMapApiLoader({
-    center: [118.716184, 33.720615],
     resizeEnable: true,
-    zoom: 13,
     // 高德key
-    key: '4e4c8706ad7f1d468011d7b1d2340bf2',
+    key: 'c46f30625ff814b3983110be101fd461',
+    v: '1.4.12',
     uiVersion: '1.0.11'
   })
 }
-
 export default {
-  // 一定要与名字，否则无法缓存
+  // 一定要有名字，否则无法缓存
   name: 'MainMap',
   components: {
     customAmapSearchbox, customAmapSelectPoi, getAmapInstance, getAmapZoom,
@@ -61,12 +59,14 @@ export default {
   data() {
     return {
       amapInstance: null,
-      amapZoom: 0,
+      amapZoom: 11,
+      center: [118.716184, 33.720615],
       panelId: '',
       selectPoi: null,
-      position: [118.716184, 33.720615],
-      zoom: 14
+      position: []
     }
+  },
+  computed: {
   },
   mounted() {
     this.panelId = this.$refs.drivingNavPanel

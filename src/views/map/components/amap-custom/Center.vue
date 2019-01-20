@@ -24,15 +24,10 @@ const customAmapCenter = createCustomComponent({
     }
   },
   init(options, map) {
-    return new Promise(resolve => {
-      window.AMap.plugin(['AMap.Scale'], () => {
-        this.scale = new window.AMap.Scale({
-          visible: false
-        })
-        this.$amap.addControl(this.scale)
-        resolve(this.scale)
-      })
+    this.marker = new window.AMap.Marker({
+      position: [0, 0]
     })
+    return this.marker
   },
   contextReady() {
   },
