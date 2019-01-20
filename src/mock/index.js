@@ -3,7 +3,7 @@ import loginAPI from './login'
 import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
-import mapAPI from './map'
+import amapAPI from './amapMarkers'
 // Mock.setup({
 //   timeout: '350-600'
 // })
@@ -27,6 +27,9 @@ Mock.mock(/\/search\/user/, 'get', remoteSearchAPI.searchUser)
 Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 
 // 地图相关
-Mock.mock(/\/map\/FishingSpotList/, 'get', mapAPI.getFishingSpotList)
-Mock.mock(/\/map\/ConstructionPlantList/, 'get', mapAPI.getConstructionPlantList)
+Mock.mock(/\/amap\/markers/, 'get', amapAPI.fetchMarkersList)
+Mock.mock(/\/amap\/marker/, 'get', amapAPI.fetchMarker)
+Mock.mock(/\/amap\/marker/, 'patch', amapAPI.updateMarker)
+Mock.mock(/\/amap\/marker/, 'post', amapAPI.createMarker)
+Mock.mock(/\/amap\/marker/, 'delete', amapAPI.deleteMarker)
 export default Mock
