@@ -12,7 +12,7 @@ const getAmapInstance = createCustomComponent({
     }
   },
   init(options, map) {
-    this.marker = new window.AMap.Marker({
+    this.marker = new AMap.Marker({
       position: [0, 0]
     })
     this.amap = this.$amap

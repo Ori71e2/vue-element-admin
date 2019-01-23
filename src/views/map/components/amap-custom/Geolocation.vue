@@ -24,14 +24,14 @@ const customAmapGeolocation = createCustomComponent({
   },
   init(options, map) {
     return new Promise(resolve => {
-      window.AMap.plugin(['AMap.Geolocation'], () => {
+      AMap.plugin(['AMap.Geolocation'], () => {
         /*
-        var marker = window.new AMap.Marker({
-        position: new window.AMap.LngLat(116.39, 39.9),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+        var marker = new AMap.Marker({
+        position: new AMap.LngLat(116.39, 39.9),   // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
         title: '北京'
         })
         */
-        this.geolocation = new window.AMap.Geolocation({
+        this.geolocation = new AMap.Geolocation({
           enableHighAccuracy: true,
           timeout: 10000,
           maximumAge: 0,
@@ -48,9 +48,9 @@ const customAmapGeolocation = createCustomComponent({
         this.$amap.addControl(this.geolocation)
         this.geolocation.getCurrentPosition()
         // 返回定位信息
-        window.AMap.event.addListener(this.geolocation, 'complete', this.onGeolocationComplete)
+        AMap.event.addListener(this.geolocation, 'complete', this.onGeolocationComplete)
         // 返回定位出错信息
-        window.AMap.event.addListener(this.geolocation, 'error', this.onGeolocationError)
+        AMap.event.addListener(this.geolocation, 'error', this.onGeolocationError)
         resolve(this.geolocation)
       })
     })

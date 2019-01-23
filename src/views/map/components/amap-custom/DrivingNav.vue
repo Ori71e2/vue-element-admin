@@ -53,8 +53,8 @@ const customAmapDrivingNav = createCustomComponent({
   init(options, map) {
     return new Promise(resolve => {
       // console.log(this.panelId)
-      window.AMap.plugin(['AMap.Driving'], () => {
-        this.drivingNav = new window.AMap.Driving({
+      AMap.plugin(['AMap.Driving'], () => {
+        this.drivingNav = new AMap.Driving({
           map: this.$amap,
           panel: this.panelId
         })
@@ -96,7 +96,7 @@ const customAmapDrivingNav = createCustomComponent({
     drivingSearch(value) {
       // 根据起终点经纬度规划驾车导航路线
       // LngLat()函数自动将经度修正到 [-180,180] 区间内
-      this.drivingNav.search(new window.AMap.LngLat(this.origin.X, this.origin.Y), new window.AMap.LngLat(this.destination.X, this.destination.Y, false))
+      this.drivingNav.search(new AMap.LngLat(this.origin.X, this.origin.Y), new AMap.LngLat(this.destination.X, this.destination.Y, false))
     },
     drivingClear(value) {
       this.drivingNav.clear()

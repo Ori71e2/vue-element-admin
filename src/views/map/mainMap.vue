@@ -14,10 +14,10 @@
           <el-col :span="6"><amap-select-poi :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
           <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" :select-poi="selectPoi" /></el-col>
           <el-col :span="4"><amap-geometry :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
+          <el-col :span="4"><amap-marker :amap-instance="amapInstance" :zoom="amapZoom"/></el-col>
         </el-row>
       </div>
       <amap-geolocation :amap-instance="amapInstance" />
-      <amap-marker :amap-instance="amapInstance" :zoom="amapZoom"/>
       <div ref="drivingNavPanel" class="driving-nav-panel"/>
     </div>
   </div>

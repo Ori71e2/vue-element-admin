@@ -24,8 +24,8 @@ const customAmapOverViewControl = createCustomComponent({
   },
   init(options, map) {
     return new Promise(resolve => {
-      window.AMap.plugin(['AMap.OverView'], () => {
-        this.overView = new window.AMap.OverView({
+      AMap.plugin(['AMap.OverView'], () => {
+        this.overView = new AMap.OverView({
           visible: false
         })
         this.$amap.addControl(this.overView)

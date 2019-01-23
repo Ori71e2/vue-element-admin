@@ -1,5 +1,12 @@
 module.exports = {
   root: true,
+  "globals" : {
+    // "window":true,
+    // "document":true,
+    // "$":true
+    "AMap": true,
+    "AMapUI": true
+  },
   parserOptions: {
     parser: 'babel-eslint',
     sourceType: 'module'

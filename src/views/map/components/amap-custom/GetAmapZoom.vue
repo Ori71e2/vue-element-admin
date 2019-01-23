@@ -14,7 +14,7 @@ const getAmapZoom = createCustomComponent({
   },
   init(options, map) {
     this.amap = this.$amap
-    this.zoomEndListener = window.AMap.event.addListener(this.$amap, 'zoomend', function() {
+    this.zoomEndListener = AMap.event.addListener(this.$amap, 'zoomend', function() {
       this.amapZoom = this.amap.getZoom()
       this.$emit('get-amap-zoom', this.amapZoom)
     }, this)

@@ -20,9 +20,9 @@ const customAmapSearchbox = createCustomComponent({
       input: this.id
     }
     return new Promise(resolve => {
-      window.AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], () => {
-        const autocomplete = new window.AMap.Autocomplete(options)
-        window.AMap.event.addListener(autocomplete, 'select', (e) => {
+      AMap.plugin(['AMap.Autocomplete', 'AMap.PlaceSearch'], () => {
+        const autocomplete = new AMap.Autocomplete(options)
+        AMap.event.addListener(autocomplete, 'select', (e) => {
           this.$emit('select', e.poi)
         })
         resolve(autocomplete)

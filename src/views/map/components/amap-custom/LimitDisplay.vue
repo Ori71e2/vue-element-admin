@@ -24,12 +24,12 @@ const customAmapLimitDispaly = createCustomComponent({
   },
   init(options, map) {
     return new Promise(resolve => {
-      window.AMapUI.loadUI(['geo/DistrictExplorer'], (DistrictExplorer) => {
+      AMapUI.loadUI(['geo/DistrictExplorer'], (DistrictExplorer) => {
         this.districtExplorer = new DistrictExplorer({
           map: map
         })
         this.initPage()
-        this.marker = new window.AMap.Marker({
+        this.marker = new AMap.Marker({
           position: [121.59996, 31.177646]
         })
         this.amap = this.$amap
@@ -101,7 +101,7 @@ const customAmapLimitDispaly = createCustomComponent({
           }
           // 绘制带环多边形
           // https://lbs.amap.com/api/javascript-api/reference/overlay#Polygon
-          this.polygon = new window.AMap.Polygon({
+          this.polygon = new AMap.Polygon({
             bubble: true,
             lineJoin: 'round',
             strokeColor: 'red', // 线颜色

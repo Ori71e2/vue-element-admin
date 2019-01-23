@@ -13,7 +13,7 @@ const customAmapSelectPoi = createCustomComponent({
   },
   init(options, map) {
     this.amap = this.$amap
-    this.clickListener = window.AMap.event.addListener(this.$amap, 'click', function(e) {
+    this.clickListener = AMap.event.addListener(this.$amap, 'click', function(e) {
       this.setPosition(e)
     }, this)
     return this.clickListener
