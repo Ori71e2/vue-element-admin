@@ -47,6 +47,8 @@
     "js-cookie": "2.2.0",
     "jsonlint": "1.6.3",
     "jszip": "3.1.5",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "material-design-icons-iconfont": "^4.0.3",
     "mockjs": "1.0.1-beta3",
     "normalize.css": "7.0.0",
@@ -55,6 +57,7 @@
     "showdown": "1.8.6",
     "simplemde": "1.11.2",
     "sortablejs": "1.7.0",
+    "style-loader": "^0.23.1",
     "svg.js": "^2.6.6",
     "vue": "^2.5.18",
     "vue-amap": "^0.5.8",
@@ -84,7 +87,7 @@
     "chalk": "2.4.1",
     "copy-webpack-plugin": "4.5.2",
     "cross-env": "5.2.0",
-    "css-loader": "1.0.0",
+    "css-loader": "^1.0.0",
     "eslint": "4.19.1",
     "eslint-friendly-formatter": "4.0.1",
     "eslint-loader": "2.0.0",
@@ -126,6 +129,7 @@
     "webpack-merge": "4.1.4"
   },
   "engines": {
+    "core-js": "^2.5.0",
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
   },

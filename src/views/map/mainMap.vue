@@ -36,7 +36,7 @@ import amapDrivingNav from './components/amap-panel/AmapDrivingNav'
 import amapLimitLock from './components/amap-panel/AmapLimitLock'
 import amapGeometry from './components/amap-panel/AmapGeometry'
 import amapMarker from './components/amap-panel/AmapMarker'
-import VueAMap from 'vue-amap'
+import VueAMap from './vue-amap'
 import Vue from 'vue'
 Vue.use(VueAMap)
 if (!window.amap) {
