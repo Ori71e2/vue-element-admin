@@ -25,7 +25,6 @@ RemoGeoLocation.prototype = {
     callback.call(this)
   },
   _prepareIframe: function() {
-
     if (this._iframeWin) {
       return
     }
@@ -44,15 +43,12 @@ RemoGeoLocation.prototype = {
     var self = this
 
     var timeoutId = setTimeout(function() {
-
       self._frameReady = false
 
       self._callbackFrameReadyList()
-
     }, 5000)
 
     ifrm.onload = function() {
-
       clearTimeout(timeoutId)
 
       self._frameReady = true
@@ -67,19 +63,15 @@ RemoGeoLocation.prototype = {
     this._iframeWin = ifrm.contentWindow
 
     window.addEventListener('message', function(e) {
-
       if (self._remoteSvrUrl.indexOf(e['origin']) !== 0) {
         return
       }
 
       self._handleRemoteMsg(e['data'])
-
     }, false)
   },
   _callbackFrameReadyList: function() {
-
     if (this._frameReadyList) {
-
       var list = this._frameReadyList
       this._frameReadyList = null
 
@@ -89,15 +81,12 @@ RemoGeoLocation.prototype = {
     }
   },
   _pickCallback: function(seqNum, keepInList) {
-
     var callbackList = this._callbackList
 
     for (var i = 0, len = callbackList.length; i < len; i++) {
-
       var cbkInfo = callbackList[i]
 
       if (seqNum === cbkInfo.seq) {
-
         if (!keepInList) {
           callbackList.splice(i, 1)
         }
@@ -107,23 +96,17 @@ RemoGeoLocation.prototype = {
     }
   },
   _handleRemoteMsg: function(msg) {
-
     var seqNum = msg['seq']
 
     var cbkInfo = this._pickCallback(seqNum, !!msg['notify'])
 
     if (cbkInfo) {
-
       cbkInfo.cbk.call(null, msg['error'], msg['result'])
-
     } else {
-
       console.warn('Receive remote msg: ', msg)
     }
-
   },
   _postMessage: function(cmd, args, callback, seq) {
-
     this._prepareIframe()
 
     var msg = {
@@ -138,21 +121,15 @@ RemoGeoLocation.prototype = {
     })
 
     this._onRrameReady(function() {
-
       if (this._frameReady === true) {
-
         try {
-
           this._iframeWin.postMessage(msg, '*')
-
         } catch (e) {
-
           this._pickCallback(msg['seq'])
 
           callback(e)
         }
       } else {
-
         this._pickCallback(msg['seq'])
 
         callback({
@@ -162,9 +139,7 @@ RemoGeoLocation.prototype = {
     })
   },
   'getCurrentPosition': function(succHandler, errHandler, options) {
-
     this._postMessage('getCurrentPosition', [options], function(err, result) {
-
       if (err) {
         if (errHandler) {
           errHandler(err)
@@ -177,7 +152,6 @@ RemoGeoLocation.prototype = {
     })
   },
   'watchPosition': function(succHandler, errHandler, options) {
-
     var watchKey = 'wk' + this._getSeq()
     var cmdSeq = this._getSeq()
 
@@ -189,7 +163,6 @@ RemoGeoLocation.prototype = {
     var self = this
 
     this._postMessage('watchPosition', [options], function(err, result) {
-
       var id = null
 
       if (result) {
@@ -202,7 +175,6 @@ RemoGeoLocation.prototype = {
       watchInfo.stat = 1
 
       if (watchInfo.callbackList) {
-
         var list = watchInfo.callbackList
         watchInfo.callbackList = null
 
@@ -221,13 +193,11 @@ RemoGeoLocation.prototype = {
       if (succHandler) {
         succHandler(result['pos'])
       }
-
     }, cmdSeq)
 
     return watchKey
   },
   'clearWatch': function(watchKey, callback) {
-
     if (!this._watchIdMap[watchKey]) {
       callback('Id not exists: ' + watchKey)
       return
@@ -238,11 +208,8 @@ RemoGeoLocation.prototype = {
     var self = this
 
     function clearId(id) {
-
       self._postMessage('clearWatch', [id], function(err, result) {
-
         if (!err) {
-
           self._pickCallback(watchInfo.seq)
 
           delete self._watchIdMap[watchKey]
@@ -251,12 +218,10 @@ RemoGeoLocation.prototype = {
         if (callback) {
           callback(err, result)
         }
-
       })
     }
 
     if (watchInfo.stat < 1) {
-
       if (!watchInfo.callbackList) {
         watchInfo.callbackList = []
       }
@@ -264,7 +229,6 @@ RemoGeoLocation.prototype = {
       watchInfo.callbackList.push(function(id) {
         clearId(id)
       })
-
     } else {
       clearId(watchInfo.id)
     }

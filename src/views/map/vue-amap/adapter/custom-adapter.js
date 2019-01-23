@@ -1,4 +1,4 @@
-import registerComponent from '../mixins/register-component';
+import registerComponent from '../mixins/register-component'
 
 export default (options) => {
   const {
@@ -14,7 +14,7 @@ export default (options) => {
     template,
     mixins = [],
     props = {}
-  } = options;
+  } = options
   const result = {
     ...options,
     props,
@@ -23,7 +23,7 @@ export default (options) => {
         ...data(),
         converters,
         handlers
-      };
+      }
     },
     mixins: [registerComponent, ...mixins],
     computed,
@@ -32,11 +32,11 @@ export default (options) => {
       __initComponent: init,
       __contextReady: contextReady
     }
-  };
-  if (!template && !render) {
-    result.render = () => null;
   }
-  result.install = Vue => Vue.use(name, result);
-  return result;
-};
+  if (!template && !render) {
+    result.render = () => null
+  }
+  result.install = Vue => Vue.use(name, result)
+  return result
+}
 

@@ -107,7 +107,7 @@ export default {
         return { node: '' }
       },
       render(h) {
-        const {node} = this
+        const { node } = this
         return h('div', { ref: 'node' }, Array.isArray(node) ? node : [node])
       }
     }).$mount()

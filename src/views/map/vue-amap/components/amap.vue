@@ -1,17 +1,17 @@
 <template>
-<div class="el-vue-amap-container">
-    <div class="el-vue-amap"></div>
-    <slot></slot>
-</div>
+  <div class="el-vue-amap-container">
+    <div class="el-vue-amap"/>
+    <slot/>
+  </div>
 </template>
 <script>
 import guid from '../utils/guid'
 import CONST from '../utils/constant'
 import { lngLatTo, toLngLat, toPixel } from '../utils/convert-helper'
 import registerMixin from '../mixins/register-component'
-import {lazyAMapApiLoaderInstance} from '../services/injected-amap-api-instance'
+import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instance'
 export default {
-  name: 'el-amap',
+  name: 'ElAmap',
   mixins: [registerMixin],
   props: [
   //  add v1.4.0 new feature
@@ -50,15 +50,28 @@ export default {
     'mapStyle',
     'plugin',
     'features',
-    'amapManager'  // 地图管理 manager
+    'amapManager' // 地图管理 manager
   ],
 
-  beforeCreate() {
-    this._loadPromise = lazyAMapApiLoaderInstance.load()
-  },
-
-  destroyed() {
-    this.$amap && this.$amap.destroy()
+  data() {
+    return {
+      converters: {
+        center(arr) {
+          return toLngLat(arr)
+        }
+      },
+      handlers: {
+        zoomEnable(flag) {
+          this.setStatus({ zoomEnable: flag })
+        },
+        dragEnable(flag) {
+          this.setStatus({ dragEnable: flag })
+        },
+        rotateEnable(flag) {
+          this.setStatus({ rotateEnable: flag })
+        }
+      }
+    }
   },
 
   computed: {
@@ -108,25 +121,12 @@ export default {
     }
   },
 
-  data() {
-    return {
-      converters: {
-        center(arr) {
-          return toLngLat(arr)
-        }
-      },
-      handlers: {
-        zoomEnable(flag) {
-          this.setStatus({zoomEnable: flag})
-        },
-        dragEnable(flag) {
-          this.setStatus({dragEnable: flag})
-        },
-        rotateEnable(flag) {
-          this.setStatus({rotateEnable: flag})
-        }
-      }
-    }
+  beforeCreate() {
+    this._loadPromise = lazyAMapApiLoaderInstance.load()
+  },
+
+  destroyed() {
+    this.$amap && this.$amap.destroy()
   },
 
   mounted() {
@@ -135,14 +135,14 @@ export default {
 
   addEvents() {
     this.$amapComponent.on('moveend', () => {
-      let centerLngLat = this.$amapComponent.getCenter()
+      const centerLngLat = this.$amapComponent.getCenter()
       this.center = [centerLngLat.getLng(), centerLngLat.getLat()]
     })
   },
 
   methods: {
     addPlugins() {
-      let _notInjectPlugins = this.plugins.filter(_plugin => !AMap[_plugin.sName])
+      const _notInjectPlugins = this.plugins.filter(_plugin => !AMap[_plugin.sName])
 
       if (!_notInjectPlugins || !_notInjectPlugins.length) return this.addMapControls()
       return this.$amapComponent.plugin(_notInjectPlugins, this.addMapControls)
@@ -163,8 +163,8 @@ export default {
 
         // register plugin event
         if (_plugin.events) {
-          for (let k in _plugin.events) {
-            let v = _plugin.events[k]
+          for (const k in _plugin.events) {
+            const v = _plugin.events[k]
             if (k === 'init') v(pluginInstance)
             else AMap.event.addListener(pluginInstance, k, v)
           }
@@ -178,7 +178,6 @@ export default {
     * @return {Object}
     */
     convertAMapPluginProps(plugin) {
-
       if (typeof plugin === 'object' && plugin.pName) {
         switch (plugin.pName) {
           case 'AMap.ToolBar': {
@@ -208,7 +207,7 @@ export default {
 
     createMap() {
       this._loadPromise.then(() => {
-        let mapElement = this.$el.querySelector('.el-vue-amap')
+        const mapElement = this.$el.querySelector('.el-vue-amap')
         const elementID = this.vid || guid()
         mapElement.id = elementID
         this.$amap = this.$amapComponent = new AMap.Map(elementID, this.convertProps())

@@ -6,7 +6,7 @@ import registerMixin from '../mixins/register-component'
 import editorMixin from '../mixins/editor-component'
 import { lngLatTo } from '../utils/convert-helper'
 export default {
-  name: 'el-amap-polygon',
+  name: 'ElAmapPolygon',
   mixins: [registerMixin, editorMixin],
   props: [
     'vid',
@@ -35,7 +35,7 @@ export default {
           flag === false ? this.hide() : this.show()
         },
         zIndex(num) {
-          this.setOptions({zIndex: num})
+          this.setOptions({ zIndex: num })
         },
         editable(flag) {
           flag === true ? this.editor.open() : this.editor.close()
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     __initComponent() {
-      let options = this.convertProps()
+      const options = this.convertProps()
       this.$amapComponent = new AMap.Polygon(options)
       this.$amapComponent.editor = new AMap.PolyEditor(this.$amap, this.$amapComponent)
     },

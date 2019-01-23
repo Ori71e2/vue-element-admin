@@ -3,8 +3,8 @@ export default {
   methods: {
     setEditorEvents() {
       if (!this.$amapComponent.editor || !this.events) return
-      let filters = ['addnode', 'adjust', 'removenode', 'end', 'move']
-      let filterSet = {}
+      const filters = ['addnode', 'adjust', 'removenode', 'end', 'move']
+      const filterSet = {}
       Object.keys(this.events).forEach(key => {
         if (filters.indexOf(key) !== -1) filterSet[key] = this.events[key]
       })

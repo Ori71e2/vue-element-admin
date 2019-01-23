@@ -1,19 +1,21 @@
 <template>
   <div class="el-vue-search-box-container" @keydown.up="selectTip('up')" @keydown.down="selectTip('down')">
     <div class="search-box-wrapper">
-      <input type="text"
+      <input
         v-model="keyword"
+        type="text"
         @keyup.enter="search"
         @input="autoComplete">
       <span class="search-btn" @click="search" >搜索</span>
     </div>
     <div class="search-tips">
       <ul>
-        <li v-for="(tip, index) in tips"
+        <li
+          v-for="(tip, index) in tips"
           :key="index"
+          :class="{'autocomplete-selected': index === selectedTip}"
           @click="changeTip(tip)"
-          @mouseover="selectedTip=index"
-          :class="{'autocomplete-selected': index === selectedTip}">{{tip.name}}</li>
+          @mouseover="selectedTip=index">{{ tip.name }}</li>
       </ul>
     </div>
   </div>
@@ -88,9 +90,9 @@
 </style>
 <script>
 import RegisterComponentMixin from '../mixins/register-component'
-import {lazyAMapApiLoaderInstance} from '../services/injected-amap-api-instance'
+import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instance'
 export default {
-  name: 'el-amap-search-box',
+  name: 'ElAmapSearchBox',
   mixins: [RegisterComponentMixin],
   props: ['searchOption', 'onSearchResult', 'events', 'default'],
   data() {
@@ -101,18 +103,6 @@ export default {
       loaded: false
     }
   },
-  mounted() {
-    let _loadApiPromise = lazyAMapApiLoaderInstance.load()
-    _loadApiPromise.then(() => {
-      this.loaded = true
-      this._onSearchResult = this.onSearchResult
-      // register init event
-      this.events && this.events.init && this.events.init({
-        autoComplete: this._autoComplete,
-        placeSearch: this._placeSearch
-      })
-    })
-  },
   computed: {
     _autoComplete() {
       if (!this.loaded) return
@@ -122,6 +112,18 @@ export default {
       if (!this.loaded) return
       return new AMap.PlaceSearch(this.searchOption || {})
     }
+  },
+  mounted() {
+    const _loadApiPromise = lazyAMapApiLoaderInstance.load()
+    _loadApiPromise.then(() => {
+      this.loaded = true
+      this._onSearchResult = this.onSearchResult
+      // register init event
+      this.events && this.events.init && this.events.init({
+        autoComplete: this._autoComplete,
+        placeSearch: this._placeSearch
+      })
+    })
   },
   methods: {
     autoComplete() {
@@ -137,8 +139,8 @@ export default {
       if (!this._placeSearch) return
       this._placeSearch.search(this.keyword, (status, result) => {
         if (result && result.poiList && result.poiList.count) {
-          let {poiList: {pois}} = result
-          let LngLats = pois.map(poi => {
+          const { poiList: { pois }} = result
+          const LngLats = pois.map(poi => {
             poi.lat = poi.location.lat
             poi.lng = poi.location.lng
             return poi

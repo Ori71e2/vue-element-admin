@@ -4,7 +4,7 @@
 <script>
 import registerMixin from '../mixins/register-component'
 export default {
-  name: 'el-amap-ground-image',
+  name: 'ElAmapGroundImage',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -16,9 +16,6 @@ export default {
     'events',
     'onceEvents'
   ],
-  destroyed() {
-    this.$amapComponent.setMap(null)
-  },
   data() {
     return {
       converters: {},
@@ -32,6 +29,9 @@ export default {
         }
       }
     }
+  },
+  destroyed() {
+    this.$amapComponent.setMap(null)
   },
   methods: {
     __initComponent(options) {

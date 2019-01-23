@@ -1,10 +1,10 @@
 import Vue from 'vue'
 
 export const compile = (tpl, vm) => {
-  let keys = ['methods', 'computed', 'data', 'filters']
-  let props = {}
+  const keys = ['methods', 'computed', 'data', 'filters']
+  const props = {}
 
-  let node = Vue.compile(tpl)
+  const node = Vue.compile(tpl)
   keys.forEach(key => {
     props[key] = vm.$parent.$parent.$options[key]
 
@@ -13,7 +13,7 @@ export const compile = (tpl, vm) => {
     }
   })
 
-  let vNode = new Vue({
+  const vNode = new Vue({
     ...props,
     ...node
   })
@@ -23,13 +23,13 @@ export const compile = (tpl, vm) => {
 }
 
 export const mountedVNode = (vn) => {
-  const instance = new Vue({render: (h) => h('div', vn)})
+  const instance = new Vue({ render: (h) => h('div', vn) })
   instance.$mount()
   return instance
 }
 
 export const mountedRenderFn = (renderFn, vueInstance) => {
-  const instance = new Vue({render: h => renderFn(h, vueInstance)})
+  const instance = new Vue({ render: h => renderFn(h, vueInstance) })
   instance.$mount()
   return instance
 }

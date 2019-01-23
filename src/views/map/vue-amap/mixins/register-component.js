@@ -52,10 +52,10 @@ export default {
     convertProps() {
       const props = {}
       if (this.$amap) props.map = this.$amap
-      const { $options: { propsData = {} }, propsRedirect } = this
+      const { $options: { propsData = {}}, propsRedirect } = this
       return Object.keys(propsData).reduce((res, _key) => {
         let key = _key
-        let propsValue = this.convertSignalProp(key, propsData[key])
+        const propsValue = this.convertSignalProp(key, propsData[key])
         if (propsValue === undefined) return res
         if (propsRedirect && propsRedirect[_key]) key = propsRedirect[key]
         props[key] = propsValue
@@ -92,13 +92,13 @@ export default {
       this.setEditorEvents && this.setEditorEvents()
       if (!this.$options.propsData) return
       if (this.$options.propsData.events) {
-        for (let eventName in this.events) {
+        for (const eventName in this.events) {
           eventHelper.addListener(this.$amapComponent, eventName, this.events[eventName])
         }
       }
 
       if (this.$options.propsData.onceEvents) {
-        for (let eventName in this.onceEvents) {
+        for (const eventName in this.onceEvents) {
           eventHelper.addListenerOnce(this.$amapComponent, eventName, this.onceEvents[eventName])
         }
       }
@@ -109,12 +109,12 @@ export default {
     },
 
     setPropWatchers() {
-      const { propsRedirect, $options: { propsData = {} } } = this
+      const { propsRedirect, $options: { propsData = {}}} = this
 
       Object.keys(propsData).forEach(prop => {
         let handleProp = prop
         if (propsRedirect && propsRedirect[prop]) handleProp = propsRedirect[prop]
-        let handleFun = this.getHandlerFun(handleProp)
+        const handleFun = this.getHandlerFun(handleProp)
         if (!handleFun && prop !== 'events') return
 
         // watch props
@@ -125,7 +125,7 @@ export default {
             return
           }
           if (handleFun && handleFun === this.$amapComponent.setOptions) {
-            return handleFun.call(this.$amapComponent, {[handleProp]: this.convertSignalProp(prop, nv)})
+            return handleFun.call(this.$amapComponent, { [handleProp]: this.convertSignalProp(prop, nv) })
           }
 
           handleFun.call(this.$amapComponent, this.convertSignalProp(prop, nv))
@@ -137,7 +137,7 @@ export default {
     },
 
     registerToManager() {
-      let manager = this.amapManager || this.$parent.amapManager
+      const manager = this.amapManager || this.$parent.amapManager
       if (manager && this.vid !== undefined) {
         manager.setComponent(this.vid, this.$amapComponent)
       }
@@ -163,7 +163,7 @@ export default {
      */
     printReactiveProp() {
       Object.keys(this._props).forEach(k => {
-        let fn = this.$amapComponent[`set${upperCamelCase(k)}`]
+        const fn = this.$amapComponent[`set${upperCamelCase(k)}`]
         if (fn) {
           console.log(k)
         }
@@ -172,7 +172,7 @@ export default {
 
     register() {
       const res = this.__initComponent && this.__initComponent(this.convertProps())
-      if (res && res.then) res.then((instance) => this.registerRest(instance))  // promise
+      if (res && res.then) res.then((instance) => this.registerRest(instance)) // promise
       else this.registerRest(res)
     },
 

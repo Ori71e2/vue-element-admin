@@ -7,7 +7,7 @@ import registerMixin from '../mixins/register-component'
 import { compile, mountedVNode, mountedRenderFn } from '../utils/compile'
 import Vue from 'vue'
 export default {
-  name: 'el-amap-info-window',
+  name: 'ElAmapInfoWindow',
   mixins: [registerMixin],
   props: [
     'vid',
@@ -26,7 +26,7 @@ export default {
     'contentRender'
   ],
   data() {
-    let self = this
+    const self = this
     return {
       withSlots: false,
       tmpVM: null,
@@ -56,7 +56,7 @@ export default {
       handlers: {
         visible(flag) {
           // fixed Amap info-window reopen
-          let position = this.getPosition()
+          const position = this.getPosition()
           if (position) {
             flag === false ? this.close() : this.open(self.$amap, [position.lng, position.lat])
           }
@@ -70,11 +70,11 @@ export default {
   created() {
     this.tmpVM = new Vue({
       data() {
-        return {node: ''}
+        return { node: '' }
       },
       render(h) {
         const { node } = this
-        return h('div', {ref: 'node'}, Array.isArray(node) ? node : [node])
+        return h('div', { ref: 'node' }, Array.isArray(node) ? node : [node])
       }
     }).$mount()
   },

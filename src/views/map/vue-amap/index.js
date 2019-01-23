@@ -4,7 +4,7 @@ import './polyfills'
 import upperCamelCase from 'uppercamelcase'
 
 // 初始化接口
-import {initAMapApiLoader} from './services/injected-amap-api-instance'
+import { initAMapApiLoader } from './services/injected-amap-api-instance'
 
 // 组建导入
 import AMap from './components/amap'
@@ -25,7 +25,7 @@ import AMapRectangle from './components/amap-rectangle'
 import AMapManager from './managers/amap-manager'
 import createCustomComponent from './adapter/custom-adapter'
 
-let components = [
+const components = [
   AMap,
   AMapMarker,
   AMapSearchBox,
@@ -41,7 +41,7 @@ let components = [
   AMapRectangle
 ]
 
-let VueAMap = {
+const VueAMap = {
   initAMapApiLoader,
   AMapManager
 }
