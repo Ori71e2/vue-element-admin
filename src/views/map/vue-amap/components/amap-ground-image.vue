@@ -6,6 +6,7 @@ import registerMixin from '../mixins/register-component'
 export default {
   name: 'ElAmapGroundImage',
   mixins: [registerMixin],
+  /* eslint-disable */
   props: [
     'vid',
     'clickable',
@@ -16,6 +17,7 @@ export default {
     'events',
     'onceEvents'
   ],
+  /* eslint-enable */
   data() {
     return {
       converters: {},

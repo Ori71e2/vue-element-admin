@@ -13,6 +13,7 @@ import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instanc
 export default {
   name: 'ElAmap',
   mixins: [registerMixin],
+  /* eslint-disable */
   props: [
   //  add v1.4.0 new feature
     'viewMode',
@@ -21,7 +22,6 @@ export default {
     'pitch',
     'buildingAnimation',
     'pitchEnable',
-
     'vid',
     'events',
     'center',
@@ -52,7 +52,7 @@ export default {
     'features',
     'amapManager' // 地图管理 manager
   ],
-
+  /* eslint-enable */
   data() {
     return {
       converters: {
@@ -73,7 +73,6 @@ export default {
       }
     }
   },
-
   computed: {
     /**
     * convert plugin prop from 'plugin' to 'plugins'
@@ -84,17 +83,14 @@ export default {
       let plus = []
       // amap plugin prefix reg
       const amap_prefix_reg = /^AMap./
-
       // parse plugin full name
       const parseFullName = (pluginName) => {
         return amap_prefix_reg.test(pluginName) ? pluginName : 'AMap.' + pluginName
       }
-
       // parse plugin short name
       const parseShortName = (pluginName) => {
         return pluginName.replace(amap_prefix_reg, '')
       }
-
       if (typeof this.plugin === 'string') {
         plus.push({
           pName: parseFullName(this.plugin),
@@ -103,7 +99,6 @@ export default {
       } else if (this.plugin instanceof Array) {
         plus = this.plugin.map(oPlugin => {
           let nPlugin = {}
-
           if (typeof oPlugin === 'string') {
             nPlugin = {
               pName: parseFullName(oPlugin),
@@ -120,26 +115,21 @@ export default {
       return plus
     }
   },
-
   beforeCreate() {
     this._loadPromise = lazyAMapApiLoaderInstance.load()
   },
-
   destroyed() {
     this.$amap && this.$amap.destroy()
   },
-
   mounted() {
     this.createMap()
   },
-
   addEvents() {
     this.$amapComponent.on('moveend', () => {
       const centerLngLat = this.$amapComponent.getCenter()
       this.center = [centerLngLat.getLng(), centerLngLat.getLat()]
     })
   },
-
   methods: {
     addPlugins() {
       const _notInjectPlugins = this.plugins.filter(_plugin => !AMap[_plugin.sName])
@@ -147,20 +137,15 @@ export default {
       if (!_notInjectPlugins || !_notInjectPlugins.length) return this.addMapControls()
       return this.$amapComponent.plugin(_notInjectPlugins, this.addMapControls)
     },
-
     addMapControls() {
       if (!this.plugins || !this.plugins.length) return
-
       //  store plugin instances
       this.$plugins = this.$plugins || {}
-
       this.plugins.forEach(_plugin => {
         const realPluginOptions = this.convertAMapPluginProps(_plugin)
         const pluginInstance = this.$plugins[realPluginOptions.pName] = new AMap[realPluginOptions.sName](realPluginOptions)
-
         // add plugin into map
         this.$amapComponent.addControl(pluginInstance)
-
         // register plugin event
         if (_plugin.events) {
           for (const k in _plugin.events) {
@@ -171,7 +156,6 @@ export default {
         }
       })
     },
-
     /**
     * parse plugin
     * @param  {Object}
@@ -200,11 +184,9 @@ export default {
         return ''
       }
     },
-
     setStatus(option) {
       this.$amap.setStatus(option)
     },
-
     createMap() {
       this._loadPromise.then(() => {
         const mapElement = this.$el.querySelector('.el-vue-amap')

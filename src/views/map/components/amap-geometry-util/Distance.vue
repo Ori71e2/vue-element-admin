@@ -39,7 +39,7 @@ const geometryAmapDistance = createCustomComponent({
   },
   init(options, map) {
     this.path = [[this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]]
-    this.line = new window.AMap.Polyline({
+    this.line = new AMap.Polyline({
       map: this.showLabel ? this.$amap : null,
       strokeColor: '#80d8ff',
       isOutline: true,
@@ -49,9 +49,9 @@ const geometryAmapDistance = createCustomComponent({
     const textPos = []
     textPos[0] = (this.origin[0] + this.destination[0]) / 2
     textPos[1] = (this.origin[1] + this.destination[1]) / 2
-    const position = new window.AMap.LngLat(textPos[0], textPos[1])
+    const position = new AMap.LngLat(textPos[0], textPos[1])
     // console.log(position)
-    this.text = new window.AMap.Text({
+    this.text = new AMap.Text({
       text: this.distance + '米',
       position: position,
       map: this.showLabel ? this.$amap : null,
@@ -62,33 +62,33 @@ const geometryAmapDistance = createCustomComponent({
         'opacity': 0.8
       }
     })
-    this.distance = window.AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]])
+    this.distance = AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]])
     return this.line
   },
   watch: {
     origin(value) {
       this.path = [[this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]]
-      this.distance = window.AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]).toFixed(3)
+      this.distance = AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]).toFixed(3)
       console.log('distance' + this.distance)
       this.line.setPath(this.path)
 
       const textPos = []
       textPos[0] = (this.origin[0] + this.destination[0]) / 2
       textPos[1] = (this.origin[1] + this.destination[1]) / 2
-      const position = new window.AMap.LngLat(textPos[0], textPos[1])
+      const position = new AMap.LngLat(textPos[0], textPos[1])
       this.text.setPosition(position)
       this.text.setText(this.distance + '米')
     },
     destination(value) {
       this.path = [[this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]]
-      this.distance = window.AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]).toFixed(3)
+      this.distance = AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]).toFixed(3)
       console.log('distance' + this.distance)
       this.line.setPath(this.path)
 
       const textPos = []
       textPos[0] = (this.origin[0] + this.destination[0]) / 2
       textPos[1] = (this.origin[1] + this.destination[1]) / 2
-      const position = new window.AMap.LngLat(textPos[0], textPos[1])
+      const position = new AMap.LngLat(textPos[0], textPos[1])
       this.text.setPosition(position)
       this.text.setText(this.distance + '米')
     },
@@ -97,7 +97,7 @@ const geometryAmapDistance = createCustomComponent({
       this.text.setMap(value ? this.$amap : null)
     },
     compute(value) {
-      this.distance = window.AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]).toFixed(3)
+      this.distance = AMap.GeometryUtil.distance([this.origin[0], this.origin[1]], [this.destination[0], this.destination[1]]).toFixed(3)
       console.log('distance' + this.distance)
     }
   },

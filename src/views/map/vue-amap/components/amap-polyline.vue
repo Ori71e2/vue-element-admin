@@ -8,6 +8,7 @@ import { lngLatTo } from '../utils/convert-helper'
 export default {
   name: 'ElAmapPolyline',
   mixins: [registerMixin, editorMixin],
+  /* eslint-disable */
   props: [
     'vid',
     'zIndex',
@@ -28,6 +29,7 @@ export default {
     'onceEvents',
     'lineJoin'
   ],
+  /* eslint-enable */
   data() {
     return {
       converters: {},

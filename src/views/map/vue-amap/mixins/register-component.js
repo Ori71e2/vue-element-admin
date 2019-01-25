@@ -11,11 +11,12 @@ export default {
       unwatchFns: []
     }
   },
-
   mounted() {
     if (lazyAMapApiLoaderInstance) {
       lazyAMapApiLoaderInstance.load().then(() => {
+        /* eslint-disable */
         this.__contextReady && this.__contextReady.call(this, this.convertProps())
+        /* eslint-enable */
       })
     }
     this.$amap = this.$amap || this.$parent.$amap
@@ -28,27 +29,22 @@ export default {
       })
     }
   },
-
   destroyed() {
     this.unregisterEvents()
     if (!this.$amapComponent) return
-
     this.$amapComponent.setMap && this.$amapComponent.setMap(null)
     this.$amapComponent.close && this.$amapComponent.close()
     this.$amapComponent.editor && this.$amapComponent.editor.close()
     this.unwatchFns.forEach(item => item())
     this.unwatchFns = []
   },
-
   methods: {
     getHandlerFun(prop) {
       if (this.handlers && this.handlers[prop]) {
         return this.handlers[prop]
       }
-
       return this.$amapComponent[`set${upperCamelCase(prop)}`] || this.$amapComponent.setOptions
     },
-
     convertProps() {
       const props = {}
       if (this.$amap) props.map = this.$amap
@@ -62,21 +58,19 @@ export default {
         return res
       }, props)
     },
-
     convertSignalProp(key, sourceData) {
       let converter = ''
       let type = ''
-
       if (this.amapTagName) {
         try {
           const name = upperCamelCase(this.amapTagName).replace(/^El/, '')
           const componentConfig = VueAMap[name] || ''
-
           type = componentConfig.props[key].$type
           converter = commonConvertMap[type]
-        } catch (e) {}
+        } catch (e) {
+          return
+        }
       }
-
       if (type && converter) {
         return converter(sourceData)
       } else if (this.converters && this.converters[key]) {
@@ -87,7 +81,6 @@ export default {
         return sourceData
       }
     },
-
     registerEvents() {
       this.setEditorEvents && this.setEditorEvents()
       if (!this.$options.propsData) return
@@ -96,27 +89,22 @@ export default {
           eventHelper.addListener(this.$amapComponent, eventName, this.events[eventName])
         }
       }
-
       if (this.$options.propsData.onceEvents) {
         for (const eventName in this.onceEvents) {
           eventHelper.addListenerOnce(this.$amapComponent, eventName, this.onceEvents[eventName])
         }
       }
     },
-
     unregisterEvents() {
       eventHelper.clearListeners(this.$amapComponent)
     },
-
     setPropWatchers() {
       const { propsRedirect, $options: { propsData = {}}} = this
-
       Object.keys(propsData).forEach(prop => {
         let handleProp = prop
         if (propsRedirect && propsRedirect[prop]) handleProp = propsRedirect[prop]
         const handleFun = this.getHandlerFun(handleProp)
         if (!handleFun && prop !== 'events') return
-
         // watch props
         const unwatch = this.$watch(prop, nv => {
           if (prop === 'events') {
@@ -127,36 +115,29 @@ export default {
           if (handleFun && handleFun === this.$amapComponent.setOptions) {
             return handleFun.call(this.$amapComponent, { [handleProp]: this.convertSignalProp(prop, nv) })
           }
-
           handleFun.call(this.$amapComponent, this.convertSignalProp(prop, nv))
         })
-
         // collect watchers for destroyed
         this.unwatchFns.push(unwatch)
       })
     },
-
     registerToManager() {
       const manager = this.amapManager || this.$parent.amapManager
       if (manager && this.vid !== undefined) {
         manager.setComponent(this.vid, this.$amapComponent)
       }
     },
-
     // some prop can not init by initial created methods
     initProps() {
       const props = ['editable', 'visible']
-
       props.forEach(propStr => {
         if (this[propStr] !== undefined) {
           const handleFun = this.getHandlerFun(propStr)
           handleFun && handleFun.call(this.$amapComponent, this.convertSignalProp(propStr, this[propStr]))
         }
       })
-
       // this.printReactiveProp()
     },
-
     /**
      * methods for developing
      * find reactive props
@@ -169,23 +150,19 @@ export default {
         }
       })
     },
-
     register() {
       const res = this.__initComponent && this.__initComponent(this.convertProps())
       if (res && res.then) res.then((instance) => this.registerRest(instance)) // promise
       else this.registerRest(res)
     },
-
     registerRest(instance) {
       if (!this.$amapComponent && instance) this.$amapComponent = instance
       this.registerEvents()
       this.initProps()
       this.setPropWatchers()
       this.registerToManager()
-
       if (this.events && this.events.init) this.events.init(this.$amapComponent, this.$amap, this.amapManager || this.$parent.amapManager)
     },
-
     // helper method
     $$getInstance() {
       return this.$amapComponent

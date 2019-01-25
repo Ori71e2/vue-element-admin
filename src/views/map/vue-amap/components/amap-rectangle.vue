@@ -1,4 +1,6 @@
-<template/>
+<template>
+  <div/>
+</template>
 <script>
 import registerMixin from '../mixins/register-component'
 const TAG = 'el-amap-rectangle'
@@ -6,6 +8,7 @@ const TAG = 'el-amap-rectangle'
 export default {
   name: TAG,
   mixins: [registerMixin],
+  /* eslint-disable */
   props: {
     vid: {
       type: String
@@ -77,21 +80,19 @@ export default {
     }
 
   },
+  /* eslint-enable */
   data() {
     return {
       converters: {
       },
-
       handlers: {
         zIndex(index) {
           this.setzIndex(index)
         },
-
         visible(flag) {
           flag === false ? this.hide() : this.show()
         }
       },
-
       amapTagName: TAG
     }
   },

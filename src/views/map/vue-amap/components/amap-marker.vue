@@ -21,6 +21,7 @@ const TAG = 'el-amap-marker'
 export default {
   name: TAG,
   mixins: [registerMixin],
+  /* eslint-disable */
   props: [
     'vid',
     'position',
@@ -49,6 +50,7 @@ export default {
     'vnode',
     'contentRender'
   ],
+  /* eslint-enable */
   data() {
     const self = this
     return {
@@ -101,6 +103,12 @@ export default {
       }
     }
   },
+  activated() {
+    console.log('activated')
+    console.log(this.tmpVM)
+  },
+  deactivated() {
+  },
   created() {
     this.tmpVM = new Vue({
       data() {
@@ -123,7 +131,6 @@ export default {
       if (this.$slots.default && this.$slots.default.length) {
         options.content = this.tmpVM.$refs.node
       }
-
       this.$amapComponent = new AMap.Marker(options)
     },
 

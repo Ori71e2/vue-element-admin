@@ -94,7 +94,14 @@ import { lazyAMapApiLoaderInstance } from '../services/injected-amap-api-instanc
 export default {
   name: 'ElAmapSearchBox',
   mixins: [RegisterComponentMixin],
-  props: ['searchOption', 'onSearchResult', 'events', 'default'],
+  /* eslint-disable */
+  props: [
+    'searchOption',
+    'onSearchResult',
+    'events',
+    'default'
+  ],
+  /* eslint-enable */
   data() {
     return {
       keyword: this.default || '',

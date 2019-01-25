@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-if="hackReset">
+    <div>
       <el-amap-marker
-        v-for="(marker) in markers"
-        :key="marker.index"
+        v-for="(marker, index) in markers"
+        :key="index"
         :position="marker.position"
         :events="marker.events"
         :visible="marker.visible"
@@ -67,10 +67,10 @@ export default {
   },
   mounted() {
     this.markersRaw = this.MarkersList
-    this.fetchMarkersListByParams()
+    // this.fetchMarkersListByParams()
   },
   activated() {
-    // this.fetchMarkersListByParams()
+    this.fetchMarkersListByParams()
   },
   methods: {
     changemarkersRaw() {
@@ -89,11 +89,9 @@ export default {
     fetchMarkersListByParams() {
       fetchMarkersList().then((response) => {
         const data = response.data.data
-        this.markers.push(this.markerRawToRipe({ position: [118.710243, 33.766052], SICCode: 'SIC220301', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }}))
         for (let i = 0; i < data.length; i++) {
           this.markersRaw.push(data[i])
         }
-        this.$forceUpdate()
         console.log(this.markers)
       })
     },

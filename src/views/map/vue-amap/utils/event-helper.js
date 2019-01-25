@@ -1,3 +1,4 @@
+/* eslint-disable */
 let eventHelper
 class EventHelper {
   constructor() {
@@ -11,7 +12,6 @@ class EventHelper {
      */
     this._listener = new Map()
   }
-
   addListener(instance, eventName, handler, context) {
     if (!AMap.event) throw new Error('please wait for Map API load')
     const listener = AMap.event.addListener(instance, eventName, handler, context)
@@ -20,7 +20,6 @@ class EventHelper {
     if (!listenerMap[eventName]) listenerMap[eventName] = []
     listenerMap[eventName].push(listener)
   }
-
   removeListener(instance, eventName, handler) {
     if (!AMap.event) throw new Error('please wait for Map API load')
     if (!this._listener.get(instance) || !this._listener.get(instance)[eventName]) return
@@ -42,7 +41,6 @@ class EventHelper {
   trigger(instance, eventName, args) {
     return AMap.event.trigger(instance, eventName, args)
   }
-
   clearListeners(instance) {
     const listeners = this._listener.get(instance)
     if (!listeners) return
@@ -51,7 +49,6 @@ class EventHelper {
     })
   }
 }
-
 eventHelper = eventHelper || new EventHelper()
 
 export default eventHelper

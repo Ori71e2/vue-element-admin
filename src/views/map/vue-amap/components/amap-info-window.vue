@@ -9,6 +9,7 @@ import Vue from 'vue'
 export default {
   name: 'ElAmapInfoWindow',
   mixins: [registerMixin],
+  /* eslint-disable */
   props: [
     'vid',
     'isCustom',
@@ -25,6 +26,7 @@ export default {
     'vnode',
     'contentRender'
   ],
+  /* eslint-enable */
   data() {
     const self = this
     return {

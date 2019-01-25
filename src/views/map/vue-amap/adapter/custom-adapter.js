@@ -1,6 +1,7 @@
 import registerComponent from '../mixins/register-component'
 
 export default (options) => {
+  /* eslint-disable */
   const {
     init,
     data = () => ({}),
@@ -15,6 +16,7 @@ export default (options) => {
     mixins = [],
     props = {}
   } = options
+  /* eslint-enable */
   const result = {
     ...options,
     props,

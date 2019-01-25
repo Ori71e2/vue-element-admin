@@ -23,21 +23,17 @@ export default class AMapAPILoader {
     this._scriptLoaded = false
     this._queueEvents = [patchIOS11Geo]
   }
-
   load() {
     if (this._window.AMap && this._window.AMap.Map) {
       return this.loadUIAMap()
     }
-
     if (this._scriptLoadingPromise) return this._scriptLoadingPromise
     const script = this._document.createElement('script')
     script.type = 'text/javascript'
     script.async = true
     script.defer = true
     script.src = this._getScriptSrc()
-
     const UIPromise = this._config.uiVersion ? this.loadUIAMap() : null
-
     this._scriptLoadingPromise = new Promise((resolve, reject) => {
       this._window['amapInitComponent'] = () => {
         while (this._queueEvents.length) {

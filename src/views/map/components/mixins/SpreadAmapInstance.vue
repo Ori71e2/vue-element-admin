@@ -15,6 +15,7 @@ export default {
       this.$children.forEach(component => {
         component.$emit(CONSTANTS.AMAP_READY_EVENT, newValue)
       })
+      this.$amap = newValue
     }
   }
 }

@@ -8,6 +8,7 @@ import editorMixin from '../mixins/editor-component'
 export default {
   name: 'ElAmapCircle',
   mixins: [registerMixin, editorMixin],
+  /* eslint-disable */
   props: [
     'vid',
     'zIndex',
@@ -28,6 +29,7 @@ export default {
     'extData',
     'onceEvents'
   ],
+  /* eslint-enable */
   data() {
     return {
       converters: {

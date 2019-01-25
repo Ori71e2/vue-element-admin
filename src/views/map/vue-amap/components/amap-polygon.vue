@@ -8,6 +8,7 @@ import { lngLatTo } from '../utils/convert-helper'
 export default {
   name: 'ElAmapPolygon',
   mixins: [registerMixin, editorMixin],
+  /* eslint-disable */
   props: [
     'vid',
     'zIndex',
@@ -27,6 +28,7 @@ export default {
     'onceEvents',
     'draggable'
   ],
+  /* eslint-enable */
   data() {
     return {
       converters: {},
