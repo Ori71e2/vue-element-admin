@@ -14,10 +14,6 @@
         :content-render="marker.contentRender"
       />
     </div>
-    <el-amap-marker
-      :position="marker1.position"
-      :vid="marker1.index"
-    />
     <div>
       <el-button slot="reference" type="primary" @click="addMarker">
         添加<i class="el-icon-arrow-up el-icon--right"/>
@@ -29,7 +25,7 @@
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 import markerExp from '../transmission-line/MarkerExp'
 import { fetchMarkersList } from '@/api/amapMarkers'
-
+import Vue from 'vue'
 export default {
   components: {
     markerExp
@@ -43,19 +39,7 @@ export default {
   },
   data() {
     return {
-      // markersRaw: markersArray
-      markersRaw: [],
-      MarkersList: [
-        { position: [118.720243, 33.776052], SICCode: 'SIC110401', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
-        { position: [118.719843, 33.775652], SICCode: 'SIC110402', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }},
-        { position: [118.719443, 33.775252], SICCode: 'SIC110403', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }}
-      ],
-      marker1: {
-        position: [118.716184, 33.720615],
-        index: '1'
-      },
-      hackReset: true,
-      radius: 20
+      markersRaw: []
     }
   },
   computed: {
@@ -66,7 +50,7 @@ export default {
   watch: {
   },
   mounted() {
-    this.markersRaw = this.MarkersList
+    // this.markersRaw = this.MarkersList
     // this.fetchMarkersListByParams()
   },
   activated() {
@@ -79,7 +63,7 @@ export default {
     },
     addMarker() {
       // this.hackReset = false
-      this.markersRaw.push({ position: [118.710143, 33.766052], SICCode: 'SIC220301', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }})
+      // this.markersRaw.push({ position: [118.710143, 33.766052], SICCode: 'SIC220301', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }})
       console.log(this.markers)
       this.$forceUpdate()
       // this.$nextTick(() => {
@@ -88,11 +72,28 @@ export default {
     },
     fetchMarkersListByParams() {
       fetchMarkersList().then((response) => {
-        const data = response.data.data
-        for (let i = 0; i < data.length; i++) {
-          this.markersRaw.push(data[i])
-        }
-        console.log(this.markers)
+        const newMarkersRaw = response.data.data
+        newMarkersRaw.map((newM) => {
+          const newMModifyTime = new Date(newM.modifyTime)
+          // 根据差异算法，判断更新哪些值
+          // 第一次判断是否是空数组，是，直接插入
+          if (JSON.stringify(this.markersRaw) === '[]') {
+            this.markersRaw.push(newM)
+          } else {
+            // 查看新数据id是否存在，不存在直接插入
+            if (!this.markersRaw.map((v) => { return v.id }).includes(newM.id)) {
+              this.markersRaw.push(newM)
+            } else {
+              // id已存在，判断时间，若是最新的需要进行更新
+              this.markersRaw.forEach((m, i, a) => {
+                const mDodifyTime = new Date(m.modifyTime)
+                if (m.id === newM.id && newMModifyTime.getTime() > mDodifyTime.getTime()) {
+                  Vue.set(a, i, newM)
+                }
+              })
+            }
+          }
+        })
       })
     },
     markerRawToRipe(v, i) {

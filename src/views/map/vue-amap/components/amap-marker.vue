@@ -104,8 +104,6 @@ export default {
     }
   },
   activated() {
-    console.log('activated')
-    console.log(this.tmpVM)
   },
   deactivated() {
   },
