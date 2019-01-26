@@ -45,22 +45,23 @@ export default {
     }
   },
   computed: {
-    markers() {
-      /* eslint-disable */
-      const tmp = this.change
-      /* eslint-enable */
-      return [...this.markersRawMap.values()].map((v, i) => { return this.markerRawToRipe(v, i) })
-      // return this.markersRaw.map((v, i) => { return this.markerRawToRipe(v, i) })
-    },
-    markersVar() {
-      return function(id) {
+    markers: {
+      get: function() {
         /* eslint-disable */
         const tmp = this.change
         /* eslint-enable */
-        console.log(this.markersRawMap.get(id))
-        return this.markersRawMap.get(id).draggable
+        return [...this.markersRawMap.values()].map((v, i) => { return this.markerRawToRipe(v, i) })
       }
     }
+    // markersVar() {
+    //   return function(id) {
+    //     /* eslint-disable */
+    //     const tmp = this.change
+    //     /* eslint-enable */
+    //     console.log(this.markersRawMap.get(id))
+    //     return this.markersRawMap.get(id).draggable
+    //   }
+    // }
   },
   watch: {
   },
@@ -79,32 +80,19 @@ export default {
     fetchMarkersListByParams() {
       fetchMarkersList().then((response) => {
         const newMarkersRaw = response.data.data
-        newMarkersRaw.forEach(val => {
-          val.draggable = false
-          this.markersRawMap.set(val.id, val)
+        newMarkersRaw.forEach((newM) => {
+          newM.draggable = false
+          if (!this.markersRawMap.has(newM.id)) {
+            this.markersRawMap.set(newM.id, newM)
+          } else {
+            const newMModifyTime = new Date(newM.modifyTime)
+            const mDodifyTime = new Date(this.markersRawMap.get(newM.id).modifyTime)
+            if (newMModifyTime.getTime() > mDodifyTime.getTime()) {
+              this.markersRawMap.set(newM.id, newM)
+            }
+          }
         })
         this.change += 1
-        // newMarkersRaw.map((newM) => {
-        //   const newMModifyTime = new Date(newM.modifyTime)
-        //   // 根据差异算法，判断更新哪些值
-        //   // 第一次判断是否是空数组，是，直接插入
-        //   if (JSON.stringify(this.markersRaw) === '[]') {
-        //     this.markersRaw.push(newM)
-        //   } else {
-        //     // 查看新数据id是否存在，不存在直接插入
-        //     if (!this.markersRaw.map((v) => { return v.id }).includes(newM.id)) {
-        //       this.markersRaw.push(newM)
-        //     } else {
-        //       // id已存在，判断时间，若是最新的需要进行更新
-        //       this.markersRaw.forEach((m, i, a) => {
-        //         const mDodifyTime = new Date(m.modifyTime)
-        //         if (m.id === newM.id && newMModifyTime.getTime() > mDodifyTime.getTime()) {
-        //           Vue.set(a, i, newM)
-        //         }
-        //       })
-        //     }
-        //   }
-        // })
       })
     },
     markerRawToRipe(v, i) {
@@ -125,7 +113,7 @@ export default {
             const id = JSON.parse(e.target.getExtData()).id
             const data = this.markersRawMap.get(id)
             data.draggable = !draggable
-            // e.target.setDraggable(draggable)
+            e.target.setDraggable(draggable)
             this.markersRawMap.set(id, data)
           },
           rightclick: (e) => {
@@ -146,7 +134,7 @@ export default {
             // 一定要给markerExp设置大小，否则无法方便点击和拖拽
             markerExp,
             {
-              props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110, rotate: v.draggable }
+              props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110 }
             }
           )
         },
