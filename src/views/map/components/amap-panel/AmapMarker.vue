@@ -25,7 +25,7 @@
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 import markerExp from '../transmission-line/MarkerExp'
 import { fetchMarkersList } from '@/api/amapMarkers'
-import Vue from 'vue'
+// import Vue from 'vue'
 export default {
   components: {
     markerExp
@@ -39,19 +39,32 @@ export default {
   },
   data() {
     return {
-      markersRaw: []
+      // markersRaw: []
+      markersRawMap: new Map(),
+      change: 1
     }
   },
   computed: {
     markers() {
-      return this.markersRaw.map((v, i) => { return this.markerRawToRipe(v, i) })
+      /* eslint-disable */
+      const tmp = this.change
+      /* eslint-enable */
+      return [...this.markersRawMap.values()].map((v, i) => { return this.markerRawToRipe(v, i) })
+      // return this.markersRaw.map((v, i) => { return this.markerRawToRipe(v, i) })
+    },
+    markersVar() {
+      return function(id) {
+        /* eslint-disable */
+        const tmp = this.change
+        /* eslint-enable */
+        console.log(this.markersRawMap.get(id))
+        return this.markersRawMap.get(id).draggable
+      }
     }
   },
   watch: {
   },
   mounted() {
-    // this.markersRaw = this.MarkersList
-    // this.fetchMarkersListByParams()
   },
   activated() {
     this.fetchMarkersListByParams()
@@ -62,42 +75,42 @@ export default {
       console.log(this.markers)
     },
     addMarker() {
-      // this.hackReset = false
-      // this.markersRaw.push({ position: [118.710143, 33.766052], SICCode: 'SIC220301', extData: { DeviceOwner: 'syy', detail: '挖机施工', remark: '备注' }})
-      console.log(this.markers)
-      this.$forceUpdate()
-      // this.$nextTick(() => {
-      //   // this.hackReset = true
-      // })
     },
     fetchMarkersListByParams() {
       fetchMarkersList().then((response) => {
         const newMarkersRaw = response.data.data
-        newMarkersRaw.map((newM) => {
-          const newMModifyTime = new Date(newM.modifyTime)
-          // 根据差异算法，判断更新哪些值
-          // 第一次判断是否是空数组，是，直接插入
-          if (JSON.stringify(this.markersRaw) === '[]') {
-            this.markersRaw.push(newM)
-          } else {
-            // 查看新数据id是否存在，不存在直接插入
-            if (!this.markersRaw.map((v) => { return v.id }).includes(newM.id)) {
-              this.markersRaw.push(newM)
-            } else {
-              // id已存在，判断时间，若是最新的需要进行更新
-              this.markersRaw.forEach((m, i, a) => {
-                const mDodifyTime = new Date(m.modifyTime)
-                if (m.id === newM.id && newMModifyTime.getTime() > mDodifyTime.getTime()) {
-                  Vue.set(a, i, newM)
-                }
-              })
-            }
-          }
+        newMarkersRaw.forEach(val => {
+          val.draggable = false
+          this.markersRawMap.set(val.id, val)
         })
+        this.change += 1
+        // newMarkersRaw.map((newM) => {
+        //   const newMModifyTime = new Date(newM.modifyTime)
+        //   // 根据差异算法，判断更新哪些值
+        //   // 第一次判断是否是空数组，是，直接插入
+        //   if (JSON.stringify(this.markersRaw) === '[]') {
+        //     this.markersRaw.push(newM)
+        //   } else {
+        //     // 查看新数据id是否存在，不存在直接插入
+        //     if (!this.markersRaw.map((v) => { return v.id }).includes(newM.id)) {
+        //       this.markersRaw.push(newM)
+        //     } else {
+        //       // id已存在，判断时间，若是最新的需要进行更新
+        //       this.markersRaw.forEach((m, i, a) => {
+        //         const mDodifyTime = new Date(m.modifyTime)
+        //         if (m.id === newM.id && newMModifyTime.getTime() > mDodifyTime.getTime()) {
+        //           Vue.set(a, i, newM)
+        //         }
+        //       })
+        //     }
+        //   }
+        // })
       })
     },
     markerRawToRipe(v, i) {
-      const { position, SICCode, extData } = v
+      const { id, position, SICCode, extData } = v
+      extData.id = id
+
       return {
         position,
         events: {
@@ -108,7 +121,12 @@ export default {
             console.log(JSON.parse(e.target.getExtData()).detail)
           },
           dblclick: (e) => {
-            e.target.setDraggable(!e.target.getDraggable())
+            const draggable = !e.target.getDraggable()
+            const id = JSON.parse(e.target.getExtData()).id
+            const data = this.markersRawMap.get(id)
+            data.draggable = !draggable
+            // e.target.setDraggable(draggable)
+            this.markersRawMap.set(id, data)
           },
           rightclick: (e) => {
             this.changemarkersRaw()
@@ -122,13 +140,13 @@ export default {
         extData: JSON.stringify(extData),
         clickable: true,
         visible: true,
-        draggable: false,
+        draggable: v.draggable,
         contentRender: (h, instance) => {
           return h(
             // 一定要给markerExp设置大小，否则无法方便点击和拖拽
             markerExp,
             {
-              props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110 }
+              props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110, rotate: v.draggable }
             }
           )
         },

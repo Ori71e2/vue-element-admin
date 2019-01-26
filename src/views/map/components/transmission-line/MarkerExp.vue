@@ -45,6 +45,10 @@ export default {
     voltageClass: {
       type: Number,
       default: 35
+    },
+    rotate: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -75,6 +79,9 @@ export default {
   watch: {
     svgIconCode(val) {
       this.SICToSvgName(val)
+    },
+    rotate(val) {
+      console.log(val)
     }
   },
   methods: {
