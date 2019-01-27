@@ -1,20 +1,7 @@
 <template>
   <svg :class="svgClass" :style="svgStyle" aria-hidden="true">
     <!-- <use :xlink:href="iconName" filter="url(#spotlight)"/> -->
-    <use :xlink:href="iconName"/>
-    <!-- <defs>
-      <filter id="spotlight">
-        <feFlood result="floodFill" x="0" y="0" width="100%" height="50%" transform="translate(0 15)" flood-color="green" flood-opacity="1"/>
-        <feBlend in="SourceGraphic" in2="floodFill" mode="multiply"/>
-      </filter>
-      <mask id="redmask" x="0" y="0" width="1" height="1" maskContentUnits="objectBoundingBox">
-        <rect x="0" y="0" width="1" height="0.5" style="fill: #fff;"/>
-        <rect x="0" y="0.5" width="1" height="0.5" style="fill: #00f;"/>
-      </mask>
-    </defs> -->
-    <!-- <g style="mask: url(#redmask)">
-      <circle cx="15" cy="15" r="15" style="fill: red;" />
-    </g> -->
+    <use ref="icon" :xlink:href="iconName" transform="rotate(0)"/>
   </svg>
 </template>
 
@@ -35,6 +22,15 @@ export default {
       default: function() {
         return {}
       }
+    },
+    rotate: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      iconTransform: null
     }
   },
   computed: {
@@ -51,6 +47,20 @@ export default {
     svgStyle() {
       return this.styleName
     }
+  },
+  watch: {
+    rotate(val) {
+      console.log(this.iconTransform)
+      if (val) {
+        this.iconTransform.setRotate(15, 0, 0)
+      } else {
+        this.iconTransform.setRotate(0, 0, 0)
+      }
+    }
+  },
+  mounted() {
+    const iconHand = this.$refs.icon
+    this.iconTransform = iconHand.transform.baseVal.getItem(0)
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="click">
     <div>
-      <svg-icon-exp :style-name="svgStyle" :icon-class="iconClass"/>
+      <svg-icon-exp :style-name="svgStyle" :icon-class="iconClass" :rotate="rotate"/>
     </div>
     <!-- <div class="adap-text adap-font text-label">
       <p>{{ text }}</p>
@@ -46,7 +46,11 @@ export default {
       type: Number,
       default: 35
     },
-    rotate: {
+    draggable: {
+      type: Boolean,
+      default: false
+    },
+    change: {
       type: Boolean,
       default: false
     }
@@ -74,14 +78,14 @@ export default {
     buttonStyle() {
       const val = this.voltageClass
       return this.changeButtonColor(val)
+    },
+    rotate() {
+      return this.draggable
     }
   },
   watch: {
     svgIconCode(val) {
       this.SICToSvgName(val)
-    },
-    rotate(val) {
-      console.log(val)
     }
   },
   methods: {

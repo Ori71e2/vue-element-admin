@@ -2,15 +2,15 @@
   <div>
     <div>
       <el-amap-marker
-        v-for="(marker, index) in markers"
-        :key="index"
+        v-for="(marker) in markers"
+        :key="marker.id"
         :position="marker.position"
         :events="marker.events"
         :visible="marker.visible"
         :draggable="marker.draggable"
         :clickable="marker.clickable"
         :ext-data="marker.extData"
-        :vid="marker.order"
+        :vid="marker.vid"
         :content-render="marker.contentRender"
       />
     </div>
@@ -25,7 +25,8 @@
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 import markerExp from '../transmission-line/MarkerExp'
 import { fetchMarkersList } from '@/api/amapMarkers'
-// import Vue from 'vue'
+import Vue from 'vue'
+
 export default {
   components: {
     markerExp
@@ -41,27 +42,11 @@ export default {
     return {
       // markersRaw: []
       markersRawMap: new Map(),
-      change: 1
+      markers: [],
+      change2: false
     }
   },
   computed: {
-    markers: {
-      get: function() {
-        /* eslint-disable */
-        const tmp = this.change
-        /* eslint-enable */
-        return [...this.markersRawMap.values()].map((v, i) => { return this.markerRawToRipe(v, i) })
-      }
-    }
-    // markersVar() {
-    //   return function(id) {
-    //     /* eslint-disable */
-    //     const tmp = this.change
-    //     /* eslint-enable */
-    //     console.log(this.markersRawMap.get(id))
-    //     return this.markersRawMap.get(id).draggable
-    //   }
-    // }
   },
   watch: {
   },
@@ -80,67 +65,97 @@ export default {
     fetchMarkersListByParams() {
       fetchMarkersList().then((response) => {
         const newMarkersRaw = response.data.data
+        const newMarkersRawMap = new Map()
+        // 筛选出变化或者新增的数据Map
+        // 一是更新this.markersRawMap
+        // 二是更新临时变量newMarkersRawMap，存储变化或者新增的值，更新的位置比较讲究
         newMarkersRaw.forEach((newM) => {
+          newM.extData.id = newM.id
           newM.draggable = false
           if (!this.markersRawMap.has(newM.id)) {
             this.markersRawMap.set(newM.id, newM)
+            newMarkersRawMap.set(newM.id, newM)
           } else {
             const newMModifyTime = new Date(newM.modifyTime)
             const mDodifyTime = new Date(this.markersRawMap.get(newM.id).modifyTime)
             if (newMModifyTime.getTime() > mDodifyTime.getTime()) {
               this.markersRawMap.set(newM.id, newM)
+              newMarkersRawMap.set(newM.id, newM)
             }
           }
         })
-        this.change += 1
+        console.log(newMarkersRawMap.values())
+        const tmpMarkers = []
+        if (JSON.stringify(this.markers) === '[]') {
+          newMarkersRawMap.forEach((value, key, map) => { tmpMarkers.push(this.markerRawToRipe(value)) })
+        } else {
+          this.markers.forEach((v, i) => {
+            if (newMarkersRawMap.size !== 0) {
+              if (!newMarkersRawMap.has(v.id)) {
+                console.log(JSON.stringify(newMarkersRawMap))
+                console.log('xx')
+                tmpMarkers.push(this.markerRawToRipe(v))
+              } else {
+                console.log('xxx')
+                const tmpMarkerVal = this.markersRawMap.get(v.id)
+                const { extData, clickable, visible, draggable } = tmpMarkerVal
+                v.extData = extData
+                v.clickable = clickable
+                v.visible = visible
+                v.draggable = draggable
+                Vue.set(this.markers, i, v)
+              }
+            }
+          })
+        }
+        console.log(tmpMarkers)
+        tmpMarkers.map((v) => { this.markers.push(v) })
       })
     },
-    markerRawToRipe(v, i) {
-      const { id, position, SICCode, extData } = v
-      extData.id = id
-
-      return {
+    markerRawToRipe(v) {
+      const { id, position, extData } = v
+      const options = {
         position,
-        events: {
-          click: (e) => {
-            console.log('click marker1')
-            // 反序列化
-            // console.log(JSON.parse(e.target.getExtData()))
-            console.log(JSON.parse(e.target.getExtData()).detail)
-          },
-          dblclick: (e) => {
-            const draggable = !e.target.getDraggable()
-            const id = JSON.parse(e.target.getExtData()).id
-            const data = this.markersRawMap.get(id)
-            data.draggable = !draggable
-            e.target.setDraggable(draggable)
-            this.markersRawMap.set(id, data)
-          },
-          rightclick: (e) => {
-            this.changemarkersRaw()
-          },
-          dragend: (e) => {
-            console.log('---event---: dragend')
-            console.log([e.lnglat.lng, e.lnglat.lat])
-          }
-        },
         // 要进行序列化
         extData: JSON.stringify(extData),
         clickable: true,
         visible: true,
-        draggable: v.draggable,
-        contentRender: (h, instance) => {
-          return h(
-            // 一定要给markerExp设置大小，否则无法方便点击和拖拽
-            markerExp,
-            {
-              props: { text: extData.detail, zoom: this.zoom, svgIconCode: SICCode, 'voltage-class': 110 }
-            }
-          )
-        },
-        order: i + 1,
-        index: 'marker' + Math.floor(Math.random() * 1000000).toString()
+        draggable: v.draggable
       }
+      options.id = id
+      options.vid = id
+      options.events = {
+        click: (e) => {
+          console.log('click marker1')
+          // 反序列化
+          console.log(JSON.parse(e.target.getExtData()))
+        },
+        dblclick: (e) => {
+          const draggable = e.target.getDraggable()
+          const id = JSON.parse(e.target.getExtData()).id
+          const data = this.markersRawMap.get(id)
+          data.draggable = !draggable
+          this.markersRawMap.set(id, data)
+          e.target.setDraggable(!draggable)
+        },
+        rightclick: (e) => {
+          this.changemarkersRaw()
+        },
+        dragend: (e) => {
+          // console.log('---event---: dragend')
+          // console.log([e.lnglat.lng, e.lnglat.lat])
+        }
+      }
+      options.contentRender = (h, instance) => {
+        return h(
+          // 一定要给markerExp设置大小，否则无法方便点击和拖拽
+          markerExp,
+          {
+            props: { text: this.markersRawMap.get(id).extData.detail, zoom: this.zoom, svgIconCode: this.markersRawMap.get(id).SICCode, 'voltage-class': 110, draggable: this.markersRawMap.get(id).draggable }
+          }
+        )
+      }
+      return options
     }
   }
 }
