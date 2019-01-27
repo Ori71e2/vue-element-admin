@@ -43,7 +43,7 @@ export default {
       // markersRaw: []
       markersRawMap: new Map(),
       markers: [],
-      change2: false
+      change: false
     }
   },
   computed: {
@@ -65,7 +65,8 @@ export default {
     fetchMarkersListByParams() {
       fetchMarkersList().then((response) => {
         const newMarkersRaw = response.data.data
-        const newMarkersRawMap = new Map()
+        const newAddMarkersRawMap = new Map()
+        const newModifyMarkersRawMap = new Map()
         // 筛选出变化或者新增的数据Map
         // 一是更新this.markersRawMap
         // 二是更新临时变量newMarkersRawMap，存储变化或者新增的值，更新的位置比较讲究
@@ -74,42 +75,42 @@ export default {
           newM.draggable = false
           if (!this.markersRawMap.has(newM.id)) {
             this.markersRawMap.set(newM.id, newM)
-            newMarkersRawMap.set(newM.id, newM)
+            newAddMarkersRawMap.set(newM.id, newM)
           } else {
             const newMModifyTime = new Date(newM.modifyTime)
             const mDodifyTime = new Date(this.markersRawMap.get(newM.id).modifyTime)
+            // 测试用
+            // if (newMModifyTime.getTime() >= mDodifyTime.getTime()) {
             if (newMModifyTime.getTime() > mDodifyTime.getTime()) {
               this.markersRawMap.set(newM.id, newM)
-              newMarkersRawMap.set(newM.id, newM)
+              newModifyMarkersRawMap.set(newM.id, newM)
             }
           }
         })
-        console.log(newMarkersRawMap.values())
-        const tmpMarkers = []
-        if (JSON.stringify(this.markers) === '[]') {
-          newMarkersRawMap.forEach((value, key, map) => { tmpMarkers.push(this.markerRawToRipe(value)) })
-        } else {
-          this.markers.forEach((v, i) => {
-            if (newMarkersRawMap.size !== 0) {
-              if (!newMarkersRawMap.has(v.id)) {
-                console.log(JSON.stringify(newMarkersRawMap))
-                console.log('xx')
-                tmpMarkers.push(this.markerRawToRipe(v))
-              } else {
+        newAddMarkersRawMap.forEach((value, key, map) => {
+          this.markers.push(this.markerRawToRipe(value))
+        })
+        if (newModifyMarkersRawMap.size !== 0) {
+          newModifyMarkersRawMap.forEach((value, key, map) => {
+            if (JSON.stringify(this.markers) !== '[]') {
+              this.markers.some((v, i) => {
                 console.log('xxx')
-                const tmpMarkerVal = this.markersRawMap.get(v.id)
-                const { extData, clickable, visible, draggable } = tmpMarkerVal
-                v.extData = extData
-                v.clickable = clickable
-                v.visible = visible
-                v.draggable = draggable
-                Vue.set(this.markers, i, v)
-              }
+                if (v.id === value.id) {
+                  const { extData } = value
+                  const clickable = true
+                  const visible = true
+                  const draggable = true
+                  console.log(value)
+                  Vue.set(this.markers[i], 'extData', JSON.stringify(extData))
+                  Vue.set(this.markers[i], 'clickable', clickable)
+                  Vue.set(this.markers[i], 'visible', visible)
+                  Vue.set(this.markers[i], 'draggable', draggable)
+                  return true
+                }
+              })
             }
           })
         }
-        console.log(tmpMarkers)
-        tmpMarkers.map((v) => { this.markers.push(v) })
       })
     },
     markerRawToRipe(v) {
@@ -120,7 +121,7 @@ export default {
         extData: JSON.stringify(extData),
         clickable: true,
         visible: true,
-        draggable: v.draggable
+        draggable: false
       }
       options.id = id
       options.vid = id
@@ -137,6 +138,8 @@ export default {
           data.draggable = !draggable
           this.markersRawMap.set(id, data)
           e.target.setDraggable(!draggable)
+          // 奇淫技巧
+          this.change = !this.change
         },
         rightclick: (e) => {
           this.changemarkersRaw()
@@ -151,7 +154,7 @@ export default {
           // 一定要给markerExp设置大小，否则无法方便点击和拖拽
           markerExp,
           {
-            props: { text: this.markersRawMap.get(id).extData.detail, zoom: this.zoom, svgIconCode: this.markersRawMap.get(id).SICCode, 'voltage-class': 110, draggable: this.markersRawMap.get(id).draggable }
+            props: { change: this.change, text: this.markersRawMap.get(id).extData.detail, zoom: this.zoom, svgIconCode: this.markersRawMap.get(id).SICCode, 'voltage-class': 110, draggable: this.markersRawMap.get(id).draggable }
           }
         )
       }
