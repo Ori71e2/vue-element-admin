@@ -71,8 +71,18 @@ export default {
         // 一是更新this.markersRawMap
         // 二是更新临时变量newMarkersRawMap，存储变化或者新增的值，更新的位置比较讲究
         newMarkersRaw.forEach((newM) => {
+          // 将覆盖物属性值添加至extData
           newM.extData.id = newM.id
+          newM.extData.SICCode = newM.SICCode
+          newM.extData.modifyTime = newM.modifyTime
+          newM.extData.deleteTime = newM.deleteTime
+          newM.extData.startTime = newM.startTime
+          newM.extData.endTime = newM.endTime
+          newM.extData.deviceOwner = newM.deviceOwner
+          // 设置覆盖物内在属性
           newM.draggable = false
+          newM.clickable = true
+          newM.visible = true
           if (!this.markersRawMap.has(newM.id)) {
             this.markersRawMap.set(newM.id, newM)
             newAddMarkersRawMap.set(newM.id, newM)
@@ -119,9 +129,9 @@ export default {
         position,
         // 要进行序列化
         extData: JSON.stringify(extData),
-        clickable: true,
-        visible: true,
-        draggable: false
+        clickable: v.clickable,
+        visible: v.visible,
+        draggable: v.draggable
       }
       options.id = id
       options.vid = id
