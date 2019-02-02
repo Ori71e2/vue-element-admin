@@ -18,27 +18,19 @@
         <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini">{{ iconContent }}</el-button>
       </el-popover> -->
       <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="centerDialogVisible = true">{{ iconContent }}</el-button>
-      <el-dialog
+      <dialog
         :visible.sync="centerDialogVisible"
         title="详情"
-        width="300%"
+        width="30%"
         center>
         <div>
-          <!-- <swiper :options="swiperOption">
-            <swiper-slide
-              v-for="(slide, index) in swiperSlides"
-              :key="index">
-              I'm Slide {{ slide }}
-            </swiper-slide>
-            <div slot="pagination" class="swiper-pagination"/>
-          </swiper> -->
           <span>需要注意的是内容是默认不居中的</span>
         </div>
         <span slot="footer" class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
         </span>
-      </el-dialog>
+      </dialog>
     </div>
   </div>
 </template>
@@ -47,8 +39,7 @@
 import svgIconExp from './components/SvgIconExp'
 import SICToSvgName from './components/SICToSvgName'
 import CONSTANTS from './components/constant'
-import 'swiper/dist/css/swiper.css'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
 export default {
   components: {
     svgIconExp,
@@ -83,12 +74,6 @@ export default {
   },
   data() {
     return {
-      swiperOption: {
-        pagination: {
-          el: '.swiper-pagination'
-        }
-      },
-      swiperSlides: [1, 2, 3, 4, 5],
       centerDialogVisible: false
     }
   },

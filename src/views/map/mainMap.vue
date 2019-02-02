@@ -37,6 +37,7 @@ import amapLimitLock from './components/amap-panel/AmapLimitLock'
 import amapGeometry from './components/amap-panel/AmapGeometry'
 import amapMarker from './components/amap-panel/AmapMarker'
 import VueAMap from './vue-amap'
+import Dialog from './create-dialog'
 import Vue from 'vue'
 Vue.use(VueAMap)
 if (!window.amap) {
@@ -49,6 +50,7 @@ if (!window.amap) {
     uiVersion: '1.0.11'
   })
 }
+Vue.use(dialog)
 export default {
   // 一定要有名字，否则无法缓存
   name: 'MainMap',
