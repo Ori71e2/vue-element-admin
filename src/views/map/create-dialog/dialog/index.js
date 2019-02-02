@@ -1,28 +1,28 @@
 import Dialog from './Dialog'
 
 let dialog
-export default function createDialog(Vue, { store = {}, router = {} }, options) {
+export default function createDialog(Vue, { store = {}, router = {}}, options) {
   if (dialog) {
     dialog.options = {
-      ...options,
+      ...options
     }
 
     dialog.$children[0].visible = true
   } else {
     dialog = new Vue({
-      name: 'Root-Dialog',
+      name: 'RootDialog',
       router,
       store,
       data() {
         return {
-          options: { ...options },
+          options: { ...options }
         }
       },
       render(h) {
         return h(Dialog, {
-          props: this.options,
+          props: this.options
         })
-      },
+      }
     })
 
     dialog.$mount()
@@ -31,6 +31,6 @@ export default function createDialog(Vue, { store = {}, router = {} }, options) 
 
   // 暴露close方法
   return {
-    close: () => dialog.$children[0].close(),
+    close: () => dialog.$children[0].close()
   }
 }

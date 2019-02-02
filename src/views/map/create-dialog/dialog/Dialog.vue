@@ -8,9 +8,8 @@
     :before-close="close"
     :lock-scroll="lockScroll">
     <component
-      :is="_component"
-      ref="component">
-    </component>
+      ref="component"
+      :is="_component"/>
   </el-dialog>
 </template>
 
@@ -18,45 +17,45 @@
 import { Dialog } from 'element-ui'
 export default {
   components: {
-    [Dialog.name]: Dialog,
+    [Dialog.name]: Dialog
   },
   props: {
     title: {
-      type: String,
+      type: String
     },
     width: {
       type: String,
-      default: '50%',
+      default: '50%'
     },
     closeOnClickModal: {
       type: Boolean,
-      default: true,
+      default: true
     },
     showClose: {
       type: Boolean,
-      default: true,
+      default: true
     },
     beforeClose: {
-      type: Function,
+      type: Function
     },
     lockScroll: {
       type: Boolean,
-      default: false,
+      default: false
     },
     // 动态component完成自己的任务后是否关闭弹窗，默认为是
     closeAfterDone: {
       type: Boolean,
-      default: true,
+      default: true
     },
     // 返回jsx的函数
     component: {
       type: Function,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      visible: true,
+      visible: true
     }
   },
   computed: {

@@ -8,7 +8,7 @@
       </swiper-slide>
       <div slot="pagination" class="swiper-pagination"/>
     </swiper>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -29,6 +29,6 @@ export default {
       },
       swiperSlides: [1, 2, 3, 4, 5]
     }
-  },
+  }
 }
 </script>
