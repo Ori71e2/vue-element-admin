@@ -73,12 +73,13 @@ export default {
         newMarkersRaw.forEach((newM) => {
           // 将覆盖物属性值添加至extData
           newM.extData.id = newM.id
-          newM.extData.SICCode = newM.SICCode
-          newM.extData.modifyTime = newM.modifyTime
-          newM.extData.deleteTime = newM.deleteTime
-          newM.extData.startTime = newM.startTime
-          newM.extData.endTime = newM.endTime
-          newM.extData.deviceOwner = newM.deviceOwner
+          // newM.extData.SICCode = newM.SICCode
+          // newM.extData.modifyTime = newM.modifyTime
+          // newM.extData.deleteTime = newM.deleteTime
+          // newM.extData.startTime = newM.startTime
+          // newM.extData.endTime = newM.endTime
+          // newM.extData.deviceOwner = newM.deviceOwner
+          newM.extData = { ...newM }
           // 设置覆盖物内在属性
           newM.draggable = false
           newM.clickable = true
