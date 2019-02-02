@@ -21,7 +21,8 @@ export default {
   },
   props: {
     title: {
-      type: String
+      type: String,
+      default: ''
     },
     width: {
       type: String,
@@ -36,7 +37,8 @@ export default {
       default: true
     },
     beforeClose: {
-      type: Function
+      type: Function,
+      default: () => { return }
     },
     lockScroll: {
       type: Boolean,

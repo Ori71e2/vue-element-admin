@@ -1,12 +1,15 @@
 <template>
-  <div>
+  <div class="wraper-container">
     <swiper :options="swiperOption">
       <swiper-slide
         v-for="(slide, index) in swiperSlides"
         :key="index">
         I'm Slide {{ slide }}
       </swiper-slide>
-      <div slot="pagination" class="swiper-pagination"/>
+      <div slot="pagination" class="swiper-pagination" />
+      <div slot="button-prev" class="swiper-button-prev" />
+      <div slot="button-next" class="swiper-button-next" />
+      <div slot="scrollbar" class="swiper-scrollbar" />
     </swiper>
   </div>
 </template>
@@ -16,7 +19,8 @@ import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   components: {
-    swiper
+    swiper,
+    swiperSlide
   },
   props: {
   },
@@ -32,3 +36,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.wraper-container {
+  height: 100px
+}
+</style>

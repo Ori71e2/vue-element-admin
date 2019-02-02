@@ -17,8 +17,8 @@
         </div>
         <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini">{{ iconContent }}</el-button>
       </el-popover> -->
-      <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="centerDialogVisible = true">{{ iconContent }}</el-button>
-      <dialog
+      <!-- <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="centerDialogVisible = true">{{ iconContent }}</el-button> -->
+      <!-- <dialog
         :visible.sync="centerDialogVisible"
         title="详情"
         width="30%"
@@ -30,7 +30,8 @@
           <el-button @click="centerDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
         </span>
-      </dialog>
+      </dialog> -->
+      <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="popDialog">{{ iconContent }}</el-button>
     </div>
   </div>
 </template>
@@ -39,12 +40,11 @@
 import svgIconExp from './components/SvgIconExp'
 import SICToSvgName from './components/SICToSvgName'
 import CONSTANTS from './components/constant'
-
+import pictureSwiper from './components/pictureSwiper'
 export default {
   components: {
     svgIconExp,
-    swiper,
-    swiperSlide
+    pictureSwiper
   },
   props: {
     text: {
@@ -114,6 +114,14 @@ export default {
     // }, 3000)
   },
   methods: {
+    popDialog() {
+      this.$dialog({
+        title: 'dialog',
+        width: '30%',
+        showClose: false,
+        component: () => <pictureSwiper />
+      })
+    },
     changeButtonColor(val) {
       let color = '#FF0'
       if (val === 110) {
