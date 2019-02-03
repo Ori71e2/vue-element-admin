@@ -6,10 +6,7 @@
         :key="index">
         I'm Slide {{ slide }}
       </swiper-slide>
-      <div slot="pagination" class="swiper-pagination" />
-      <div slot="button-prev" class="swiper-button-prev" />
-      <div slot="button-next" class="swiper-button-next" />
-      <div slot="scrollbar" class="swiper-scrollbar" />
+      <div slot="pagination" class="swiper-pagination"/>
     </swiper>
   </div>
 </template>
@@ -39,6 +36,6 @@ export default {
 
 <style scoped>
 .wraper-container {
-  height: 100px
+  height: 100%
 }
 </style>
