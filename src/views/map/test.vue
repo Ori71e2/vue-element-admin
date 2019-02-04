@@ -1,106 +1,74 @@
 <template>
-  <div class="container  center-vertical center-horizontal">
-    <swiper ref="swiperTop" :options="swiperOption" class="gallery-top swiper-wrapper">
-      <swiper-slide
-        v-for="(value, key) in picture"
-        :key="key">
-        <el-card class="box-card">
-          <div class="slide-content">Slide {{ value }}</div>
-        </el-card>
-      </swiper-slide>
-      <div slot="button-prev" class="swiper-button-prev"/>
-      <div slot="button-next" class="swiper-button-next"/>
-    </swiper>
-    <swiper ref="swiperThumbs" :options="swiperOptionThumbs" class="gallery-thumbs swiper-wrapper">
-      <swiper-slide
-        v-for="(value, key) in picture"
-        :key="key">
-        <el-card class="box-card">
-          <div class="slide-content">Slide {{ value }}</div>
-        </el-card>
-      </swiper-slide>
-    </swiper>
+  <div>
+    <el-form ref="form" :model="form" label-width="80px">
+      <el-form-item label="活动名称">
+        <el-input v-model="form.name"/>
+      </el-form-item>
+      <el-form-item label="活动区域">
+        <el-select v-model="form.region" placeholder="请选择活动区域">
+          <el-option label="区域一" value="shanghai"/>
+          <el-option label="区域二" value="beijing"/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="活动时间">
+        <el-col :span="11">
+          <el-date-picker v-model="form.date1" type="date" placeholder="选择日期" style="width: 100%;"/>
+        </el-col>
+        <el-col :span="2" class="line">-</el-col>
+        <el-col :span="11">
+          <el-time-picker v-model="form.date2" type="fixed-time" placeholder="选择时间" style="width: 100%;"/>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="即时配送">
+        <el-switch v-model="form.delivery"/>
+      </el-form-item>
+      <el-form-item label="活动性质">
+        <el-checkbox-group v-model="form.type">
+          <el-checkbox label="美食/餐厅线上活动" name="type"/>
+          <el-checkbox label="地推活动" name="type"/>
+          <el-checkbox label="线下主题活动" name="type"/>
+          <el-checkbox label="单纯品牌曝光" name="type"/>
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="特殊资源">
+        <el-radio-group v-model="form.resource">
+          <el-radio label="线上品牌商赞助"/>
+          <el-radio label="线下场地免费"/>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="活动形式">
+        <el-input v-model="form.desc" type="textarea"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button>取消</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
-
 <script>
-import 'swiper/dist/css/swiper.css'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
-  components: {
-    swiper,
-    swiperSlide
-  },
   data() {
     return {
-      picture: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      swiperOption: {
-        spaceBetween: 10,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
-      },
-      swiperOptionThumbs: {
-        spaceBetween: 10,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        touchRatio: 0.2,
-        slideToClickedSlide: true
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
       }
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      const swiperTop = this.$refs.swiperTop.swiper
-      const swiperThumbs = this.$refs.swiperThumbs.swiper
-      swiperTop.controller.control = swiperThumbs
-      swiperThumbs.controller.control = swiperTop
-    })
+  methods: {
+    onSubmit() {
+      console.log('submit!')
+    }
   }
 }
 </script>
-
 <style scoped>
-.container {
-  width: 60%;
-  padding: 5px;
-  margin: 5px;
-}
 
-.box-card {
-  height: 100px;
-  width: 100%;
-  padding: 5px
-}
-.slide-content {
-  padding: 10px
-}
-.center-vertical{
-  position: relative;
-  top:50%;
-  transform:translateY(-50%);
-}
-.center-horizontal{
-  position: relative;
-  left:50%;
-  transform:translateX(-50%);
-}
-.gallery-top {
-  height: 80%!important;
-  width: 100%;
-}
-.gallery-thumbs {
-  height: 20%!important;
-  box-sizing: border-box;
-  padding: 10px 0;
-}
-.gallery-thumbs .swiper-slide {
-  width: 20%;
-  height: 100%;
-  opacity: 0.4;
-}
-.gallery-thumbs .swiper-slide-active {
-  opacity: 1;
-}
 </style>
