@@ -38,9 +38,9 @@
 
 <script>
 import svgIconExp from './components/SvgIconExp'
-import SICToSvgName from './components/SICToSvgName'
-import CONSTANTS from './components/constant'
-import pictureSwiper from './components/pictureSwiper'
+import SICToSvgName from './components/util/SICToSvgName'
+import CONSTANTS from './components/util/constant'
+import pictureSwiper from './components/PictureSwiper'
 export default {
   components: {
     svgIconExp,
