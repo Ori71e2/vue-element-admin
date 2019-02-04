@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <swiper :options="swiperOption" class="swiper-container swiper-wrapper">
       <!-- <swiper-slide><el-card>Slide 1</el-card></swiper-slide>
       <swiper-slide><el-card>Slide 1</el-card></swiper-slide>
@@ -34,12 +34,21 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 100%;
+  padding: 5px;
+  margin: 5px;
+}
 .swiper-container {
-  width: 400px;
-  height: 200px;
+  width: 100%;
+}
+.swiper-slide  {
+  width: 100%;
 }
 .box-card {
-  height: 100%
+  height: 100px;
+  width: 100%;
+  padding: 5px
 }
 .slide-content {
   padding: 10px
