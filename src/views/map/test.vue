@@ -6,11 +6,6 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-import VueFormGenerator from 'vue-form-generator'
-import 'vue-form-generator/dist/vfg.css'
-
-Vue.use(VueFormGenerator)
 
 /* optional custom validators treated as 'built-in'
 Vue.use(VueFormGenerator, {
@@ -34,6 +29,8 @@ export default {
         contactTwo: '',
         phoneTwo: '',
         description: '',
+        findTime: null,
+        writeOffTime: null,
         buttons: '',
         status: true
       },
@@ -63,7 +60,7 @@ export default {
                 readonly: true
               },
               {
-                type: 'slect',
+                type: 'select',
                 inputType: 'text',
                 label: 'Type',
                 model: 'type',
@@ -142,6 +139,16 @@ export default {
                 label: 'Status',
                 model: 'status',
                 default: true
+              },
+              {
+                type: 'TimePicker',
+                label: 'FindTime',
+                model: 'findTime'
+              },
+              {
+                type: 'TimePicker',
+                label: 'WriteOffTime',
+                model: 'writeOffTime'
               }
             ]
           },
@@ -150,7 +157,7 @@ export default {
             fields: [
               {
                 type: 'input',
-                // inputType: 'text',
+                inputType: 'hidden',
                 // label: 'Button',
                 model: 'button',
                 buttons: [

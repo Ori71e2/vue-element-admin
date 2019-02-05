@@ -21,6 +21,30 @@ import './errorLog' // error log
 import './permission' // permission control
 import './mock' // simulation data
 
+// 自定义的全局组件
+import Dialog from './create-dialog'
+Vue.use(Dialog, { store, router })
+
+import VueFormGenerator from 'vue-form-generator'
+import fieldTimePicker from './vue-form-generator/FieldTimePicker'
+import 'vue-form-generator/dist/vfg.css'
+
+Vue.component('fieldTimePicker', fieldTimePicker)
+Vue.use(VueFormGenerator)
+
+import VueAMap from './vue-amap'
+Vue.use(VueAMap)
+if (!window.amap) {
+  // 包括center在内的所有属性都不是在这里设置
+  VueAMap.initAMapApiLoader({
+    resizeEnable: true,
+    // 高德key
+    key: 'c46f30625ff814b3983110be101fd461',
+    v: '1.4.12',
+    uiVersion: '1.0.11'
+  })
+}
+
 import * as filters from './filters' // global filters
 
 Vue.use(Element, {
