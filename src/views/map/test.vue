@@ -33,6 +33,8 @@ export default {
         phoneOne: '',
         contactTwo: '',
         phoneTwo: '',
+        description: '',
+        buttons: '',
         status: true
       },
 
@@ -46,7 +48,7 @@ export default {
                 inputType: 'text',
                 label: 'ID (disabled text field)',
                 model: 'id',
-                readonly: true,
+                // readonly: true,
                 disabled: true
               },
               {
@@ -57,14 +59,15 @@ export default {
                 // id: 'user_name',
                 placeholder: 'Marker name',
                 // featured: true,
-                required: true
+                required: true,
+                readonly: true
               },
               {
-                type: 'input',
+                type: 'slect',
                 inputType: 'text',
                 label: 'Type',
                 model: 'type',
-                placeholder: 'Marker\'s Type'
+                values: ['Javascript', 'VueJS', 'CSS3', 'HTML5']
               },
               {
                 type: 'input',
@@ -121,16 +124,52 @@ export default {
                 placeholder: 'Device Owner'
               },
               {
-                type: 'select',
-                label: 'Skills',
-                model: 'skills',
-                values: ['Javascript', 'VueJS', 'CSS3', 'HTML5']
+                type: 'input',
+                inputType: 'text',
+                label: 'Description',
+                model: 'description',
+                placeholder: 'Dscription'
+              },
+              {
+                type: 'input',
+                inputType: 'text',
+                label: 'Remark',
+                model: 'remark',
+                placeholder: 'Remark'
               },
               {
                 type: 'checkbox',
                 label: 'Status',
                 model: 'status',
                 default: true
+              }
+            ]
+          },
+          {
+            legend: 'Buttons',
+            fields: [
+              {
+                type: 'input',
+                // inputType: 'text',
+                // label: 'Button',
+                model: 'button',
+                buttons: [
+                  {
+                    classes: 'btn-location',
+                    label: 'Current location',
+                    onclick: function(model) {
+                      console.log('click')
+                    }
+                  },
+                  {
+                    classes: 'btn-clear',
+                    label: 'Clear',
+                    type: 'reset',
+                    onclick: function(model, field) {
+                      console.log(field)
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -146,3 +185,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.panel-body {
+  width: 600px;
+}
+</style>
