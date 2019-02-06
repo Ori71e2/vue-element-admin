@@ -21,10 +21,6 @@ import './errorLog' // error log
 import './permission' // permission control
 import './mock' // simulation data
 
-// 自定义的全局组件
-// import Dialog from './create-dialog'
-// Vue.use(Dialog, { store, router })
-
 import VueFormGenerator from 'vue-form-generator'
 import fieldTimePicker from './vue-form-generator/FieldTimePicker'
 import 'vue-form-generator/dist/vfg.css'

@@ -3,19 +3,17 @@
     <div>
       <svg-icon-exp :style-name="svgStyle" :icon-class="iconClass" :rotate="rotate"/>
     </div>
-    <!-- <div class="adap-text adap-font text-label">
-      <p>{{ text }}</p>
-    </div> -->
     <div :style="showButton" class="center">
       <el-dialog
-        :visible.sync="outerDialogVisible"
+        :visible.sync="firstDialogVisible"
+        :before-close="handleClose"
         width="30%"
         append-to-body>
-        <span slot="title"><i class="el-icon-info"/> Info</span>
+        <span slot="title"><i class="el-icon-info"/> Marker Info</span>
         <div>
           <picture-swiper/>
           <el-dialog
-            :visible.sync="innerDialogVisible"
+            :visible.sync="secondDialogVisible"
             width="30%"
             title="内层 Dialog"
             append-to-body>
@@ -23,13 +21,12 @@
           </el-dialog>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="innerDialogVisible = true">打开内层 Dialog</el-button>
-          <el-button @click="outerDialogVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="outerDialogVisible = false">Confirm</el-button>
+          <el-button type="primary" @click="OpenSecondDialog">OpenSecond Dialog</el-button>
+          <el-button @click="EditFirstDialog">Edit</el-button>
+          <el-button type="primary" @click="ConfirmFirstDialog">Confirm</el-button>
         </span>
       </el-dialog>
       <el-button :style="buttonStyle" class="el-button-exp" size="mini" @click="showDialog">{{ iconContent }}</el-button>
-      <!-- <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="popDialog">{{ iconContent }}</el-button> -->
     </div>
   </div>
 </template>
@@ -72,8 +69,9 @@ export default {
   },
   data() {
     return {
-      outerDialogVisible: false,
-      innerDialogVisible: false
+      firstDialogVisible: false,
+      firstDialogEdit: false,
+      secondDialogVisible: false
     }
   },
   computed: {
@@ -107,17 +105,30 @@ export default {
   mounted() {
   },
   methods: {
-    popDialog() {
-      this.$dialog({
-        title: 'dialog',
-        width: '30%',
-        showClose: false,
-        component: () => <pictureSwiper />
-      })
-    },
     showDialog() {
-      this.outerDialogVisible = true
-      console.log(this.outerDialogVisible)
+      this.firstDialogVisible = true
+      console.log(this.firstDialogVisible)
+    },
+    EditFirstDialog() {
+      this.firstDialogEdit = true
+    },
+    ConfirmFirstDialog() {
+      this.firstDialogEdit = false
+      // Update And Pull
+    },
+    OpenSecondDialog() {
+      this.secondDialogVisible = true
+    },
+    handleClose(done) {
+      if (this.firstDialogEdit) {
+        this.$confirm('Confirm Closing？').then(_ => {
+          this.firstDialogEdit = false
+          done()
+        }).catch(_ => {
+        })
+      } else {
+        done()
+      }
     },
     changeButtonColor(val) {
       let color = '#FF0'

@@ -372,6 +372,15 @@ export const asyncRouterMap = [
           title: 'test',
           icon: 'map'
         }
+      },
+      {
+        path: 'test2',
+        component: () => import('@/views/map/test2'),
+        name: 'test2',
+        meta: {
+          title: 'test2',
+          icon: 'map'
+        }
       }
     ]
   },
