@@ -7,31 +7,29 @@
       <p>{{ text }}</p>
     </div> -->
     <div :style="showButton" class="center">
-      <!-- <el-popover placement="bottom" title="标题" trigger="click">
-        <div>
-          <p>这是一段内容这是一段内容确定删除吗？</p>
-          <div style="text-align: right; margin: 0">
-            <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-            <el-button type="primary" size="mini" @click="visible = false">确定</el-button>
-          </div>
-        </div>
-        <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini">{{ iconContent }}</el-button>
-      </el-popover> -->
-      <!-- <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="centerDialogVisible = true">{{ iconContent }}</el-button> -->
-      <!-- <dialog
-        :visible.sync="centerDialogVisible"
-        title="详情"
+      <el-dialog
+        :visible.sync="outerDialogVisible"
         width="30%"
-        center>
+        append-to-body>
+        <span slot="title"><i class="el-icon-info"/> Info</span>
         <div>
-          <span>需要注意的是内容是默认不居中的</span>
+          <picture-swiper/>
+          <el-dialog
+            :visible.sync="innerDialogVisible"
+            width="30%"
+            title="内层 Dialog"
+            append-to-body>
+            <div/>
+          </el-dialog>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="innerDialogVisible = true">打开内层 Dialog</el-button>
+          <el-button @click="outerDialogVisible = false">Cancel</el-button>
+          <el-button type="primary" @click="outerDialogVisible = false">Confirm</el-button>
         </span>
-      </dialog> -->
-      <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="popDialog">{{ iconContent }}</el-button>
+      </el-dialog>
+      <el-button :style="buttonStyle" class="el-button-exp" size="mini" @click="showDialog">{{ iconContent }}</el-button>
+      <!-- <el-button slot="reference" :style="buttonStyle" class="el-button-exp" size="mini" @click="popDialog">{{ iconContent }}</el-button> -->
     </div>
   </div>
 </template>
@@ -74,7 +72,8 @@ export default {
   },
   data() {
     return {
-      centerDialogVisible: false
+      outerDialogVisible: false,
+      innerDialogVisible: false
     }
   },
   computed: {
@@ -106,12 +105,6 @@ export default {
     }
   },
   mounted() {
-    // setInterval(() => {
-    //   console.log('simulate async data')
-    //   if (this.swiperSlides.length < 10) {
-    //     this.swiperSlides.push(this.swiperSlides.length + 1)
-    //   }
-    // }, 3000)
   },
   methods: {
     popDialog() {
@@ -121,6 +114,10 @@ export default {
         showClose: false,
         component: () => <pictureSwiper />
       })
+    },
+    showDialog() {
+      this.outerDialogVisible = true
+      console.log(this.outerDialogVisible)
     },
     changeButtonColor(val) {
       let color = '#FF0'

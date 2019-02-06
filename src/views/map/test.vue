@@ -3,6 +3,18 @@
     <form>
       <vue-form-generator :schema="schema" :model="model" :options="formOptions"/>
     </form>
+    <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="30%"
+      append-to-body>
+      <span slot="title"><i class="el-icon-info"/> Info</span>
+      <picture-swiper/>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -12,11 +24,12 @@ Vue.use(VueFormGenerator, {
   validators: objectWithCustomValidatorFunctions
 });
 */
-
+import pictureSwiper from './components/transmission-line/components/PictureSwiper'
 export default {
+  components: { pictureSwiper },
   data() {
     return {
-
+      dialogVisible: false,
       model: {
         id: 1,
         name: 'John Doe',
@@ -196,5 +209,9 @@ export default {
 <style scoped>
 .panel-body {
   width: 600px;
+}
+.tmp {
+  width: 200px;
+  height: 500px;
 }
 </style>
