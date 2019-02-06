@@ -12,6 +12,7 @@
         <span slot="title"><i class="el-icon-info"/> Marker Info</span>
         <div>
           <picture-swiper/>
+          <marker-content class="scroll"/>
           <el-dialog
             :visible.sync="secondDialogVisible"
             width="30%"
@@ -32,14 +33,16 @@
 </template>
 
 <script>
+import SICToSvgName from './util/SICToSvgName'
+import CONSTANTS from './util/constant'
 import svgIconExp from './components/SvgIconExp'
-import SICToSvgName from './components/util/SICToSvgName'
-import CONSTANTS from './components/util/constant'
 import pictureSwiper from './components/PictureSwiper'
+import markerContent from './components/MarkerContent'
 export default {
   components: {
     svgIconExp,
-    pictureSwiper
+    pictureSwiper,
+    markerContent
   },
   props: {
     text: {
@@ -198,6 +201,24 @@ export default {
 .click {
   width: 60px;
   height: 60px;
+}
+.scroll {
+  height: 300px;
+  overflow: auto;
+}
+.scroll::-webkit-scrollbar {/*滚动条整体样式*/
+  width: 7px;     /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+.scroll::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  background: #929191;
+}
+.scroll::-webkit-scrollbar-track {/*滚动条里面轨道*/
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  background: #EDEDED;
 }
 .center {
   position: absolute;

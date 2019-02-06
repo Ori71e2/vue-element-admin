@@ -9,15 +9,19 @@
     </el-input>
     <el-dialog
       :visible.sync="dialogVisible"
-      width="30%"
-      append-to-body>
+      width="60%"
+      append-to-body
+      @close="closeDialog">
       <span slot="title"><i class="el-icon-info"/> Icon</span>
-      <div>
-        <picture-swiper/>
+      <div :style="gridWrapper">
+        <el-button v-for="(type, index) in schema.values" :key="index" class="el-button--custom" @click="value = type">
+          <svg-icon icon-class="bug" class="icon-class--custom"/>
+          <p>挖机施工{{ type }}</p>
+        </el-button>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="CancelSelect">Cancel</el-button>
-        <el-button type="primary" @click="ConfirmSelect">Confirm</el-button>
+        <el-button @click="cancelSelect">Cancel</el-button>
+        <el-button type="primary" @click="confirmSelect">Confirm</el-button>
       </span>
     </el-dialog>
   </div>
@@ -36,9 +40,27 @@ export default {
       }
     }
   },
+  computed: {
+    gridWrapper() {
+      console.log(this.schema.values)
+      const count = this.schema.values.length
+      return {
+        display: 'grid',
+        gridTemplateColumns: '12.5% '.repeat(8),
+        gridTemplateRows: '110px '.repeat(count / 8 + 1)
+      }
+    }
+  },
   methods: {
-    ConfirmSelect() {
+    cancelSelect() {
+    },
+    confirmSelect() {
       this.dialogVisible = false
+    },
+    openDialog() {
+      this.dialogVisible = true
+    },
+    closeDialog() {
     }
   }
 }

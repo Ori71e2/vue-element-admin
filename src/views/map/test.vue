@@ -3,30 +3,12 @@
     <form>
       <vue-form-generator :schema="schema" :model="model" :options="formOptions"/>
     </form>
-    <el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
-    <el-dialog
-      :visible.sync="dialogVisible"
-      width="30%"
-      append-to-body>
-      <span slot="title"><i class="el-icon-info"/> Info</span>
-      <picture-swiper/>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 <script>
 
-/* optional custom validators treated as 'built-in'
-Vue.use(VueFormGenerator, {
-  validators: objectWithCustomValidatorFunctions
-});
-*/
-import pictureSwiper from './components/transmission-line/components/PictureSwiper'
 export default {
-  components: { pictureSwiper },
+  components: {},
   data() {
     return {
       dialogVisible: false,
@@ -73,11 +55,10 @@ export default {
                 readonly: true
               },
               {
-                type: 'select',
-                inputType: 'text',
+                type: 'SelectIcon',
                 label: 'Type',
                 model: 'type',
-                values: ['Javascript', 'VueJS', 'CSS3', 'HTML5']
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
               },
               {
                 type: 'input',
@@ -154,12 +135,12 @@ export default {
                 default: true
               },
               {
-                type: 'TimePicker',
+                type: 'timePicker',
                 label: 'FindTime',
                 model: 'findTime'
               },
               {
-                type: 'TimePicker',
+                type: 'timePicker',
                 label: 'WriteOffTime',
                 model: 'writeOffTime'
               }
