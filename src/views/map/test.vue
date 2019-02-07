@@ -58,7 +58,9 @@ export default {
                 type: 'SelectIcon',
                 label: 'Type',
                 model: 'type',
-                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                values: function(model, schema) {
+                  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                }
               },
               {
                 type: 'input',
@@ -183,6 +185,9 @@ export default {
         validateAsync: true
       }
     }
+  },
+  mounted() {
+
   }
 }
 </script>
@@ -190,9 +195,5 @@ export default {
 <style scoped>
 .panel-body {
   width: 600px;
-}
-.tmp {
-  width: 200px;
-  height: 500px;
 }
 </style>
