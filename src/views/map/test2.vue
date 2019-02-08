@@ -8,16 +8,18 @@
         <el-input v-model="form.name"/>
       </el-form-item>
       <el-form-item label="Marker Type">
-        <el-input v-model="form.type" placeholder="Select SICCODE">
+        <el-input v-model="form.typeCode" placeholder="Select SICCODE">
           <i slot="prefix" class="el-input__icon el-icon-menu" @click="openDialog"/>
         </el-input>
         <el-dialog :visible.sync="dialogVisible" width="60%" append-to-body @close="closeDialog">
           <span slot="title"><i class="el-icon-info"/> Icon</span>
-          <div :style="gridWrapper">
-            <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.type = type">
-              <svg-icon icon-class="bug" class="icon-class--custom"/>
-              <p>挖机施工{{ type }}</p>
-            </el-button>
+          <div class="dialog-container">
+            <div :style="gridWrapper">
+              <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
+                <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
+                <p>{{ type.cnName }}</p>
+              </el-button>
+            </div>
           </div>
           <span slot="footer" class="dialog-footer">
             <el-button @click="cancelSelect">Cancel</el-button>
@@ -78,13 +80,14 @@
   </div>
 </template>
 <script>
+import SICToSvgName from './components/transmission-line/util/SICToSvgName'
 export default {
   data() {
     return {
       form: {
         id: 1,
         name: '',
-        type: '',
+        typeCode: '',
         position: '',
         line: '',
         towerOne: '',
@@ -101,11 +104,14 @@ export default {
         remark: ''
       },
       labelPosition: 'right',
-      dialogVisible: false,
-      markerType: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      dialogVisible: false
     }
   },
   computed: {
+    markerType() {
+      const codeList = SICToSvgName.getCodeList()
+      return codeList
+    },
     gridWrapper() {
       const count = this.markerType.length
       return {
@@ -136,5 +142,18 @@ export default {
 .container {
   width: 100%;
   padding: 4px;
+}
+.dialog-container {
+  width: 100%;
+  height: 100%;
+}
+.el-button--custom {
+  width: 95%;
+  height: 95%;
+  margin-left: -0%;
+}
+.icon-class--custom {
+  width: 75%;
+  height: 75%;
 }
 </style>

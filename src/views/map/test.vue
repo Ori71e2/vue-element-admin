@@ -1,199 +1,106 @@
 <template>
-  <div class="panel-body">
-    <form>
-      <vue-form-generator :schema="schema" :model="model" :options="formOptions"/>
-    </form>
+  <div class="container  center-vertical center-horizontal">
+    <swiper ref="swiperTop" :options="swiperOption" class="gallery-top swiper-wrapper">
+      <swiper-slide
+        v-for="(value, key) in picture"
+        :key="key">
+        <el-card class="box-card">
+          <div class="slide-content">Slide {{ value }}</div>
+        </el-card>
+      </swiper-slide>
+      <div slot="button-prev" class="swiper-button-prev"/>
+      <div slot="button-next" class="swiper-button-next"/>
+    </swiper>
+    <swiper ref="swiperThumbs" :options="swiperOptionThumbs" class="gallery-thumbs swiper-wrapper">
+      <swiper-slide
+        v-for="(value, key) in picture"
+        :key="key">
+        <el-card class="box-card">
+          <div class="slide-content">Slide {{ value }}</div>
+        </el-card>
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
-<script>
 
+<script>
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
-  components: {},
+  components: {
+    swiper,
+    swiperSlide
+  },
   data() {
     return {
-      dialogVisible: false,
-      model: {
-        id: 1,
-        name: 'John Doe',
-        position: '',
-        skills: ['Javascript', 'VueJS'],
-        type: 'SIC',
-        company: '',
-        contactOne: '',
-        phoneOne: '',
-        contactTwo: '',
-        phoneTwo: '',
-        description: '',
-        findTime: null,
-        writeOffTime: null,
-        buttons: '',
-        status: true
+      picture: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      swiperOption: {
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        }
       },
-
-      schema: {
-        groups: [
-          {
-            legend: 'Marker Info',
-            fields: [
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'ID',
-                model: 'id',
-                // readonly: true,
-                disabled: true
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Name',
-                model: 'name',
-                // id: 'user_name',
-                placeholder: 'Marker name',
-                // featured: true,
-                required: true,
-                readonly: true
-              },
-              {
-                type: 'SelectIcon',
-                label: 'Type',
-                model: 'type',
-                values: function(model, schema) {
-                  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-                }
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Position',
-                model: 'position',
-                required: true
-              }
-            ]
-          },
-          {
-            legend: 'Details',
-            fields: [
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Company',
-                model: 'company',
-                placeholder: 'Company'
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Contact One',
-                model: 'contactOne',
-                placeholder: 'Contact One'
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Phone One',
-                model: 'phoneOne',
-                placeholder: 'Phone One'
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Contact Two',
-                model: 'contactTwo',
-                placeholder: 'Contact Two'
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Phone One',
-                model: 'phoneOne',
-                placeholder: 'Phone One'
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Device Owner',
-                model: 'deviceOwner',
-                placeholder: 'Device Owner'
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Description',
-                model: 'description',
-                placeholder: 'Dscription'
-              },
-              {
-                type: 'input',
-                inputType: 'text',
-                label: 'Remark',
-                model: 'remark',
-                placeholder: 'Remark'
-              },
-              {
-                type: 'checkbox',
-                label: 'Status',
-                model: 'status',
-                default: true
-              },
-              {
-                type: 'timePicker',
-                label: 'FindTime',
-                model: 'findTime'
-              },
-              {
-                type: 'timePicker',
-                label: 'WriteOffTime',
-                model: 'writeOffTime'
-              }
-            ]
-          },
-          {
-            legend: 'Buttons',
-            fields: [
-              {
-                type: 'input',
-                inputType: 'hidden',
-                // label: 'Button',
-                model: 'button',
-                buttons: [
-                  {
-                    classes: 'btn-location',
-                    label: 'Current location',
-                    onclick: function(model) {
-                      console.log('click')
-                    }
-                  },
-                  {
-                    classes: 'btn-clear',
-                    label: 'Clear',
-                    type: 'reset',
-                    onclick: function(model, field) {
-                      console.log(field)
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-
-      formOptions: {
-        validateAfterLoad: false,
-        validateAfterChanged: true,
-        validateAsync: true
+      swiperOptionThumbs: {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
       }
     }
   },
   mounted() {
-
+    this.$nextTick(() => {
+      const swiperTop = this.$refs.swiperTop.swiper
+      const swiperThumbs = this.$refs.swiperThumbs.swiper
+      swiperTop.controller.control = swiperThumbs
+      swiperThumbs.controller.control = swiperTop
+    })
   }
 }
 </script>
 
 <style scoped>
-.panel-body {
-  width: 600px;
+.container {
+  width: 90%;
+  padding: 5px;
+  margin: 5px;
+}
+
+.box-card {
+  height: 100px;
+  width: 100%;
+  padding: 5px
+}
+.slide-content {
+  padding: 10px
+}
+.center-vertical{
+  position: relative;
+  top:50%;
+  transform:translateY(-50%);
+}
+.center-horizontal{
+  position: relative;
+  left:50%;
+  transform:translateX(-50%);
+}
+.gallery-top {
+  height: 80%!important;
+  width: 100%;
+}
+.gallery-thumbs {
+  height: 20%!important;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+.gallery-thumbs .swiper-slide {
+  width: 20%;
+  height: 100%;
+  opacity: 0.4;
+}
+.gallery-thumbs .swiper-slide-active {
+  opacity: 1;
 }
 </style>

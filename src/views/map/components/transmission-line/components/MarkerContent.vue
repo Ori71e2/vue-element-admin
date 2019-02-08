@@ -14,9 +14,9 @@
         <el-dialog :visible.sync="dialogVisible" width="60%" append-to-body @close="closeDialog">
           <span slot="title"><i class="el-icon-info"/> Icon</span>
           <div :style="gridWrapper">
-            <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.type = type">
-              <svg-icon icon-class="bug" class="icon-class--custom"/>
-              <p>挖机施工{{ type }}</p>
+            <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
+              <svg-icon icon-class="type.enName" class="icon-class--custom"/>
+              <p>{{ type.cnName }}</p>
             </el-button>
           </div>
           <span slot="footer" class="dialog-footer">
@@ -78,13 +78,14 @@
   </div>
 </template>
 <script>
+import SICToSvgName from '../util/SICToSvgName'
 export default {
   data() {
     return {
       form: {
         id: 1,
         name: '',
-        type: '',
+        typeCode: '',
         position: '',
         line: '',
         towerOne: '',
@@ -101,11 +102,19 @@ export default {
         remark: ''
       },
       labelPosition: 'right',
-      dialogVisible: false,
-      markerType: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      dialogVisible: false
     }
   },
   computed: {
+    markerType() {
+      const codeList = SICToSvgName.getCodeList()
+      console.log(codeList)
+      const arr = codeList.map((value, key) => {
+        value.code = key
+        return value
+      })
+      return arr
+    },
     gridWrapper() {
       const count = this.markerType.length
       return {
