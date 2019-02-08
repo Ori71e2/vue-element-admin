@@ -17,7 +17,7 @@
             <div :style="gridWrapper">
               <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
                 <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
-                <p>{{ type.cnName }}</p>
+                <p>{{ type.thirdClass }}: {{ type.cnName }}</p>
               </el-button>
             </div>
           </div>

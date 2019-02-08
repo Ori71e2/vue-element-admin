@@ -8,16 +8,18 @@
         <el-input v-model="form.name"/>
       </el-form-item>
       <el-form-item label="Marker Type">
-        <el-input v-model="form.type" placeholder="Select SICCODE">
+        <el-input v-model="form.typeCode" placeholder="Select SICCODE">
           <i slot="prefix" class="el-input__icon el-icon-menu" @click="openDialog"/>
         </el-input>
         <el-dialog :visible.sync="dialogVisible" width="60%" append-to-body @close="closeDialog">
           <span slot="title"><i class="el-icon-info"/> Icon</span>
-          <div :style="gridWrapper">
-            <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
-              <svg-icon icon-class="type.enName" class="icon-class--custom"/>
-              <p>{{ type.cnName }}</p>
-            </el-button>
+          <div class="dialog-container">
+            <div :style="gridWrapper">
+              <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
+                <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
+                <p>{{ type.thirdClass }}: {{ type.cnName }}</p>
+              </el-button>
+            </div>
           </div>
           <span slot="footer" class="dialog-footer">
             <el-button @click="cancelSelect">Cancel</el-button>
@@ -108,12 +110,7 @@ export default {
   computed: {
     markerType() {
       const codeList = SICToSvgName.getCodeList()
-      console.log(codeList)
-      const arr = codeList.map((value, key) => {
-        value.code = key
-        return value
-      })
-      return arr
+      return codeList
     },
     gridWrapper() {
       const count = this.markerType.length
@@ -145,5 +142,18 @@ export default {
 .container {
   width: 100%;
   padding: 4px;
+}
+.dialog-container {
+  width: 100%;
+  height: 100%;
+}
+.el-button--custom {
+  width: 95%;
+  height: 95%;
+  margin-left: -0%;
+}
+.icon-class--custom {
+  width: 75%;
+  height: 75%;
 }
 </style>
