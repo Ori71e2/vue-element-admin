@@ -7,7 +7,7 @@
       <el-dialog
         :visible.sync="firstDialogVisible"
         :before-close="handleClose"
-        width="30%"
+        width="60%"
         append-to-body>
         <span slot="title"><i class="el-icon-info"/> Marker Info</span>
         <div>
@@ -15,7 +15,7 @@
           <marker-content class="scroll"/>
           <el-dialog
             :visible.sync="secondDialogVisible"
-            width="30%"
+            width="60%"
             title="内层 Dialog"
             append-to-body>
             <div/>

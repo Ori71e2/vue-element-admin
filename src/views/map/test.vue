@@ -38,7 +38,7 @@ export default {
               {
                 type: 'input',
                 inputType: 'text',
-                label: 'ID (disabled text field)',
+                label: 'ID',
                 model: 'id',
                 // readonly: true,
                 disabled: true

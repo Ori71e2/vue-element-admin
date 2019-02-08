@@ -21,15 +21,6 @@ import './errorLog' // error log
 import './permission' // permission control
 import './mock' // simulation data
 
-import VueFormGenerator from 'vue-form-generator'
-import fieldTimePicker from './vue-form-generator/FieldTimePicker'
-import fieldSelectIcon from './vue-form-generator/FieldSelectIcon'
-import 'vue-form-generator/dist/vfg.css'
-
-Vue.component('fieldTimePicker', fieldTimePicker)
-Vue.component('fieldSelectIcon', fieldSelectIcon)
-Vue.use(VueFormGenerator)
-
 import VueAMap from './vue-amap'
 Vue.use(VueAMap)
 if (!window.amap) {
