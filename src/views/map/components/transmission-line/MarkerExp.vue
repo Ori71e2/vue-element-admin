@@ -74,15 +74,16 @@ export default {
     return {
       firstDialogVisible: false,
       firstDialogEdit: false,
-      secondDialogVisible: false
+      secondDialogVisible: false,
+      sICToSvgName: new SICToSvgName()
     }
   },
   computed: {
     iconClass() {
-      return SICToSvgName.searchEnName(this.svgIconCode)
+      return this.sICToSvgName.searchEnName(this.svgIconCode)
     },
     iconContent() {
-      return SICToSvgName.searchCnName(this.svgIconCode)
+      return this.sICToSvgName.searchCnName(this.svgIconCode)
     },
     svgStyle() {
       const val = this.zoom

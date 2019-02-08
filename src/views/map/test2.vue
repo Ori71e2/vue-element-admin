@@ -13,9 +13,9 @@
         </el-input>
         <el-dialog :visible.sync="dialogVisible" width="60%" append-to-body @close="closeDialog">
           <span slot="title"><i class="el-icon-info"/> Icon</span>
-          <div class="dialog-container">
-            <div :style="gridWrapper">
-              <el-button v-for="(type, index) in markerType" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
+          <div class="dialog-container scroll">
+            <div v-for="(typeList, mapKey, mapindex) in markerTypeMap" :key="mapindex" class="flexWrapper">
+              <el-button v-for="(type, index) in typeList[1]" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
                 <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
                 <p>{{ type.thirdClass }}: {{ type.cnName }}</p>
               </el-button>
@@ -104,21 +104,14 @@ export default {
         remark: ''
       },
       labelPosition: 'right',
-      dialogVisible: false
+      dialogVisible: false,
+      sICToSvgName: new SICToSvgName()
     }
   },
   computed: {
-    markerType() {
-      const codeList = SICToSvgName.getCodeList()
-      return codeList
-    },
-    gridWrapper() {
-      const count = this.markerType.length
-      return {
-        display: 'grid',
-        gridTemplateColumns: '12.5% '.repeat(8),
-        gridTemplateRows: '110px '.repeat(count / 8 + 1)
-      }
+    markerTypeMap() {
+      console.log(this.sICToSvgName.getCodeListMap().values())
+      return this.sICToSvgName.getCodeListMap()
     }
   },
   methods: {
@@ -145,15 +138,37 @@ export default {
 }
 .dialog-container {
   width: 100%;
-  height: 100%;
+}
+.flexWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 .el-button--custom {
-  width: 95%;
-  height: 95%;
-  margin-left: -0%;
+  width: 120px;
+  height: 120px;
+  margin: 5px;
 }
 .icon-class--custom {
   width: 75%;
   height: 75%;
+}
+.scroll {
+  height: 600px;
+  overflow: auto;
+}
+.scroll::-webkit-scrollbar {/*滚动条整体样式*/
+  width: 7px;     /*高宽分别对应横竖滚动条的尺寸*/
+  height: 1px;
+}
+.scroll::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  background: #929191;
+}
+.scroll::-webkit-scrollbar-track {/*滚动条里面轨道*/
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  background: #EDEDED;
 }
 </style>

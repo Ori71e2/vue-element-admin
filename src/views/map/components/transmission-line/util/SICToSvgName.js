@@ -48,17 +48,30 @@ const CodeToName = [
 class SICToSvgName {
   constructor() {
     this.codeMap = new Map()
-    CodeToName.map((value, key) => {
-      this.codeMap.set(key, value)
+    this.thirdClassMap = new Map()
+    CodeToName.forEach((value, key) => {
+      this.codeMap.set(value.code, value)
+    })
+    CodeToName.forEach((value, key) => {
+      if (!this.thirdClassMap.has(value.thirdClass)) {
+        this.thirdClassMap.set(value.thirdClass, [value])
+      } else {
+        const tmp = this.thirdClassMap.get(value.thirdClass)
+        tmp.push(value)
+        this.thirdClassMap.set(value.thirdClass, tmp)
+      }
     })
   }
-  static getCodeList() {
+  getCodeList() {
     return CodeToName
   }
-  static searchEnName(code) {
+  getCodeListMap() {
+    return this.thirdClassMap
+  }
+  searchEnName(code) {
     return this.codeMap.get(code).enName
   }
-  static searchCnName(code) {
+  searchCnName(code) {
     return this.codeMap.get(code).cnName
   }
 }
