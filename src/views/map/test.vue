@@ -1,13 +1,21 @@
 <template>
   <div class="container">
-    <el-form ref="form" :model="form" :label-position="labelPosition" label-width="120px">
+    <el-form ref="form" :model="form" :rules="rules" :label-position="labelPosition" label-width="130px">
       <el-form-item label="Marke ID">
         <el-tag>{{ form.id }}</el-tag>
       </el-form-item>
-      <el-form-item label="Marker Name">
+      <el-form-item label="Marker Name" prop="name">
         <el-input v-model="form.name"/>
       </el-form-item>
-      <el-form-item label="Marker Type">
+      <el-form-item label="Voltage Level" prop="voltageLevel">
+        <el-select v-model="form.voltageLevel" placeholder="Select Voltage Level">
+          <el-option label="220kV" value="220kV"/>
+          <el-option label="110kV" value="110kV"/>
+          <el-option label="35kV" value="35kV"/>
+          <el-option label="" value=""/>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Marker Type" prop="typeCode">
         <el-input v-model="form.typeCode" placeholder="Select SICCODE">
           <i slot="prefix" class="el-input__icon el-icon-menu" @click="openDialog"/>
         </el-input>
@@ -30,13 +38,13 @@
       <el-form-item label="Marker Position">
         <el-input v-model="form.position"/>
       </el-form-item>
-      <el-form-item label="Belongs To Line">
+      <el-form-item label="Belongs To Line" prop="line">
         <el-input v-model="form.line"/>
       </el-form-item>
-      <el-form-item label="Tower One">
+      <el-form-item label="Tower One" prop="towerOne">
         <el-input v-model="form.towerOne"/>
       </el-form-item>
-      <el-form-item label="Tower Two">
+      <el-form-item label="Tower Two" prop="towerTwo">
         <el-input v-model="form.towerTwo"/>
       </el-form-item>
       <el-form-item label="Company">
@@ -54,10 +62,10 @@
       <el-form-item label="Phone Two">
         <el-input v-model="form.phoneTwo"/>
       </el-form-item>
-      <el-form-item label="Device Owner">
+      <el-form-item label="Device Owner" prop="deviceOwner">
         <el-input v-model="form.deviceOwner"/>
       </el-form-item>
-      <el-form-item label="Description">
+      <el-form-item label="Description" prop="description">
         <el-input v-model="form.description"/>
       </el-form-item>
       <el-form-item label="Remark">
@@ -65,16 +73,20 @@
       </el-form-item>
       <el-form-item label="FindTime">
         <el-col :span="10">
-          <el-date-picker v-model="form.findTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
+          <el-form-item prop="findTime">
+            <el-date-picker v-model="form.findTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
+          </el-form-item>
         </el-col>
         <el-col :span="4" class="line"><span style="padding-left: 60px; font-weight: bold;">WriteOffTime</span></el-col>
         <el-col :span="10">
-          <el-date-picker v-model="form.writeOffTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
+          <el-form-item prop="writeoffTime">
+            <el-date-picker v-model="form.writeOffTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
+          </el-form-item>
         </el-col>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">Submit</el-button>
-        <el-button>Cancle</el-button>
+        <el-button type="primary" @click="onSubmit('form')">Submit</el-button>
+        <el-button @click="resetForm('form')">Reset</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -87,6 +99,7 @@ export default {
       form: {
         id: 1,
         name: '',
+        voltageLevel: '',
         typeCode: '',
         position: '',
         line: '',
@@ -103,6 +116,39 @@ export default {
         description: '',
         remark: ''
       },
+      rules: {
+        name: [
+          { required: true, message: 'Please Input Marker Name', trigger: 'blur' },
+          { min: 3, max: 50, message: 'Length 3-50', trigger: 'blur' }
+        ],
+        voltageLevel: [
+          { required: true, message: 'Please Select Voltage Level', trigger: 'change' }
+        ],
+        typeCode: [
+          { required: true, message: 'Please Select Marker Type', trigger: 'change' }
+        ],
+        line: [
+          { required: true, message: 'Please Select Line', trigger: 'blur' }
+        ],
+        towerOne: [
+          { required: true, message: 'Please Select Tower', trigger: 'blur' }
+        ],
+        towerTwo: [
+          { required: true, message: 'Please Select Tower', trigger: 'blur' }
+        ],
+        deviceOwner: [
+          { required: true, message: 'Please Select DeviceOwner', trigger: 'blur' }
+        ],
+        findTime: [
+          { type: 'date', required: true, message: 'Please Select Time', trigger: 'change' }
+        ],
+        type: [
+          { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+        ],
+        description: [
+          { required: true, message: 'Please Write Marker Details', trigger: 'blur' }
+        ]
+      },
       labelPosition: 'right',
       dialogVisible: false,
       sICToSvgName: new SICToSvgName()
@@ -115,8 +161,18 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!')
+    onSubmit(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
     },
     cancelSelect() {
     },
