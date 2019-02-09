@@ -21,9 +21,14 @@
         </el-input>
         <el-dialog :visible.sync="dialogVisible" width="60%" append-to-body @close="closeDialog">
           <span slot="title"><i class="el-icon-info"/> Icon</span>
+          <div class="flexWrapper jumpButton">
+            <el-button v-for="[mapkey, typeList] of markerTypeMap.entries()" :key="mapkey" type="primary" @click="jump(mapkey)">
+              {{ typeList[0].thirdClass }}
+            </el-button>
+          </div>
           <div class="dialog-container scroll">
-            <div v-for="(typeList, mapKey, mapindex) in markerTypeMap" :key="mapindex" class="flexWrapper">
-              <el-button v-for="(type, index) in typeList[1]" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
+            <div v-for="[mapkey, typeList] of markerTypeMap.entries()" :key="mapkey" :id="mapkey" class="flexWrapper">
+              <el-button v-for="(type, index) in typeList" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
                 <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
                 <p>{{ type.thirdClass }}: {{ type.cnName }}</p>
               </el-button>
@@ -183,6 +188,9 @@ export default {
       this.dialogVisible = true
     },
     closeDialog() {
+    },
+    jump(id) {
+      document.getElementById(id).scrollIntoView()
     }
   }
 }
@@ -195,18 +203,22 @@ export default {
 .dialog-container {
   width: 100%;
 }
+.jumpButton {
+  margin-left: 5px;
+  margin-bottom: 20px;
+}
 .flexWrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 .el-button--custom {
-  width: 120px;
+  width: 150px;
   height: 120px;
   margin: 5px;
 }
 .icon-class--custom {
-  width: 75%;
+  width: 60%;
   height: 75%;
 }
 .scroll {
