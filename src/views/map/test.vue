@@ -25,7 +25,7 @@
             </el-button>
           </div>
           <div class="dialog-container scroll">
-            <div v-for="[mapkey, typeList] of markerTypeMap.entries()" :key="mapkey" :id="mapkey" class="flexWrapper">
+            <div v-for="[mapkey, typeList] of markerTypeMap.entries()" :key="mapkey" :ref="mapkey" :id="mapkey" class="flexWrapper">
               <el-button v-for="(type, index) in typeList" :key="index" class="el-button--custom" @click="form.typeCode = type.code; form.typeCodeCnName = type.cnName">
                 <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
                 <p>{{ type.thirdClass }}: {{ type.cnName }}</p>
@@ -160,15 +160,22 @@ export default {
   },
   computed: {
     markerTypeMap() {
-      console.log(this.sICToSvgName.getCodeListMap().values())
+      // console.log(this.sICToSvgName.getCodeListMap().values())
       return this.sICToSvgName.getCodeListMap()
+    },
+    markerData() {
+      return JSON.parse(this.$store.state.amap.markerData)
     }
   },
   methods: {
     onSubmit(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          // upLoadMarkerData()
+          // 成功就同步变化
+          const tempForm = JSON.stringify(this.form)
+          this.$store.dispatch('markerData', tempForm)
+          return true
         } else {
           console.log('error submit!!')
           return false
@@ -189,7 +196,8 @@ export default {
     closeDialog() {
     },
     jump(id) {
-      document.getElementById(id).scrollIntoView()
+      // document.getElementById(id).scrollIntoView()
+      this.$refs[id][0].scrollIntoView()
     }
   }
 }

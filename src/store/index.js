@@ -6,7 +6,7 @@ import permission from './modules/permission'
 import tagsView from './modules/tagsView'
 import user from './modules/user'
 import getters from './getters'
-
+import amap from './modules/amap'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -15,7 +15,8 @@ const store = new Vuex.Store({
     errorLog,
     permission,
     tagsView,
-    user
+    user,
+    amap
   },
   getters
 })

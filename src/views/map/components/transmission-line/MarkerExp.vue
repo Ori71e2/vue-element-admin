@@ -99,6 +99,10 @@ export default {
     },
     rotate() {
       return this.draggable
+    },
+    markerData() {
+      const tmpData = JSON.parse(this.$store.state.markerData)
+      return JSON.parse(tmpData)
     }
   },
   watch: {
