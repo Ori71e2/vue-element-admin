@@ -16,9 +16,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="Marker Type" prop="typeCode">
-        <el-input v-model="form.typeCode" placeholder="Select SICCODE">
-          <i slot="prefix" class="el-input__icon el-icon-menu" @click="openDialog"/>
-        </el-input>
+        <el-button class="open-dialog-button"><i class="el-icon-menu el-icon-menu--custom" @click="openDialog"/>{{ form.typeCodeCnName }}</el-button>
         <el-dialog :visible.sync="dialogVisible" width="60%" append-to-body @close="closeDialog">
           <span slot="title"><i class="el-icon-info"/> Icon</span>
           <div class="flexWrapper jumpButton">
@@ -28,7 +26,7 @@
           </div>
           <div class="dialog-container scroll">
             <div v-for="[mapkey, typeList] of markerTypeMap.entries()" :key="mapkey" :id="mapkey" class="flexWrapper">
-              <el-button v-for="(type, index) in typeList" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
+              <el-button v-for="(type, index) in typeList" :key="index" class="el-button--custom" @click="form.typeCode = type.code; form.typeCodeCnName = type.cnName">
                 <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
                 <p>{{ type.thirdClass }}: {{ type.cnName }}</p>
               </el-button>
@@ -106,6 +104,7 @@ export default {
         name: '',
         voltageLevel: '',
         typeCode: '',
+        typeCodeCnName: '',
         position: '',
         line: '',
         towerOne: '',
@@ -202,6 +201,13 @@ export default {
 }
 .dialog-container {
   width: 100%;
+}
+.open-dialog-button {
+  width: 100%;
+  text-align: left;
+}
+.el-icon-menu--custom {
+  margin-right: 10px;
 }
 .jumpButton {
   margin-left: 5px;
