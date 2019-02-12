@@ -45,9 +45,9 @@ export default {
     markerContent
   },
   props: {
-    text: {
-      type: String,
-      default: ''
+    id: {
+      type: String | Number,
+      default: null
     },
     svgIconCode: {
       type: String,

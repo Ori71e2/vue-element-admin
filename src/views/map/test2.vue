@@ -1,174 +1,66 @@
 <template>
-  <div class="container">
-    <el-form ref="form" :model="form" :label-position="labelPosition" label-width="120px">
-      <el-form-item label="Marke ID">
-        <el-tag>{{ form.id }}</el-tag>
-      </el-form-item>
-      <el-form-item label="Marker Name">
-        <el-input v-model="form.name"/>
-      </el-form-item>
-      <el-form-item label="Marker Type">
-        <el-input v-model="form.typeCode" placeholder="Select SICCODE">
-          <i slot="prefix" class="el-input__icon el-icon-menu" @click="openDialog"/>
-        </el-input>
-        <el-dialog :visible.sync="dialogVisible" width="60%" append-to-body @close="closeDialog">
-          <span slot="title"><i class="el-icon-info"/> Icon</span>
-          <div class="dialog-container scroll">
-            <div v-for="(typeList, mapKey, mapindex) in markerTypeMap" :key="mapindex" class="flexWrapper">
-              <el-button v-for="(type, index) in typeList[1]" :key="index" class="el-button--custom" @click="form.typeCode = type.code">
-                <svg-icon :icon-class="type.enName" class="icon-class--custom"/>
-                <p>{{ type.thirdClass }}: {{ type.cnName }}</p>
-              </el-button>
-            </div>
-          </div>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="cancelSelect">Cancel</el-button>
-            <el-button type="primary" @click="confirmSelect">Confirm</el-button>
-          </span>
-        </el-dialog>
-      </el-form-item>
-      <el-form-item label="Marker Position">
-        <el-input v-model="form.position"/>
-      </el-form-item>
-      <el-form-item label="Belongs To Line">
-        <el-input v-model="form.line"/>
-      </el-form-item>
-      <el-form-item label="Tower One">
-        <el-input v-model="form.towerOne"/>
-      </el-form-item>
-      <el-form-item label="Tower Two">
-        <el-input v-model="form.towerTwo"/>
-      </el-form-item>
-      <el-form-item label="Company">
-        <el-input v-model="form.company"/>
-      </el-form-item>
-      <el-form-item label="Contact One">
-        <el-input v-model="form.contactOne"/>
-      </el-form-item>
-      <el-form-item label="Phone One">
-        <el-input v-model="form.phoneOne"/>
-      </el-form-item>
-      <el-form-item label="Contact Two">
-        <el-input v-model="form.contactTwo"/>
-      </el-form-item>
-      <el-form-item label="Phone Two">
-        <el-input v-model="form.phoneTwo"/>
-      </el-form-item>
-      <el-form-item label="Device Owner">
-        <el-input v-model="form.deviceOwner"/>
-      </el-form-item>
-      <el-form-item label="Description">
-        <el-input v-model="form.description"/>
-      </el-form-item>
-      <el-form-item label="Remark">
-        <el-input v-model="form.remark"/>
-      </el-form-item>
-      <el-form-item label="FindTime">
-        <el-col :span="10">
-          <el-date-picker v-model="form.findTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
-        </el-col>
-        <el-col :span="4" class="line"><span style="padding-left: 60px; font-weight: bold;">WriteOffTime</span></el-col>
-        <el-col :span="10">
-          <el-date-picker v-model="form.writeOffTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
-        </el-col>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">Submit</el-button>
-        <el-button>Cancle</el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+  <div/>
 </template>
 <script>
-import SICToSvgName from './components/transmission-line/util/SICToSvgName'
+import { fetchMarkersList } from '@/api/amapMarkers'
 export default {
+  name: 'Test2',
   data() {
     return {
-      form: {
-        id: 1,
-        name: '',
-        typeCode: '',
-        position: '',
-        line: '',
-        towerOne: '',
-        towerTwo: '',
-        compant: '',
-        contactOne: '',
-        phoneOne: '',
-        contactTwo: '',
-        phoneTwo: '',
-        deviceOwner: '',
-        findTime: '',
-        writeOffTime: '',
-        description: '',
-        remark: ''
-      },
-      labelPosition: 'right',
-      dialogVisible: false,
-      sICToSvgName: new SICToSvgName()
+      markersUpdateMap: new Map()
     }
   },
   computed: {
-    markerTypeMap() {
-      console.log(this.sICToSvgName.getCodeListMap().values())
-      return this.sICToSvgName.getCodeListMap()
+    markersMap() {
+      /* eslint-disable */
+      const markersMapUpdate = this.$store.getters.markersMapUpdate
+      console.log(this.$store.getters.markersMap)
+      return this.$store.getters.markersMap
     }
   },
+  mounted() {
+    console.log('mounted')
+    this.fetchMarkersListByParams()
+  },
+  activated() {
+    console.log('actived')
+    this.fetchMarkersListByParams()
+  },
   methods: {
-    onSubmit() {
-      console.log('submit!')
-    },
-    cancelSelect() {
-    },
-    confirmSelect() {
-      this.dialogVisible = false
-    },
-    openDialog() {
-      this.dialogVisible = true
-    },
-    closeDialog() {
+    fetchMarkersListByParams() {
+      fetchMarkersList().then((response) => {
+        const key = response.data.key
+        const data = response.data.data
+        this.markersUpdateMap.set(key, data)
+        
+        const newMarkers = data
+        // 客户端markersMap对于获取后已删除的要维护数据状态，防止旧数据延迟到来，Map中不存在key而进行更新
+        // data中time表明获取数据的时间，以此为更新队列顺序
+        // 新来的数据与旧数据迟来的有重合的，以新来的为准，加入条件判断
+        // 对所有客户端，服务器端维护一个消息队列，客户端要唯一，可以以账户和设备唯一ID为Key
+        newMarkers.forEach((newM) => {
+          console.log(this.markersMap)
+          if (!this.markersMap.has(newM.id)) {
+            this.$store.dispatch('setMarkersMap', newM)
+            this.$store.dispatch('setMarkersMapUpdate')
+          } else {
+            const newMModifyTime = new Date(newM.modifyTime)
+            const mDodifyTime = new Date(this.markersMap.get(newM.id).modifyTime)
+            // 测试用
+            // if (newMModifyTime.getTime() >= mDodifyTime.getTime()) {
+            if (newMModifyTime.getTime() > mDodifyTime.getTime()) {
+              this.$store.dispatch('setMarkersMap', newM)
+              this.$store.dispatch('setMarkersMapUpdate')
+            }
+          }
+        })
+        // 更新队列
+        this.markersUpdateMap.delete(key)
+      })
     }
   }
 }
 </script>
 <style scoped>
-.container {
-  width: 100%;
-  padding: 4px;
-}
-.dialog-container {
-  width: 100%;
-}
-.flexWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
-.el-button--custom {
-  width: 120px;
-  height: 120px;
-  margin: 5px;
-}
-.icon-class--custom {
-  width: 75%;
-  height: 75%;
-}
-.scroll {
-  height: 600px;
-  overflow: auto;
-}
-.scroll::-webkit-scrollbar {/*滚动条整体样式*/
-  width: 7px;     /*高宽分别对应横竖滚动条的尺寸*/
-  height: 1px;
-}
-.scroll::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-  border-radius: 10px;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-  background: #929191;
-}
-.scroll::-webkit-scrollbar-track {/*滚动条里面轨道*/
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-  border-radius: 10px;
-  background: #EDEDED;
-}
+
 </style>

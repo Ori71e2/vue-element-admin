@@ -15,6 +15,7 @@ const getters = {
   permission_routers: state => state.permission.routers,
   addRouters: state => state.permission.addRouters,
   errorLogs: state => state.errorLog.logs,
-  markerData: state => state.amap.markerData
+  markersMap: state => state.amap.markersMap,
+  markersMapUpdate: state => state.amap.markersMapUpdate
 }
 export default getters

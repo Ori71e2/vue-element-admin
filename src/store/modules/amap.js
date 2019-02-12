@@ -1,16 +1,24 @@
 const amap = {
   state: {
     // 采用反序列化对象，确保内容唯一
-    markerData: ''
+    markersMap: new Map(),
+    // 被监听对象
+    markersMapUpdate: 0
   },
   mutations: {
-    SET_MARKERDATA: (state, markerData) => {
-      state.markerData = markerData
+    SET_MARKERSMAP: (state, markerData) => {
+      state.markersMap.set(markerData.id, markerData)
+    },
+    SET_MARKERSMAPUPDATE: (state, markersMapUpdate) => {
+      state.markersMapUpdate = (new Date()).getTime()
     }
   },
   actions: {
-    setMarkerData({ commit }, markerData) {
-      commit('SET_MARKERDATA', markerData)
+    setMarkersMap({ commit }, markerData) {
+      commit('SET_MARKERSMAP', markerData)
+    },
+    setMarkersMapUpdate({ commit }) {
+      commit('SET_MARKERSMAPUPDATE')
     }
   }
 }

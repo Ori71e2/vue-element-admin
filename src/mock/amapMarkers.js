@@ -31,12 +31,14 @@ const MarkersList = [
 export default {
   fetchMarkersList: () => {
     return {
-      data: MarkersList
+      data: MarkersList,
+      key: 0
     }
   },
   fetchMarker: () => {
     return {
-      data: MarkersList[0]
+      data: MarkersList[0],
+      key: 0
     }
   },
   updateMarker: () => {
