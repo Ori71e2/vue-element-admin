@@ -42,7 +42,7 @@ export default {
           console.log(this.markersMap)
           if (!this.markersMap.has(newM.id)) {
             this.$store.dispatch('setMarkersMap', newM)
-            this.$store.dispatch('setMarkersMapUpdate')
+            this.$store.dispatch('setMarkersMapAdd')
           } else {
             const newMModifyTime = new Date(newM.modifyTime)
             const mDodifyTime = new Date(this.markersMap.get(newM.id).modifyTime)

@@ -2,7 +2,7 @@
   <div>
     <div v-if="show">
       <el-amap-marker
-        v-for="[key, marker] of convertMarkersMap.entries()"
+        v-for="[key, marker] of markersIconMap.entries()"
         :key="key"
         :z-index="trigger"
         :position="markersMap.get(key).position"
@@ -39,7 +39,7 @@ export default {
   },
   data() {
     return {
-      convertMarkersMap: new Map(),
+      markersIconMap: new Map(),
       change: false,
       show: true
     }
@@ -51,56 +51,39 @@ export default {
     markersMapUpdate() {
       return this.$store.getters.markersMapUpdate
     },
+    markersMapAdd() {
+      return this.$store.getters.markersMapAdd
+    },
     // 由于vue2.X无法响应map变化，使用一个key触发更新
-    markersMap: {
-      get: function() {
-        /* eslint-disable */
-        const trigger = this.$store.getters.markersMapUpdate
-        return this.$store.getters.markersMap 
-      }
-    //   set: function(newValue) {
-    //     /* eslint-disable */
-    //     const trigger = this.$store.getters.markersMapUpdate
-    //     console.log('xxxx')
-    //     /* eslint-enable */
-    //     // 只添加新增的id,对于其他数据有变化的不进行更新
-    //     if (newValue.size !== 0) {
-    //       newValue.forEach((value, key, map) => {
-    //         if (!this.convertMarkersMap.has(key)) {
-    //           this.convertMarkersMap.set(key, this.markerRawToRipe(value))
-    //         }
-    //       })
-    //     }
-    //     console.log('convertMarkersMap')
-    //     console.log(this.convertMarkersMap)
-    //     this.show = false
-    //     this.show = true
-    //   }
+    markersMap() {
+      /* eslint-disable */
+      const trigger = this.$store.getters.markersMapUpdate
+      return this.$store.getters.markersMap 
     }
   },
   watch: {
-    markersMapUpdate() {
-      const trigger = this.$store.getters.markersMapUpdate
-      console.log('xxxx')
-      /* eslint-enable */
+    markersMapAdd (newValue, oldValue) {
       // 只添加新增的id,对于其他数据有变化的不进行更新
       if (this.markersMap.size !== 0) {
         this.markersMap.forEach((value, key, map) => {
-          if (!this.convertMarkersMap.has(key)) {
-            this.convertMarkersMap.set(key, this.markerRawToRipe(value))
+          if (!this.markersIconMap.has(key)) {
+            this.markersIconMap.set(key, this.markerRawToRipe(value))
           }
         })
       }
-      console.log('convertMarkersMap')
-      console.log(this.convertMarkersMap)
+      console.log('markersIconMap')
+      console.log(this.markersIconMap)
       this.show = false
       this.show = true
+    },
+    markersMapUpdate(newValue, oldValue) {
+      this.change = !this.change
     }
   },
   mounted() {
   },
   activated() {
-    console.log(this.convertMarkersMap)
+    console.log(this.markersIconMap)
     console.log(this.markersMap)
     console.log(this.markersMapUpdate)
   },
@@ -125,9 +108,9 @@ export default {
         dblclick: (e) => {
           // const draggable = e.target.getDraggable()
           const id = e.target.getExtData()
-          const options = this.convertMarkersMap.get(id)
+          const options = this.markersIconMap.get(id)
           options.draggable = !options.draggable
-          this.convertMarkersMap.set(id, options)
+          this.markersIconMap.set(id, options)
           this.change = !this.change
         },
         rightclick: (e) => {
@@ -151,7 +134,7 @@ export default {
           // 一定要给markerExp设置大小，否则无法方便点击和拖拽
           markerExp,
           {
-            props: { change: this.change, id: id, zoom: this.zoom, svgIconCode: this.$store.getters.markersMap.get(id).SICCode, 'voltage-class': 110, draggable: this.convertMarkersMap.get(id).draggable }
+            props: { change: this.change, id: id, zoom: this.zoom, svgIconCode: this.$store.getters.markersMap.get(id).SICCode, 'voltage-class': 110, draggable: this.markersIconMap.get(id).draggable }
           }
         )
       }
