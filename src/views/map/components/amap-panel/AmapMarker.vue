@@ -31,12 +31,7 @@ export default {
     markerExp
   },
   mixins: [spreadAmapInstance],
-  props: {
-    zoom: {
-      type: Number,
-      default: 9
-    }
-  },
+
   data() {
     return {
       markersIconMap: new Map(),
@@ -59,6 +54,9 @@ export default {
       /* eslint-disable */
       const trigger = this.$store.getters.markersMapUpdate
       return this.$store.getters.markersMap 
+    },
+    zoom() {
+      return this.$store.getters.currentZoom
     }
   },
   watch: {

@@ -16,7 +16,7 @@ const getAmapInstance = createCustomComponent({
       position: [0, 0]
     })
     this.amap = this.$amap
-    this.$emit('get-amap-instance', this.amap)
+    this.$emit('set-amap-instance', this.amap)
     return this.marker
   },
   mounted: () => {

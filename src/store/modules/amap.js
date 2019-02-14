@@ -1,3 +1,5 @@
+const zoom = 11
+const center = [118.716184, 33.720615]
 const amap = {
   state: {
     // 采用反序列化对象，确保内容唯一
@@ -5,10 +7,12 @@ const amap = {
     // 被监听对象
     markersMapUpdate: 0,
     markersMapAdd: 0,
-    initZoom: 11,
-    initCenter: [118.716184, 33.720615],
-    zoom: 11,
-    center: [118.716184, 33.720615]
+    initZoom: zoom,
+    initCenter: center,
+    currentZoom: zoom,
+    currentCenter: center,
+    currentLocation: center,
+    selectPosition: [0, 0]
   },
   mutations: {
     SET_MARKERSMAP: (state, markerData) => {
@@ -25,6 +29,18 @@ const amap = {
     },
     SET_INITCENTER: (state, initCenter) => {
       state.initCenter = initCenter
+    },
+    SET_CURRENTZOOM: (state, currentZoom) => {
+      state.currentZoom = currentZoom
+    },
+    SET_CURRENTCENTER: (state, currentCenter) => {
+      state.currentCenter = currentCenter
+    },
+    SET_CURRENTLOCATION: (state, currentLocation) => {
+      state.currentLocation = currentLocation
+    },
+    SET_SELECTPOSITION: (state, selectPosition) => {
+      state.selectPosition = selectPosition
     }
   },
   actions: {
@@ -42,6 +58,18 @@ const amap = {
     },
     setInitCenter({ commit }, initCenter) {
       commit('SET_INITCENTER', initCenter)
+    },
+    setCurrentZoom({ commit }, currentZoom) {
+      commit('SET_CURRENTZOOM', currentZoom)
+    },
+    setCurrentCenter({ commit }, currentCenter) {
+      commit('SET_CURRENTCENTER', currentCenter)
+    },
+    setCurrentLocation({ commit }, currentLocation) {
+      commit('SET_CURRENTLOCATION', currentLocation)
+    },
+    setSelectPosition({ commit }, currentPosition) {
+      commit('SET_SELECTPOSITION', currentPosition)
     }
   }
 }

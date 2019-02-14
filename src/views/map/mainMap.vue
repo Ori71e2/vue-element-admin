@@ -1,10 +1,10 @@
 <template>
   <div class="amap-container">
     <div class="amap-wrapper">
-      <el-amap :center="center" :zoom="amapZoom" :vid="'amap-vue'" class="amap-box">
-        <get-amap-instance @get-amap-instance="setAmapInstance"/>
-        <get-amap-zoom @get-amap-zoom="setAmapZoom"/>
-        <custom-amap-select-poi @get-select-position="setSelectPoi" />
+      <el-amap :center="initCenter" :zoom="initZoom" vid="amap-vue" class="amap-box">
+        <get-amap-instance @set-amap-instance="setAmapInstance"/>
+        <get-amap-zoom @set-amap-zoom="setAmapZoom"/>
+        <custom-amap-select-poi @set-select-position="setSelectPoi" />
         <custom-amap-searchbox @select="selectSearch" />
       </el-amap>
       <div class="amap-panel">
@@ -12,9 +12,9 @@
           <el-col :span="4"><amap-limit-lock :amap-instance="amapInstance" /></el-col>
           <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
           <el-col :span="6"><amap-select-poi :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
-          <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" :select-poi="selectPoi" /></el-col>
-          <el-col :span="4"><amap-geometry :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
-          <el-col :span="4"><amap-marker :amap-instance="amapInstance" :zoom="amapZoom"/></el-col>
+          <!-- <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" :select-poi="selectPoi" /></el-col>
+          <el-col :span="4"><amap-geometry :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col> -->
+          <el-col :span="4"><amap-marker :amap-instance="amapInstance"/></el-col>
         </el-row>
       </div>
       <amap-geolocation :amap-instance="amapInstance" />
@@ -47,14 +47,18 @@ export default {
   data() {
     return {
       amapInstance: null,
-      amapZoom: 11,
-      center: [118.716184, 33.720615],
       panelId: '',
       selectPoi: null,
       position: []
     }
   },
   computed: {
+    initZoom() {
+      return this.$store.getters.initZoom
+    },
+    initCenter() {
+      return this.$store.getters.initCenter
+    }
   },
   mounted() {
     this.panelId = this.$refs.drivingNavPanel
@@ -79,10 +83,11 @@ export default {
       this.amapInstance = amap
     },
     setAmapZoom(zoom) {
-      this.amapZoom = zoom
+      this.$store.dispatch('setCurrentZoom', zoom)
     },
     setSelectPoi(poi) {
       this.selectPoi = poi
+      this.$store.dispatch('setSelectPosition', poi)
     }
   }
 }

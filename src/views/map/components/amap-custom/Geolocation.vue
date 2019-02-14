@@ -38,12 +38,12 @@ const customAmapGeolocation = createCustomComponent({
           convert: true,
           showButton: true,
           buttonPosition: 'LB',
-          // buttonOffset: new AMap.Pixel(10, 20)
+          buttonOffset: new AMap.Pixel(20, 60),
           showMarker: true,
           // markerOptions: {},
           showCircle: true,
-          panToLocation: true,
-          zoomToAccuracy: true
+          panToLocation: false,
+          zoomToAccuracy: false
         })
         this.$amap.addControl(this.geolocation)
         this.geolocation.getCurrentPosition()
@@ -65,15 +65,9 @@ const customAmapGeolocation = createCustomComponent({
   },
   methods: {
     onGeolocationComplete(data) {
-      // var result = {}
-      // result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
-      // result.info = data.info
       this.$emit('set-current-location', data)
     },
     onGeolocationError(data) {
-      // var result = {}
-      // result.position = { 'X': data.position.getLng(), 'Y': data.position.getLat() }
-      // result.info = data.info
       this.$emit('set-current-location', data)
     }
   }

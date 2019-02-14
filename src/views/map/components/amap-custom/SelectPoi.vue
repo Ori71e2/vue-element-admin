@@ -24,10 +24,8 @@ const customAmapSelectPoi = createCustomComponent({
   },
   methods: {
     setPosition(e) {
-      var position = {}
-      position.X = e.lnglat.getLng()
-      position.Y = e.lnglat.getLat()
-      this.$emit('get-select-position', position)
+      var position = [e.lnglat.getLng(), e.lnglat.getLat()]
+      this.$emit('set-select-position', position)
     }
   }
 })

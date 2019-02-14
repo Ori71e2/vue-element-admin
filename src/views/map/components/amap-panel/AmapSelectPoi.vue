@@ -16,45 +16,35 @@
         选点定位<i class="el-icon-arrow-up el-icon--right"/>
       </el-button>
     </el-popover>
-    <custom-amap-center :zoom="amapZoom" :center="amapCenter"/>
   </div>
 </template>
 
 <script>
-import customAmapCenter from '../amap-custom/Center'
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 
 export default {
-  components: {
-    customAmapCenter
-  },
   mixins: [spreadAmapInstance],
-  props: {
-    'selectPoi': {
-      type: Object,
-      default: null
-    }
-  },
   data() {
     return {
       activeSelectPoi: false,
-      positionX: null,
-      positionY: null,
       copyBoard: '',
       // 这样设置，保证引入时不会触发setZoom, setCenter
       amapZoom: -1,
       amapCenter: ''
     }
   },
-  watch: {
-    selectPoi(newValue) {
-      if (this.activeSelectPoi) {
-        this.positionX = newValue.X
-        this.positionY = newValue.Y
-      }
+  computed: {
+    selectPosition() {
+      return this.$store.getters.selectPosition
+    },
+    positionX() {
+      return this.activeSelectPoi ? this.selectPosition[0] : null
+    },
+    positionY() {
+      return this.activeSelectPoi ? this.selectPosition[1] : null
     }
   },
   mounted() {
@@ -74,10 +64,7 @@ export default {
       })
     },
     toggleMove() {
-      if (this.positionX && this.positionY) {
-        this.amapZoom = 14
-        this.amapCenter = { X: this.positionX, Y: this.positionY }
-      }
+      this.$store.dispatch('setInitCenter', this.selectPosition)
     }
   }
 }

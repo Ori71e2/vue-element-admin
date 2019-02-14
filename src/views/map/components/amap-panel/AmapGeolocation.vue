@@ -1,5 +1,10 @@
 <template>
-  <custom-amap-geolocation @get-current-location="setCurrentLocation"/>
+  <div>
+    <custom-amap-geolocation @set-current-location="setCurrentLocation"/>
+    <el-dialog :visible.sync="dialogVisible" title="提示" width="30%">
+      {{ msg }}
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -12,15 +17,28 @@ export default {
   mixins: [spreadAmapInstance],
   data() {
     return {
+      dialogVisible: false,
+      msg: ''
     }
   },
   mounted() {},
   methods: {
     setCurrentLocation(data) {
-      if (data.info === 'SUCCESS') {
-        console.log('经度：' + data.position.getLng())
-        console.log('纬度：' + data.position.getLat())
+      const currentLocation = [data.position.getLng(), data.position.getLat()]
+      this.$store.dispatch('setCurrentLocation', currentLocation)
+      const info = data.info
+      if (info === 'SUCCESS') {
+        this.msg = 'GeoLocation Success!'
+        console.log('SUCCESS')
+      } else if (info === 'NOT_SUPPORTED') {
+        this.msg = 'Not Supperted!'
+        console.log('NOT_SUPPORTED')
+      } else if (info === 'FAILED') {
+        this.msg = 'GeoLocation Failed!'
+        console.log('FAILED')
       }
+      // this.dialogVisible = true
+      // setInterval(() => { this.dialogVisible = false }, 2000)
     }
   }
 }
