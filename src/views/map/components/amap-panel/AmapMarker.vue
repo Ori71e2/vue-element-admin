@@ -63,6 +63,24 @@ export default {
   },
   watch: {
     markersMapAdd (newValue, oldValue) {
+      this.generateMarkersIcon()
+    },
+    markersMapUpdate(newValue, oldValue) {
+      this.change = !this.change
+    }
+  },
+  mounted() {
+    this.generateMarkersIcon()
+  },
+  activated() {
+    console.log(this.markersIconMap)
+    console.log(this.markersMap)
+    console.log(this.markersMapUpdate)
+  },
+  methods: {
+    addMarker() {
+    },
+    generateMarkersIcon() {
       // 只添加新增的id,对于其他数据有变化的不进行更新
       if (this.markersMap.size !== 0) {
         this.markersMap.forEach((value, key, map) => {
@@ -75,20 +93,6 @@ export default {
       console.log(this.markersIconMap)
       this.show = false
       this.show = true
-    },
-    markersMapUpdate(newValue, oldValue) {
-      this.change = !this.change
-    }
-  },
-  mounted() {
-  },
-  activated() {
-    console.log(this.markersIconMap)
-    console.log(this.markersMap)
-    console.log(this.markersMapUpdate)
-  },
-  methods: {
-    addMarker() {
     },
     markerRawToRipe(v) {
       const { id } = v
@@ -123,10 +127,10 @@ export default {
           const position = [e.lnglat.lng, e.lnglat.lat]
 
           // 设置markersMap
-          const value = this.$store.getters.markersMap.get(id)
+          const value = this.markersMap.get(id)
           value.position = position
           this.$store.dispatch('setMarkersMap', value)
-          this.$store.dispatch('setMarkersMapUpdate', (new Date()).getTime)
+          this.$store.dispatch('setMarkersMapUpdate')
         }
       }
       options.contentRender = (h, instance) => {
@@ -134,7 +138,7 @@ export default {
           // 一定要给markerExp设置大小，否则无法方便点击和拖拽
           markerExp,
           {
-            props: { change: this.change, id: id, zoom: this.zoom, svgIconCode: this.$store.getters.markersMap.get(id).SICCode, 'voltage-class': 110, draggable: this.markersIconMap.get(id).draggable }
+            props: { change: this.change, id: id, zoom: this.zoom, svgIconCode: this.markersMap.get(id).SICCode, 'voltage-class': 110, draggable: this.markersIconMap.get(id).draggable }
           }
         )
       }
