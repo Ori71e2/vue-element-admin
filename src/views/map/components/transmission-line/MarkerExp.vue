@@ -4,20 +4,12 @@
       <svg-icon-exp :style-name="svgStyle" :icon-class="iconClass" :rotate="rotate"/>
     </div>
     <div :style="showButton" class="center">
-      <el-dialog
-        :visible.sync="firstDialogVisible"
-        :before-close="handleClose"
-        width="60%"
-        append-to-body>
+      <el-dialog :visible.sync="firstDialogVisible" :before-close="handleClose" width="60%" append-to-body>
         <span slot="title"><i class="el-icon-info"/> Marker Info</span>
         <div>
           <picture-swiper/>
           <marker-content class="scroll"/>
-          <el-dialog
-            :visible.sync="secondDialogVisible"
-            width="60%"
-            title="内层 Dialog"
-            append-to-body>
+          <el-dialog :visible.sync="secondDialogVisible" width="40%" title="内层 Dialog" append-to-body>
             <div/>
           </el-dialog>
         </div>

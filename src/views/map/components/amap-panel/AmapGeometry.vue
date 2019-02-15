@@ -73,46 +73,32 @@ export default {
     }
   },
   computed: {
-    origin: {
-      get: function() {
-        return [
-          this.originX ? this.originX : 0,
-          this.originY ? this.originY : 0
-        ]
-      },
-      set: function(value) {
-        this.originX = value[0]
-        this.originY = value[1]
-      }
+    selectPosition() {
+      return this.$store.getters.selectPosition
     },
-    destination: {
-      get: function() {
-        return [
-          this.destinationX ? this.destinationX : 0,
-          this.destinationY ? this.destinationY : 0
-        ]
-      },
-      set: function(value) {
-        this.destinationX = value[0]
-        this.destinationY = value[1]
-      }
+    positionx() {
+      return this.selectPosition[0]
+    },
+    positiony() {
+      return this.selectPosition[1]
     }
   },
   watch: {
-    selectPoi(newValue) {
-      if (this.activeSelectPoi) {
-        if (this.switchPoi) {
-          this.originX = newValue.X
-          this.originY = newValue.Y
-          this.origin = [this.originX, this.originY]
-          this.originShow = true
-        } else {
-          this.destinationX = newValue.X
-          this.destinationY = newValue.Y
-          this.destination = [this.destinationX, this.destinationY]
-          this.destinationShow = true
-        }
+    activeSelectPoi(newValue) {
+      if (!newValue) {
+        this.originX = null
+        this.originY = null
+        this.destinationX = null
+        this.destinationY = null
       }
+    },
+    positionx(newValue) {
+      this.originX = this.activeSelectPoi ? (this.switchPoi ? newValue : this.originX) : null
+      this.destinationX = this.activeSelectPoi ? (!this.switchPoi ? newValue : this.destinationX) : null
+    },
+    positiony(newValue) {
+      this.originY = this.activeSelectPoi ? (this.switchPoi ? newValue : this.originY) : null
+      this.destinationY = this.activeSelectPoi ? (!this.switchPoi ? newValue : this.destinationY) : null
     }
   },
   mounted() {

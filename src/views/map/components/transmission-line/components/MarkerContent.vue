@@ -2,7 +2,7 @@
   <div class="container">
     <el-form ref="form" :model="form" :rules="rules" :label-position="labelPosition" label-width="130px">
       <el-form-item label="Marke ID">
-        <el-tag>{{ form.id }}</el-tag>
+        <el-tag style="width: 100%">{{ form.id }}</el-tag>
       </el-form-item>
       <el-form-item label="Marker Name" prop="name">
         <el-input v-model="form.name"/>
@@ -75,13 +75,13 @@
         <el-input v-model="form.remark"/>
       </el-form-item>
       <el-form-item label="FindTime">
-        <el-col :span="10">
+        <el-col :span="9">
           <el-form-item prop="findTime">
             <el-date-picker v-model="form.findTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
           </el-form-item>
         </el-col>
-        <el-col :span="4" class="line"><span style="padding-left: 60px; font-weight: bold;">WriteOffTime</span></el-col>
-        <el-col :span="10">
+        <el-col :span="6" class="line"><span style="padding-left: 30%; font-weight: bold;">WriteOffTime</span></el-col>
+        <el-col :span="9">
           <el-form-item prop="writeoffTime">
             <el-date-picker v-model="form.writeOffTime" type="datetime" placeholder="Select Time" style="width: 100%;"/>
           </el-form-item>
@@ -197,7 +197,7 @@ export default {
 <style scoped>
 .container {
   width: 100%;
-  padding: 4px;
+  padding: 10px;
 }
 .dialog-container {
   width: 100%;

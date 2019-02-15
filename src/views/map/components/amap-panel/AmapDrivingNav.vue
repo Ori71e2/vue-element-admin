@@ -69,17 +69,6 @@ export default {
     }
   },
   watch: {
-    // selectPoi(newValue) {
-    //   if (this.activeSelectPoi) {
-    //     if (this.switchPoi) {
-    //       this.originX = newValue.X
-    //       this.originY = newValue.Y
-    //     } else {
-    //       this.destinationX = newValue.X
-    //       this.destinationY = newValue.Y
-    //     }
-    //   }
-    // },
     activeSelectPoi(newValue) {
       if (!newValue) {
         this.originX = null

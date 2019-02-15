@@ -11,7 +11,7 @@
         <el-row :gutter="20" type="flex" class="row-bg" justify="space-around">
           <el-col :span="4"><amap-limit-lock :amap-instance="amapInstance" /></el-col>
           <el-col :span="4"><amap-tools-control :amap-instance="amapInstance" /></el-col>
-          <el-col :span="6"><amap-select-poi :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col>
+          <el-col :span="6"><amap-select-poi :amap-instance="amapInstance" /></el-col>
           <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" /></el-col>
           <!-- <el-col :span="4"><amap-geometry :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col> -->
           <el-col :span="4"><amap-marker :amap-instance="amapInstance"/></el-col>
