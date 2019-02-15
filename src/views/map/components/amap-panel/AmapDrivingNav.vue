@@ -42,10 +42,6 @@ export default {
       // 此处只能将这两种类型同时写上，否则报错
       type: String | HTMLDivElement,
       default: null
-    },
-    'selectPoi': {
-      type: Object,
-      default: null
     }
   },
   data() {
@@ -61,17 +57,44 @@ export default {
       switchPoi: true
     }
   },
+  computed: {
+    selectPosition() {
+      return this.$store.getters.selectPosition
+    },
+    positionx() {
+      return this.selectPosition[0]
+    },
+    positiony() {
+      return this.selectPosition[1]
+    }
+  },
   watch: {
-    selectPoi(newValue) {
-      if (this.activeSelectPoi) {
-        if (this.switchPoi) {
-          this.originX = newValue.X
-          this.originY = newValue.Y
-        } else {
-          this.destinationX = newValue.X
-          this.destinationY = newValue.Y
-        }
+    // selectPoi(newValue) {
+    //   if (this.activeSelectPoi) {
+    //     if (this.switchPoi) {
+    //       this.originX = newValue.X
+    //       this.originY = newValue.Y
+    //     } else {
+    //       this.destinationX = newValue.X
+    //       this.destinationY = newValue.Y
+    //     }
+    //   }
+    // },
+    activeSelectPoi(newValue) {
+      if (!newValue) {
+        this.originX = null
+        this.originY = null
+        this.destinationX = null
+        this.destinationY = null
       }
+    },
+    positionx(newValue) {
+      this.originX = this.activeSelectPoi ? (this.switchPoi ? newValue : this.originX) : null
+      this.destinationX = this.activeSelectPoi ? (!this.switchPoi ? newValue : this.destinationX) : null
+    },
+    positiony(newValue) {
+      this.originY = this.activeSelectPoi ? (this.switchPoi ? newValue : this.originY) : null
+      this.destinationY = this.activeSelectPoi ? (!this.switchPoi ? newValue : this.destinationY) : null
     }
   },
   mounted() {

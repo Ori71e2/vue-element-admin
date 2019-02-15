@@ -33,18 +33,34 @@ export default {
       copyBoard: '',
       // 这样设置，保证引入时不会触发setZoom, setCenter
       amapZoom: -1,
-      amapCenter: ''
+      amapCenter: '',
+      positionX: null,
+      positionY: null
     }
   },
   computed: {
     selectPosition() {
       return this.$store.getters.selectPosition
     },
-    positionX() {
-      return this.activeSelectPoi ? this.selectPosition[0] : null
+    positionx() {
+      return this.selectPosition[0]
     },
-    positionY() {
-      return this.activeSelectPoi ? this.selectPosition[1] : null
+    positiony() {
+      return this.selectPosition[1]
+    }
+  },
+  watch: {
+    activeSelectPoi(newValue) {
+      if (!newValue) {
+        this.positionX = null
+        this.positionY = null
+      }
+    },
+    positionx(newValue) {
+      this.positionX = this.activeSelectPoi ? newValue : null
+    },
+    positiony(newValue) {
+      this.positionY = this.activeSelectPoi ? newValue : null
     }
   },
   mounted() {
