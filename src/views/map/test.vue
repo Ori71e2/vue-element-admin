@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <swiper ref="swiperTop" :options="swiperOption" class="swiper-inner">
-      <!-- <swiper-slide v-for="(value, key) in picture" :key="key">
+      <swiper-slide v-for="(value, key) in virtualData.slides" :key="key" :style="{left: `${virtualData.offset}px`}">
         <el-card class="box-card">
           <div class="slide-content">Slide {{ value }}</div>
         </el-card>
-      </swiper-slide> -->
+      </swiper-slide>
       <div slot="pagination" class="swiper-pagination"/>
       <div slot="button-prev" class="swiper-button-prev"/>
       <div slot="button-next" class="swiper-button-next"/>
@@ -23,7 +23,9 @@ export default {
   },
   data() {
     return {
-      picture: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      virtualData: {
+        slides: []
+      },
       swiperOption: {
         effect: 'coverflow',
         // grabCursor: true,
@@ -58,15 +60,22 @@ export default {
             }
             return slides
           }()),
-          renderSlide: function(slide, index) {
-            // <div class="swiper-slide"></div> 这个结构必须包含，不能缺少
-            return '<div class="swiper-slide"">索引是' + index + '+内容是内容是内容是内容是内容是内容是内容是' + slide + '</div>'
-          }
+          // 弄了半天，这个和下面的选项冲突，不能同时存在
+          // renderSlide: function(slide, index) {
+          //   // <div class="swiper-slide"></div> 这个结构必须包含，不能缺少
+          //   return '<div class="swiper-slide"">索引是' + index + '+内容是内容是内容是内容是内容是内容是内容是' + slide + '</div>'
+          // },
+          renderExternal: this.virtualRenderExternal
         }
       }
     }
   },
   mounted() {
+  },
+  methods: {
+    virtualRenderExternal(data) {
+      this.virtualData = data
+    }
   }
 }
 </script>
