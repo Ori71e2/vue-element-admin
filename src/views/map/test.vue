@@ -2,9 +2,12 @@
   <div class="container">
     <swiper ref="swiperTop" :options="swiperOption" class="swiper-inner">
       <swiper-slide v-for="(value, key) in virtualData.slides" :key="key" :style="{left: `${virtualData.offset}px`}">
-        <el-card class="box-card">
+        <div class="box-card">
           <div class="slide-content">Slide {{ value }}</div>
-        </el-card>
+          <!-- <img :data-src="`${value}`" class="swiper-lazy"> -->
+          <img data-src="/static/images/surmon-1.jpg" class="swiper-lazy">
+          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"/>
+        </div>
       </swiper-slide>
       <div slot="pagination" class="swiper-pagination"/>
       <div slot="button-prev" class="swiper-button-prev"/>
@@ -27,11 +30,12 @@ export default {
         slides: []
       },
       swiperOption: {
+        lazy: true,
         effect: 'coverflow',
         // grabCursor: true,
         centeredSlides: true,
         // 虚拟slide必须确定数字
-        slidesPerView: 5,
+        slidesPerView: 7,
         // rotate：slide做3d旋转时Y轴的旋转角度。默认50。
         // stretch：每个slide之间的拉伸值，越大slide靠得越紧。 默认0。
         // depth：slide的位置深度。值越大z轴距离越远，看起来越小。 默认100。
@@ -56,7 +60,7 @@ export default {
           slides: (function() {
             const slides = []
             for (let i = 0; i < 600; i += 1) {
-              slides.push('Slide ' + (i + 1))
+              slides.push('/static/images/surmon-1.jpg')
             }
             return slides
           }()),
@@ -93,10 +97,21 @@ export default {
   padding-bottom: 10px;
 }
 .swiper-slide {
-  /* background-position: center;
-  background-size: cover; */
-  width: 300px !important;
-  height: 280px;
+  text-align: center;
+  background: #444!important;
+}
+.swiper-slide img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }
 .box-card {
   width: 100%;
