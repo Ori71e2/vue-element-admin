@@ -19,10 +19,10 @@ const amap = {
       state.markersMap.set(markerData.id, markerData)
     },
     SET_MARKERSMAPUPDATE: (state) => {
-      state.markersMapUpdate = (new Date()).getTime()
+      state.markersMapUpdate = state.markersMapUpdate + 1
     },
     SET_MARKERSADD: (state) => {
-      state.markersMapAdd = (new Date()).getTime()
+      state.markersMapAdd = state.markersMapAdd + 1
     },
     SET_INITZOOM: (state, initZoom) => {
       state.initZoom = initZoom
