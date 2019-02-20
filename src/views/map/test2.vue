@@ -2,7 +2,7 @@
   <div/>
 </template>
 <script>
-import { fetchMarkersList } from '@/api/amapMarkers'
+import { fetchMarkersList } from '@/api/amapMarker'
 export default {
   name: 'Test2',
   data() {

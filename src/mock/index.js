@@ -3,7 +3,8 @@ import loginAPI from './login'
 import articleAPI from './article'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
-import amapAPI from './amapMarkers'
+import amapMarkerAPI from './amapMarker'
+import amapImageAPI from './amapImage'
 // Mock.setup({
 //   timeout: '350-600'
 // })
@@ -27,9 +28,12 @@ Mock.mock(/\/search\/user/, 'get', remoteSearchAPI.searchUser)
 Mock.mock(/\/transaction\/list/, 'get', transactionAPI.getList)
 
 // 地图相关
-Mock.mock(/\/amap\/markers/, 'get', amapAPI.fetchMarkersList)
-Mock.mock(/\/amap\/marker/, 'get', amapAPI.fetchMarker)
-Mock.mock(/\/amap\/marker/, 'patch', amapAPI.updateMarker)
-Mock.mock(/\/amap\/marker/, 'post', amapAPI.createMarker)
-Mock.mock(/\/amap\/marker/, 'delete', amapAPI.deleteMarker)
+Mock.mock(/\/amap\/markers/, 'get', amapMarkerAPI.fetchMarkersList)
+Mock.mock(/\/amap\/marker/, 'get', amapMarkerAPI.fetchMarker)
+Mock.mock(/\/amap\/marker/, 'patch', amapMarkerAPI.updateMarker)
+Mock.mock(/\/amap\/marker/, 'post', amapMarkerAPI.createMarker)
+Mock.mock(/\/amap\/marker/, 'delete', amapMarkerAPI.deleteMarker)
+
+// 图片相关
+Mock.mock(/\/amap\/images/, 'get', amapImageAPI.fetchImagesList)
 export default Mock

@@ -35,9 +35,9 @@ export default {
       key: 0
     }
   },
-  fetchMarker: () => {
+  fetchMarker: (id) => {
     return {
-      data: MarkersList[0],
+      data: MarkersList[id],
       key: 0
     }
   },
