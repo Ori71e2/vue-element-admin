@@ -5,7 +5,6 @@
         <div class="box-card">
           <div class="slide-content">Slide {{ value }}</div>
           <img :src="value">
-          <!-- <img :data-src="value" class="swiper-lazy"> -->
           <div class="swiper-lazy-preloader swiper-lazy-preloader-white"/>
         </div>
       </swiper-slide>
@@ -32,12 +31,11 @@ export default {
       },
       slides: [],
       swiperOption: {
-        lazy: true,
         effect: 'coverflow',
         // grabCursor: true,
         centeredSlides: true,
         // 虚拟slide必须确定数字
-        slidesPerView: 7,
+        slidesPerView: 5,
         watchSlidesProgress: true,
         watchSlidesVisibility: true,
         // rotate：slide做3d旋转时Y轴的旋转角度。默认50。
@@ -62,6 +60,8 @@ export default {
         },
         virtual: {
           slides: [],
+          addSlidesBefore: 3,
+          addSlidesAfter: 3,
           // 与renderSlide不能共存
           renderExternal: this.virtualRenderExternal
         }
@@ -71,10 +71,14 @@ export default {
   mounted() {
     fetchImagesList().then((response) => {
       const slides = response.data.data
-      slides.forEach(value => {
-        this.$refs.pictureSwiper.swiper.virtual.appendSlide(value)
-      })
-      this.$refs.pictureSwiper.swiper.lazy.load()
+      // slides.forEach(value => {
+      //   this.$refs.pictureSwiper.swiper.virtual.appendSlide(value)
+      // })
+      // this.$refs.pictureSwiper.swiper.appendSlide(slides)
+      // this.$refs.pictureSwiper.swiper.update()
+      this.$refs.pictureSwiper.swiper.virtual.slides = slides
+      this.$refs.pictureSwiper.swiper.virtual.update()
+      this.$refs.pictureSwiper.swiper.slideTo(40)
     })
   },
   methods: {
