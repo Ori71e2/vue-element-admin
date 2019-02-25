@@ -1,7 +1,7 @@
 <template>
   <div class="amap-container">
     <div class="amap-wrapper">
-      <el-amap :center="initCenter" :zoom="initZoom" vid="amap-vue" class="amap-box">
+      <el-amap :center="initCenter" :zoom="initZoom" :zooms="zooms" :expand-zoom-range="expandZoomRange" vid="amap-vue" class="amap-box">
         <get-amap-instance @set-amap-instance="setAmapInstance"/>
         <get-amap-zoom @set-amap-zoom="setAmapZoom"/>
         <custom-amap-select-poi @set-select-position="setSelectPoi" />
@@ -36,6 +36,19 @@ import amapDrivingNav from './components/amap-panel/AmapDrivingNav'
 import amapLimitLock from './components/amap-panel/AmapLimitLock'
 import amapGeometry from './components/amap-panel/AmapGeometry'
 import amapMarker from './components/amap-panel/AmapMarker'
+import Vue from 'vue'
+import VueAMap from '../../vue-amap'
+Vue.use(VueAMap)
+if (!window.amap) {
+  // 包括center在内的所有属性都不是在这里设置
+  VueAMap.initAMapApiLoader({
+    resizeEnable: true,
+    // 高德key
+    key: 'c46f30625ff814b3983110be101fd461',
+    v: '1.4.12',
+    uiVersion: '1.0.11'
+  })
+}
 
 export default {
   // 一定要有名字，否则无法缓存
@@ -49,7 +62,10 @@ export default {
       amapInstance: null,
       panelId: '',
       selectPoi: null,
-      position: []
+      position: [],
+      // 地图初始化使用，将其放大级别扩展到20
+      zooms: [1, 20],
+      expandZoomRange: true
     }
   },
   computed: {
