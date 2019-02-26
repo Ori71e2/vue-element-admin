@@ -1,9 +1,9 @@
 <template>
   <div>
     <div>
-      <customAmapScaleControl :show-scale="showScale" />
-      <customAmapToolBarControl :show-tool-bar="showToolBar" :show-tool-bar-direction="showToolBarDirection" :show-tool-bar-ruler="showToolBarRuler"/>
-      <customAmapOverViewControl :show-over-view="showOverView" :open-over-view="openOverView"/>
+      <custom-amap-scale-control :show-scale="showScale" />
+      <custom-amap-tool-bar-control :show-tool-bar="showToolBar" :show-tool-bar-direction="showToolBarDirection" :show-tool-bar-ruler="showToolBarRuler"/>
+      <custom-amap-over-view-control :show-over-view="showOverView" :open-over-view="openOverView"/>
     </div>
     <el-popover placement="top" trigger="hover">
       <el-checkbox-group v-model="checkedToolsList">

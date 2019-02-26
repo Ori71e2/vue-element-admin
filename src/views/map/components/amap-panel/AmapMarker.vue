@@ -24,11 +24,11 @@
 </template>
 <script>
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
-import markerExp from '../transmission-line/MarkerExp'
+import lineMarkerExp from '../transmission-line/LineMarkerExp'
 
 export default {
   components: {
-    markerExp
+    lineMarkerExp
   },
   mixins: [spreadAmapInstance],
 
@@ -71,9 +71,7 @@ export default {
     this.generateMarkersIcon()
   },
   activated() {
-    console.log(this.markersIconMap)
-    console.log(this.markersMap)
-    console.log(this.markersMapUpdate)
+
   },
   methods: {
     addMarker() {
@@ -133,8 +131,8 @@ export default {
       }
       options.contentRender = (h, instance) => {
         return h(
-          // 一定要给markerExp设置大小，否则无法方便点击和拖拽
-          markerExp,
+          // 一定要给lineMarkerExp设置大小，否则无法方便点击和拖拽
+          lineMarkerExp,
           {
             props: { change: this.change, id: id, zoom: this.zoom, svgIconCode: this.markersMap.get(id).SICCode, 'voltage-class': 110, draggable: this.markersIconMap.get(id).draggable }
           }
