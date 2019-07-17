@@ -152,7 +152,10 @@ export default {
       return style
     },
     changeSvgStyle(val) {
-      let style = {}
+      let style = {
+        'width': '40px',
+        'height': '40px'
+      }
       if (val <= 8) {
         style = {
           'width': '0px',
@@ -196,8 +199,10 @@ export default {
 </script>
 <style scoped>
 .click {
-  width: 60px;
-  height: 60px;
+  width:fit-content;
+  width:-webkit-fit-content;
+  width:-moz-fit-content;
+  height: auto;
 }
 .scroll {
   height: 300px;

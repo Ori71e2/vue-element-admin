@@ -85,8 +85,8 @@ export default {
           }
         })
       }
-      console.log('markersIconMap')
-      console.log(this.markersIconMap)
+      // console.log('markersIconMap')
+      // console.log(this.markersIconMap)
       this.show = false
       this.show = true
     },

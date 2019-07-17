@@ -29,14 +29,15 @@ export default {
       const info = data.info
       if (info === 'SUCCESS') {
         this.msg = 'GeoLocation Success!'
-        console.log('SUCCESS')
+        // console.log('SUCCESS')
       } else if (info === 'NOT_SUPPORTED') {
         this.msg = 'Not Supperted!'
-        console.log('NOT_SUPPORTED')
+        // console.log('NOT_SUPPORTED')
       } else if (info === 'FAILED') {
         this.msg = 'GeoLocation Failed!'
-        console.log('FAILED')
+        // console.log('FAILED')
       }
+      console.log(this.msg)
       // this.dialogVisible = true
       // setInterval(() => { this.dialogVisible = false }, 2000)
     }

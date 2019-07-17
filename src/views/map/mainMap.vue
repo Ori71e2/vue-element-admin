@@ -15,6 +15,7 @@
           <el-col :span="4"><amap-driving-nav :amap-instance="amapInstance" :panel-id="panelId" /></el-col>
           <!-- <el-col :span="4"><amap-geometry :amap-instance="amapInstance" :select-poi="selectPoi" /></el-col> -->
           <el-col :span="4"><amap-marker :amap-instance="amapInstance"/></el-col>
+          <el-col :span="4"><amap-line :amap-instance="amapInstance"/></el-col>
         </el-row>
       </div>
       <amap-geolocation :amap-instance="amapInstance" />
@@ -36,6 +37,7 @@ import amapDrivingNav from './components/amap-panel/AmapDrivingNav'
 import amapLimitLock from './components/amap-panel/AmapLimitLock'
 import amapGeometry from './components/amap-panel/AmapGeometry'
 import amapMarker from './components/amap-panel/AmapMarker'
+import amapLine from './components/amap-panel/AmapLine'
 import Vue from 'vue'
 import VueAMap from '../../vue-amap'
 Vue.use(VueAMap)
@@ -55,7 +57,7 @@ export default {
   name: 'MainMap',
   components: {
     customAmapSearchbox, customAmapSelectPoi, getAmapInstance, getAmapZoom,
-    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock, amapGeometry, amapMarker
+    amapToolsControl, amapGeolocation, amapSelectPoi, amapDrivingNav, amapLimitLock, amapGeometry, amapMarker, amapLine
   },
   data() {
     return {

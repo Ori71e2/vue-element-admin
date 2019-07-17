@@ -12,8 +12,11 @@
 </template>
 <script>
 import spreadAmapInstance from '../mixins/SpreadAmapInstance'
-
+import linePhytower from '../transmission-line/LinePhytower'
 export default {
+  components: {
+    linePhytower
+  },
   mixins: [spreadAmapInstance],
   data() {
     return {
@@ -26,7 +29,10 @@ export default {
     }
   },
   watch: {
-
+    zoom(val) {
+      console.log('zoom ' + val)
+      console.log(this.$amap.getResolution())
+    }
   },
   mounted() {
 
